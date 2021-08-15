@@ -1,0 +1,5 @@
+<RCC>
+    <qresource lang="qm" prefix="/">
+        <file>ts/swiftassistant_en.qm</file>
+    </qresource>
+</RCC>
