@@ -66,7 +66,7 @@ qmake ../
 make
 ```
 
-## Pluginswift Assistant is a simple, user-friendly assistant based on an extension system. 
+## Plugins
 
 List of available plugins for Swift Assistant:
 
