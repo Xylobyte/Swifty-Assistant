@@ -86,4 +86,4 @@ Thank you in advance for your help.
 
 This project is licensed under the GNU General Public License version 3
 
-You will find a copy of this license in the file [LICENSE.md](https://github.com/Swiftapp-hub/Swift-Assistant/LICENSE.md)
+You will find a copy of this license in the file [LICENSE.md](https://github.com/Swiftapp-hub/Swift-Assistant/blob/master/LICENSE.md)
