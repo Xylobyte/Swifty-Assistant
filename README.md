@@ -19,7 +19,7 @@ Swift Assistant is available in appimage format!
 
 Follow the instructions below to download and install Swift Assistant:
 
-1. [Download]() Swift Assistant
+1. [Download](https://github.com/Swiftapp-hub/Swift-Assistant/releases/) Swift Assistant
 2. Right click on the download file and go to the properties
 3. Go to the permissions tab and check the box "Allow file execution as a program"
 4. Now double click on the appimage file to launch Swift Assistant
@@ -70,15 +70,17 @@ make
 
 List of available plugins for Swift Assistant:
 
-* [HelloWord]()
-* [ControlSettings]()
+* HelloWord
+* [ControlSettings](https://github.com/Swiftapp-hub/ControlSettings-Plugin-Swift-Assistant)
+
+If you have created a plugin, consider adding it to this list!
 
 ## Contribution
 
 Here's what you can do to contribute to the project:
 
 * If you want to improve this project, clone this repository
-* If you want to create new plugins for Swift or improve an existing plugin read [the documentation]()
+* If you want to create new plugins for Swift or improve an existing plugin read the documentation
 
 Thank you in advance for your help.
 
