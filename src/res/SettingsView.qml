@@ -13,7 +13,6 @@ Rectangle {
 
         function onReponse(text, isFin, typeMessage, url) {
             txtName.text = settings.value("settings_name", "")
-            checkSound.checked = settings.value("settings_sound", "false") === "true" ? true : false
             checkProp.checked = settings.value("settings_proposition", "true") === "true" ? true : false
         }
 

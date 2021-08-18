@@ -43,7 +43,7 @@ public slots:
 
 QT_BEGIN_NAMESPACE
 
-#define PluginInterface_iid "fr.swiftapp.linux.plugin.HelloWord"
+#define PluginInterface_iid "fr.swiftapp.linux.plugin"
 
 Q_DECLARE_INTERFACE(PluginInterface, PluginInterface_iid)
 

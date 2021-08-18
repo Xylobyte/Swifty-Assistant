@@ -47,7 +47,7 @@ I recommend you to install Qt with the official installer from the Qt site
 You need to run the following commands to compile Swift Assistant:
 
 ```bash
-cd "FOLDER_OF_GIT_CLONE"/Swift\ Assistant
+cd "FOLDER_OF_GIT_CLONE"
 ```
 
 ```bash
