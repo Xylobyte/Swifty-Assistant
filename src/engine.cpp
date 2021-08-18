@@ -133,7 +133,6 @@ void Engine::showQml(QString qml, QString iid)
 
 void Engine::textChanged(QString text)
 {
-
     for (int i = showedProp.length()-1; i >= 0; i--) {
         QString compareText = showedProp.at(i);
         compareText.truncate(text.length());
@@ -294,7 +293,7 @@ void Engine::format(QString _text)
     QString text = _text.toLower();
 
     for (int i = 0; i < text.length(); i++) {
-        if (text.at(i) == ' ') {
+        if (text.at(i) == ' ' || text.at(i) == '-') {
             if (!word.isEmpty()) {
                 array.append(word);
                 word.clear();

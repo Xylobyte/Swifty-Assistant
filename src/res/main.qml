@@ -38,8 +38,6 @@ Window {
             id: settings
         }
 
-        Component.onCompleted: console.log(settings.fileName)
-
         Timer {
             id: timerWeb
             interval: 1600
