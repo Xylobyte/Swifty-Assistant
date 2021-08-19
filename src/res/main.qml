@@ -58,6 +58,16 @@ Window {
             }
         }
 
+        Timer {
+            id: timerHide
+            interval: 1600
+            repeat: false
+            running: false
+            onTriggered: {
+                window.visible = false
+            }
+        }
+
         Connections {
             target: swift
 
@@ -79,6 +89,10 @@ Window {
                 window.visible = true
                 window.x = x-(window.width/2)
                 window.y = y-(window.height/2)
+            }
+
+            function onHideWindow() {
+                timerHide.running = true
             }
 
             function onShowQml(fileUrl) {

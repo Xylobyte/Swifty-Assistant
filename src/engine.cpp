@@ -18,6 +18,7 @@
 #include "engine.h"
 
 #include <QFile>
+#include <QApplication>
 #include <QIODevice>
 #include <QTextStream>
 #include <QRandomGenerator64>
@@ -205,13 +206,6 @@ void Engine::execAction(QList<QString> cmd, QList<QString> var)
             }
         }
 
-        else if (cmd[1] == "sound") {
-            if (cmd[2] != "") {
-                QVariant variant = readVarInText(cmd[2], var);
-                settings.setValue(key_settings_sound, variant.toBool() ? true : false);
-            }
-        }
-
         else if (cmd[1] == "prop") {
             if (cmd[2] != "") {
                 QVariant variant = readVarInText(cmd[2], var);
@@ -224,11 +218,27 @@ void Engine::execAction(QList<QString> cmd, QList<QString> var)
         }
     }
 
+    else if (cmd[0] == "application") {
+        if (cmd[1] != "quit") {
+            QApplication::quit();
+        }
+
+        else if (cmd[1] == "hideWindow") {
+            emit hideWindow();
+        }
+    }
+
     else if (cmd[0] == "web_message") {
         if (cmd[1] == "without_action_btn") {
             if (cmd[2] == "search") {
                 if (cmd[3] != "") {
-                    QString search = readVarInText(cmd[3], var).replace(" ", "+");
+                    QString search = "";
+                    for (int i = 3; i < cmd.length(); i++) {
+                        search.append(cmd.at(i));
+                        if (i != cmd.length()-1) search.append(" ");
+                    }
+                    readVarInText(search, var).replace(" ", "+");
+
                     QString url = "https://www.google.com/search?channel=fs&client=linux&q="+search;
 
                     emit reponseSended("", true, "web_without_action_btn", url);
@@ -604,7 +614,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 }
                             }
 
-                            if (cmd[0] == "settings" || cmd[0] == "web_message") {
+                            if (cmd[0] == "settings" || cmd[0] == "application" || cmd[0] == "web_message") {
                                 execAction(cmd, var);
                             }
                             else {
@@ -1143,7 +1153,6 @@ QString Engine::readVarInText(QString text, QList<QString> var)
         int nextIndexB = i+2 == text.length() ? i : i+2;
         int nextIndexC = i+3 == text.length() ? i : i+3;
         int nextIndexD = i+4 == text.length() ? i : i+4;
-        int nextIndexE = i+5 == text.length() ? i : i+5;
 
         if (ch == "?" && (text.at(nextIndex) == "0" || text.at(nextIndex) == "1" || text.at(nextIndex) == "2")) {
             QString volatil = text.at(nextIndex);
@@ -1154,11 +1163,6 @@ QString Engine::readVarInText(QString text, QList<QString> var)
             updateSettingsVar();
             reply.append(userName);
             i += 4;
-        }
-        else if (ch == "?" && text.at(nextIndex) == "s" && text.at(nextIndexB) == "o" && text.at(nextIndexC) == "u" && text.at(nextIndexD) == "n" && text.at(nextIndexE) == "d") {
-            updateSettingsVar();
-            reply.append(soundEnabled ? "activé" : "desactivé");
-            i += 5;
         }
         else if (ch == "?" && text.at(nextIndex) == "p" && text.at(nextIndexB) == "r" && text.at(nextIndexC) == "o" && text.at(nextIndexD) == "p") {
             updateSettingsVar();

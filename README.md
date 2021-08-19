@@ -70,7 +70,7 @@ make
 
 List of available plugins for Swift Assistant:
 
-* HelloWord
+* [HelloWord](https://github.com/Swiftapp-hub/HelloWorld-Plugin-Swift-Assistant)
 * [ControlSettings](https://github.com/Swiftapp-hub/ControlSettings-Plugin-Swift-Assistant)
 
 If you have created a plugin, consider adding it to this list!

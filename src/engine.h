@@ -69,6 +69,7 @@ signals:
     void pluginTrouved(QString name);
     void signalSendMessageToPlugin(QString message, QString pluginIid);
     void pluginToQml(QString message, QString pluginIid);
+    void hideWindow();
 
 public slots:
     void messageReceived(QString message);

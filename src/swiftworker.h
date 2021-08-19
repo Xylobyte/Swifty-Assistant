@@ -49,6 +49,7 @@ public:
 public slots:
     void reponseReceived(QString reponse, bool isFin, QString typeMessage, QString url);
     void open();
+    void hide();
     void addProp(QString prop);
     void removeAllProp();
     void removeProp(int index);
@@ -62,6 +63,7 @@ signals:
     void message(QString message);
     void textChanged(QString text);
     void showWindow(int x, int y);
+    void hideWindow();
     void addProposition(QString prop);
     void removeAllProposition();
     void removeProposition(int index);

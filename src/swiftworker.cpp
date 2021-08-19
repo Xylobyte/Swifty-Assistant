@@ -45,6 +45,7 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     connect(engine, &Engine::showQmlFile, this, &SwiftWorker::showQmlFile);
     connect(engine, &Engine::pluginTrouved, this, &SwiftWorker::pluginTrouved);
     connect(engine, &Engine::pluginToQml, this, &SwiftWorker::messageToQml);
+    connect(engine, &Engine::hideWindow, this, &SwiftWorker::hide);
     engineThread.start();
 
     emit addBaseProp();
@@ -123,6 +124,11 @@ void SwiftWorker::open()
 {
     QPoint pos = QCursor::pos();
     emit showWindow(pos.x(), pos.y());
+}
+
+void SwiftWorker::hide()
+{
+    emit hideWindow();
 }
 
 void SwiftWorker::openLinkInBrowser(QString url)
