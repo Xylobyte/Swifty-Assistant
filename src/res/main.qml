@@ -24,7 +24,7 @@ Window {
     property QtObject customView: CustomQmlView {}
 
     property string type
-    property string site
+    property var site
 
     Rectangle {
         x: 10
@@ -71,7 +71,7 @@ Window {
         Connections {
             target: swift
 
-            function onReponse(text, isFin, typeMessage, url) {
+            function onReponse(text, isFin, typeMessage, url, textUrl) {
                 if (typeMessage === "web_without_action_btn" || typeMessage === "web_with_action_btn") {
                     type = typeMessage
                     site = url
@@ -80,7 +80,6 @@ Window {
 
                 else if (typeMessage === "settings") {
                     type = typeMessage
-                    site = url
                     timerSettings.running = true
                 }
             }

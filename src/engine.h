@@ -61,7 +61,7 @@ private:
     QString nextReplyItemId = "";
 
 signals:
-    void reponseSended(QString reponse, bool isFin, QString typeMessage, QString url);
+    void reponseSended(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void addProp(QString prop);
     void removeAllProp();
     void removeProp(int index);
@@ -77,7 +77,7 @@ public slots:
     void addBaseProp();
     void showQml(QString qml, QString iid);
     void getAllPlugin();
-    void sendReply(QString reply, bool isFin, QString typeMessage, QString url);
+    void sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void sendMessageToPlugin(QString message, QString pluginIid);
     void receiveMessageSendedToQml(QString message, QString pluginIid);
     void removePlugin(QString iid);

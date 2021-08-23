@@ -11,7 +11,7 @@ Rectangle {
         id: connect
         target: swift
 
-        function onReponse(text, isFin, typeMessage, url) {
+        function onReponse(text, isFin, typeMessage, url, textUrl) {
             txtName.text = settings.value("settings_name", "")
             checkProp.checked = settings.value("settings_proposition", "true") === "true" ? true : false
         }

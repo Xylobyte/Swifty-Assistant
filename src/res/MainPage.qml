@@ -10,13 +10,22 @@ ColumnLayout {
     Connections {
         target: swift
 
-        function onReponse(text, isFin, typeMessage, url) {
+        function onReponse(text, isFin, typeMessage, url, textUrl) {
             if (isFin)
                 loading.running = false
             if (isFin)
                 send.visible = true
 
-            if (typeMessage === "message") listMessage.model.insert(0, {"isSendUser": false, "text": text})
+            if (typeMessage === "message") {
+                listMessage.model.insert(0, {"isSendUser": false, "text": text})
+
+                listAction.model.clear()
+                listAction.visible = false
+                for(var i = 0; i < url.length; i++) {
+                    listAction.visible = true
+                    listAction.model.append({"text": textUrl[i], "action":url[i]})
+                }
+            }
         }
 
         function onAddProposition(prop) {
@@ -52,47 +61,78 @@ ColumnLayout {
         border.width: 3
         radius: 15
 
-        ListView {
-            id: listMessage
-            clip: true
-            maximumFlickVelocity: 1300
-            verticalLayoutDirection: ListView.BottomToTop
-            displayMarginBeginning: 40
-            displayMarginEnd: 40
-            spacing: 10
-
-            add: Transition {
-                NumberAnimation {
-                    properties: "y"
-                    from: 0
-                    duration: 400
-                }
-            }
-
+        ColumnLayout {
+            id: layoutMessage
             anchors.fill: parent
             anchors.margins: 10
 
-            Keys.onUpPressed: scrollBar.decrease()
-            Keys.onDownPressed: scrollBar.increase()
-            ScrollBar.vertical: ScrollBar {
-                id: scrollBar
+            ListView {
+                id: listMessage
+                clip: true
+                maximumFlickVelocity: 1300
+                verticalLayoutDirection: ListView.BottomToTop
+                displayMarginBeginning: 40
+                displayMarginEnd: 40
+                spacing: 10
+                Layout.fillHeight: true
+                Layout.fillWidth: true
 
-                background: Rectangle {
-                    color: "transparent"
+                add: Transition {
+                    NumberAnimation {
+                        properties: "y"
+                        from: 0
+                        duration: 400
+                    }
                 }
 
-                contentItem: Rectangle {
-                    implicitWidth: 6
-                    implicitHeight: 100
-                    radius: width / 3
-                    color: scrollBar.pressed ? "white" : "#696969"
+                Keys.onUpPressed: scrollBar.decrease()
+                Keys.onDownPressed: scrollBar.increase()
+                ScrollBar.vertical: ScrollBar {
+                    id: scrollBar
+
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+
+                    contentItem: Rectangle {
+                        implicitWidth: 6
+                        implicitHeight: 100
+                        radius: width / 3
+                        color: scrollBar.pressed ? "white" : "#696969"
+                    }
                 }
+
+                model: ListModel {
+                    id: listMessageModel
+                }
+                delegate: ListMessageDelegate {}
             }
 
-            model: ListModel {
-                id: listMessageModel
+            ListView {
+                id: listAction
+                visible: false
+                orientation: ListView.Horizontal
+                Layout.fillWidth: true
+                Layout.leftMargin: 20
+                Layout.rightMargin: 20
+                height: 25
+                clip: true
+                maximumFlickVelocity: 1300
+                spacing: 10
+                model: ListModel {
+                    id: listActionModel
+                }
+                delegate: MButton {
+                    text: model.text
+                    font.pointSize: 8
+                    implicitHeight: 21
+                    borderWidth: 2
+                    radius: 10
+                    onClicked: {
+
+                    }
+                }
             }
-            delegate: ListMessageDelegate {}
         }
     }
 

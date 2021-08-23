@@ -47,7 +47,7 @@ public:
     Q_INVOKABLE void actuPlugins();
 
 public slots:
-    void reponseReceived(QString reponse, bool isFin, QString typeMessage, QString url);
+    void reponseReceived(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void open();
     void hide();
     void addProp(QString prop);
@@ -59,7 +59,7 @@ public slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 signals:
-    void reponse(QString text, bool isFin, QString typeMessage, QString url);
+    void reponse(QString text, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void message(QString message);
     void textChanged(QString text);
     void showWindow(int x, int y);
