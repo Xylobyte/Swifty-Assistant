@@ -45,6 +45,7 @@ public:
     Q_INVOKABLE void sendMessageToPlugin(QString message, QString pluginIid);
     Q_INVOKABLE void removePlugin(QString iid);
     Q_INVOKABLE void actuPlugins();
+    Q_INVOKABLE void execAction(QString action);
 
 public slots:
     void reponseReceived(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
@@ -75,6 +76,7 @@ signals:
     void pluginSendedMessageToQml(QString message, QString pluginIid);
     void signalRemovePlugin(QString iid);
     void signalActuPlugins();
+    void executeAction(QString action);
 
 private:
     void setIcon(QString path);

@@ -37,7 +37,7 @@ public:
 
 private:
     void format(QString text);
-    void execAction(QList<QString> cmd, QList<QString> var);
+    void execAction(QList<QString> cmd);
     void analize(QList<QList<QString>> array_cmd);
     void updateSettingsVar();
     QString readVarInText(QString text, QList<QString> var);
@@ -55,6 +55,8 @@ private:
     QList<QString> mainVolatil_prop;
     QList<QString> showedProp;
     int removePropNuber = 0;
+
+    QList<QString> var;
 
     QString nextReplyPluginName = "";
     QString nextReplyNeedId = "";
@@ -82,6 +84,7 @@ public slots:
     void receiveMessageSendedToQml(QString message, QString pluginIid);
     void removePlugin(QString iid);
     void scanPlugin();
+    void executeAction(QString action);
 };
 
 #endif // ENGINE_H

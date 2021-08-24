@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.12
+import QtQuick 2.15
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 
 ColumnLayout {
     anchors.fill: parent
@@ -113,8 +113,7 @@ ColumnLayout {
                 visible: false
                 orientation: ListView.Horizontal
                 Layout.fillWidth: true
-                Layout.leftMargin: 20
-                Layout.rightMargin: 20
+                Layout.leftMargin: 40
                 height: 25
                 clip: true
                 maximumFlickVelocity: 1300
@@ -122,16 +121,7 @@ ColumnLayout {
                 model: ListModel {
                     id: listActionModel
                 }
-                delegate: MButton {
-                    text: model.text
-                    font.pointSize: 8
-                    implicitHeight: 21
-                    borderWidth: 2
-                    radius: 10
-                    onClicked: {
-
-                    }
-                }
+                delegate: ListActionDelegate {}
             }
         }
     }

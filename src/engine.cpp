@@ -196,7 +196,31 @@ void Engine::updateSettingsVar()
     propEnabled = var.toBool();
 }
 
-void Engine::execAction(QList<QString> cmd, QList<QString> var)
+void Engine::executeAction(QString action)
+{
+    QList<QString> cmd;
+    QString word;
+    for (int i = 0; i < action.length(); i++) {
+        if (action.at(i) == ' ') {
+            if (!word.isEmpty()) {
+                cmd.append(word);
+                word.clear();
+            }
+        }
+        else {
+            word.append(action.at(i));
+        }
+
+        if (i == action.length()-1) {
+            cmd.append(word);
+            word.clear();
+        }
+    }
+
+    execAction(cmd);
+}
+
+void Engine::execAction(QList<QString> cmd)
 {
     if (cmd[0] == "settings") {
         if (cmd[1] == "name") {
@@ -267,7 +291,13 @@ void Engine::execAction(QList<QString> cmd, QList<QString> var)
         else if (cmd[1] == "with_action_btn") {
             if (cmd[2] == "search") {
                 if (cmd[3] != "") {
-                    QString search = readVarInText(cmd[3], var).replace(" ", "+");
+                    QString search = "";
+                    for (int i = 3; i < cmd.length(); i++) {
+                        search.append(cmd.at(i));
+                        if (i != cmd.length()-1) search.append(" ");
+                    }
+                    readVarInText(search, var).replace(" ", "+");
+
                     QString url = "https://www.google.com/search?channel=fs&client=linux&q="+search;
 
                     emit reponseSended("", true, "web_with_action_btn", QList<QString>() << url, QList<QString>());
@@ -405,7 +435,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
 
         while (!item.isNull() && !isOk) {
             QDomElement props = item.firstChildElement();
-            QList<QString> var;
+            var.clear();
             QString cmdString;
             for (int i = 0; i < cmd.length(); i++) {
                 if (i == cmd.length()-1) cmdString.append(cmd.at(i));
@@ -615,7 +645,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             }
 
                             if (cmd[0] == "settings" || cmd[0] == "application" || cmd[0] == "web_message") {
-                                execAction(cmd, var);
+                                execAction(cmd);
                             }
                             else {
                                 for (int i = 0; i < cmd.length(); i++) {
@@ -679,7 +709,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     }
 
                                     if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                        execAction(cmd, var);
+                                        execAction(cmd);
                                     }
                                     else {
                                         for (int i = 0; i < cmd.length(); i++) {
@@ -718,7 +748,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 }
 
                                 if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                    execAction(cmd, var);
+                                    execAction(cmd);
                                 }
                                 else {
                                     for (int i = 0; i < cmd.length(); i++) {
@@ -751,7 +781,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
             if (i != cmd.length()-1) search.append(" ");
         }
 
-        sendReply(tr("Désolé, je ne comprends pas ! :("), true, "message", QList<QString>() << "web_message with_action_btn "+search, QList<QString>() << tr("Chercher sur le web"));
+        sendReply(tr("Désolé, je ne comprends pas ! :("), true, "message", QList<QString>() << "web_message with_action_btn search "+search, QList<QString>() << tr("Chercher sur le web"));
     }
 }
 
@@ -770,7 +800,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
             QDomElement item = root.firstChildElement();
 
             while (!item.isNull() && !isOk) {
-                QList<QString> var;
+                var.clear();
 
                 if (item.attribute("id") == nextReplyItemId) {
                     QDomElement secondItem = item.firstChildElement();
@@ -1007,7 +1037,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             }
 
                                             if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                                execAction(cmd, var);
+                                                execAction(cmd);
                                             }
                                             else {
                                                 for (int i = 0; i < cmd.length(); i++) {
@@ -1071,7 +1101,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                                     }
 
                                                     if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                                        execAction(cmd, var);
+                                                        execAction(cmd);
                                                     }
                                                     else {
                                                         for (int i = 0; i < cmd.length(); i++) {
@@ -1110,7 +1140,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                                 }
 
                                                 if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                                    execAction(cmd, var);
+                                                    execAction(cmd);
                                                 }
                                                 else {
                                                     for (int i = 0; i < cmd.length(); i++) {

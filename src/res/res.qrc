@@ -1,5 +1,5 @@
 <RCC>
-    <qresource lang="qml" prefix="/">
+    <qresource prefix="/" lang="qml">
         <file>ListMessageDelegate.qml</file>
         <file>main.qml</file>
         <file>WebEngineView.qml</file>
@@ -9,8 +9,9 @@
         <file>ListPropDelegate.qml</file>
         <file>CustomQmlView.qml</file>
         <file>AboutDialog.qml</file>
+        <file>ListActionDelegate.qml</file>
     </qresource>
-    <qresource lang="svg / png" prefix="/Icon">
+    <qresource prefix="/Icon" lang="svg / png">
         <file>assistantIcon.png</file>
         <file>CommonIcon/zoom-out.svg</file>
         <file>CommonIcon/zoom-in.svg</file>
