@@ -122,6 +122,22 @@ ColumnLayout {
                     id: listActionModel
                 }
                 delegate: ListActionDelegate {}
+
+                add: Transition {
+                    NumberAnimation {
+                        properties: "x"
+                        from: 1000
+                        duration: 300
+                    }
+                }
+
+                remove: Transition {
+                    NumberAnimation {
+                        properties: "x"
+                        from: 1000
+                        duration: 300
+                    }
+                }
             }
         }
     }
