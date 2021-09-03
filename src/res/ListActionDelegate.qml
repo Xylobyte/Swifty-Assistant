@@ -1,6 +1,7 @@
 import QtQuick 2.15
 
 Rectangle {
+    id: rect
     border.color: "steelblue"
     border.width: 2
     color: "#00ffffff"
@@ -19,8 +20,17 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         onClicked: {
-            console.log("ok mouse area / "+model.action)
+            anim.running = true
             swift.execAction(model.action)
         }
+    }
+
+    NumberAnimation {
+        id: anim
+        target: rect
+        duration: 500
+        from: 0.2
+        to: 1.0
+        property: "opacity"
     }
 }
