@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Layouts 1.12
+import QtQuick 2.15
+import QtQuick.Layouts 1.15
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
 import Qt.labs.settings 1.1
 
 import SwiftWorker 1.0
@@ -40,7 +40,7 @@ Window {
 
         Timer {
             id: timerWeb
-            interval: 1600
+            interval: 1000
             repeat: false
             running: false
             onTriggered: {
@@ -60,7 +60,7 @@ Window {
 
         Timer {
             id: timerHide
-            interval: 1600
+            interval: 1000
             repeat: false
             running: false
             onTriggered: {
@@ -71,16 +71,15 @@ Window {
         Connections {
             target: swift
 
-            function onReponse(text, isFin, typeMessage, url) {
+            function onReponse(text, isFin, typeMessage, url, textUrl) {
                 if (typeMessage === "web_without_action_btn" || typeMessage === "web_with_action_btn") {
                     type = typeMessage
-                    site = url
+                    site = url[0]
                     timerWeb.running = true
                 }
 
                 else if (typeMessage === "settings") {
                     type = typeMessage
-                    site = url
                     timerSettings.running = true
                 }
             }

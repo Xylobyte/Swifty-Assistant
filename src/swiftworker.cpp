@@ -38,6 +38,7 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     connect(this, &SwiftWorker::signalSendMessageToPlugin, engine, &Engine::sendMessageToPlugin);
     connect(this, &SwiftWorker::signalRemovePlugin, engine, &Engine::removePlugin);
     connect(this, &SwiftWorker::signalActuPlugins, engine, &Engine::scanPlugin);
+    connect(this, &SwiftWorker::executeAction, engine, &Engine::executeAction);
     connect(engine, &Engine::reponseSended, this, &SwiftWorker::reponseReceived);
     connect(engine, &Engine::addProp, this, &SwiftWorker::addProp);
     connect(engine, &Engine::removeProp, this, &SwiftWorker::removeProp);
@@ -79,14 +80,19 @@ void SwiftWorker::declareQML()
     qmlRegisterType<SwiftWorker>("SwiftWorker", 1, 0, "Swift");
 }
 
-void SwiftWorker::reponseReceived(QString _reponse, bool isFin, QString typeMessage, QString url)
+void SwiftWorker::reponseReceived(QString _reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl)
 {
-    emit reponse(_reponse, isFin, typeMessage, url);
+    emit reponse(_reponse, isFin, typeMessage, url, textUrl);
 }
 
 void SwiftWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
 {
     open();
+}
+
+void SwiftWorker::execAction(QString action)
+{
+    emit executeAction(action);
 }
 
 void SwiftWorker::messageToQml(QString message, QString pluginIid)

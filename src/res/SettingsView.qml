@@ -1,6 +1,6 @@
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.12
-import QtQuick 2.12
+import QtQuick.Layouts 1.15
+import QtQuick.Controls 2.15
+import QtQuick 2.15
 
 Rectangle {
     anchors.fill: parent
@@ -11,7 +11,7 @@ Rectangle {
         id: connect
         target: swift
 
-        function onReponse(text, isFin, typeMessage, url) {
+        function onReponse(text, isFin, typeMessage, url, textUrl) {
             txtName.text = settings.value("settings_name", "")
             checkProp.checked = settings.value("settings_proposition", "true") === "true" ? true : false
         }

@@ -45,9 +45,10 @@ public:
     Q_INVOKABLE void sendMessageToPlugin(QString message, QString pluginIid);
     Q_INVOKABLE void removePlugin(QString iid);
     Q_INVOKABLE void actuPlugins();
+    Q_INVOKABLE void execAction(QString action);
 
 public slots:
-    void reponseReceived(QString reponse, bool isFin, QString typeMessage, QString url);
+    void reponseReceived(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void open();
     void hide();
     void addProp(QString prop);
@@ -59,7 +60,7 @@ public slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
 signals:
-    void reponse(QString text, bool isFin, QString typeMessage, QString url);
+    void reponse(QString text, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void message(QString message);
     void textChanged(QString text);
     void showWindow(int x, int y);
@@ -75,6 +76,7 @@ signals:
     void pluginSendedMessageToQml(QString message, QString pluginIid);
     void signalRemovePlugin(QString iid);
     void signalActuPlugins();
+    void executeAction(QString action);
 
 private:
     void setIcon(QString path);
