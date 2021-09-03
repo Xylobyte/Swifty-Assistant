@@ -243,7 +243,7 @@ void Engine::execAction(QList<QString> cmd)
     }
 
     else if (cmd[0] == "application") {
-        if (cmd[1] != "quit") {
+        if (cmd[1] == "quit") {
             QApplication::quit();
         }
 

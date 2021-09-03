@@ -20,8 +20,17 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="27"/>
+        <source>Le dépot du projet: https://github.com/Swiftapp-hub/Swift-Assistant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/res/AboutDialog.qml" line="40"/>
+        <source>Version: 1.0.1</source>
+        <translation type="unfinished">Version: 1.0.1</translation>
+    </message>
+    <message>
         <source>Le dépot du projet: </source>
-        <translation>Project repository: </translation>
+        <translation type="vanished">Project repository: </translation>
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="33"/>
@@ -30,9 +39,8 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation>The documentation to create a plugin: </translation>
     </message>
     <message>
-        <location filename="../src/res/AboutDialog.qml" line="40"/>
         <source>Version: 1.0</source>
-        <translation>Version: 1.0</translation>
+        <translation type="vanished">Version: 1.0</translation>
     </message>
 </context>
 <context>
@@ -46,26 +54,31 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>Engine</name>
     <message>
-        <location filename="../src/engine.cpp" line="739"/>
+        <location filename="../src/engine.cpp" line="784"/>
         <source>Désolé, je ne comprends pas ! :(</source>
         <translation>Sorry I do not understand ! :(</translation>
+    </message>
+    <message>
+        <location filename="../src/engine.cpp" line="784"/>
+        <source>Chercher sur le web</source>
+        <translation>Search on web</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../src/res/MainPage.qml" line="40"/>
+        <location filename="../src/res/MainPage.qml" line="49"/>
         <source>Bonjour </source>
         <translation>Hello </translation>
     </message>
     <message>
-        <location filename="../src/res/MainPage.qml" line="147"/>
+        <location filename="../src/res/MainPage.qml" line="193"/>
         <source>Aucune suggestion !</source>
         <oldsource>Aucune proposition !</oldsource>
         <translation>No suggestion!</translation>
     </message>
     <message>
-        <location filename="../src/res/MainPage.qml" line="180"/>
+        <location filename="../src/res/MainPage.qml" line="226"/>
         <source>Entrez votre demande</source>
         <oldsource>Entrer votre demmande</oldsource>
         <translation>Enter your request</translation>
@@ -74,12 +87,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="70"/>
+        <location filename="../src/main.cpp" line="68"/>
         <source>Systray</source>
         <translation>Systray</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="71"/>
+        <location filename="../src/main.cpp" line="69"/>
         <source>I couldn&apos;t detect any system tray on this system.</source>
         <translation>I couldn&apos;t detect any system tray on this system.</translation>
     </message>
@@ -87,17 +100,17 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>SettingsView</name>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="42"/>
+        <location filename="../src/res/SettingsView.qml" line="41"/>
         <source>Paramètres</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="51"/>
+        <location filename="../src/res/SettingsView.qml" line="50"/>
         <source>Votre nom:</source>
         <translation>Your name:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="60"/>
+        <location filename="../src/res/SettingsView.qml" line="59"/>
         <source>ex: Bernard</source>
         <translation>ex: Bernard</translation>
     </message>
@@ -106,18 +119,18 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Sound:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="75"/>
+        <location filename="../src/res/SettingsView.qml" line="74"/>
         <source>Suggestion:</source>
         <oldsource>Proposition:</oldsource>
         <translation>Suggestion:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="92"/>
+        <location filename="../src/res/SettingsView.qml" line="91"/>
         <source>Plugins:</source>
         <translation>Plugins:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="102"/>
+        <location filename="../src/res/SettingsView.qml" line="101"/>
         <source>Actualiser</source>
         <translation>Refresh</translation>
     </message>
@@ -126,12 +139,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Add</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="186"/>
+        <location filename="../src/res/SettingsView.qml" line="185"/>
         <source>Accueil</source>
         <translation>Home</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="202"/>
+        <location filename="../src/res/SettingsView.qml" line="201"/>
         <source>A propos</source>
         <translation>About</translation>
     </message>
@@ -147,12 +160,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Error</translation>
     </message>
     <message>
-        <location filename="../src/swiftworker.cpp" line="163"/>
+        <location filename="../src/swiftworker.cpp" line="175"/>
         <source>&amp;Ouvrir</source>
         <translation>&amp;Open</translation>
     </message>
     <message>
-        <location filename="../src/swiftworker.cpp" line="166"/>
+        <location filename="../src/swiftworker.cpp" line="178"/>
         <source>&amp;Quitter</source>
         <translation>&amp;Quit</translation>
     </message>

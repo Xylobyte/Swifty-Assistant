@@ -60,7 +60,7 @@ Window {
 
         Timer {
             id: timerHide
-            interval: 1600
+            interval: 1000
             repeat: false
             running: false
             onTriggered: {
