@@ -1,4 +1,4 @@
-/* Swift Assistant is a simple, user-friendly assistant based on an extension system.
+/* Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 
    Copyright (C) <2021>  <SwiftApp>
 
@@ -45,8 +45,8 @@ void Engine::scanPlugin()
     listPlugins.clear();
 
     QDir pluginsDir(QDir::homePath());
-    if (!pluginsDir.exists("SwiftPlugins")) pluginsDir.mkdir("SwiftPlugins");
-    pluginsDir.cd("SwiftPlugins");
+    if (!pluginsDir.exists("SwiftyPlugins")) pluginsDir.mkdir("SwiftyPlugins");
+    pluginsDir.cd("SwiftyPlugins");
 
     const QStringList entries = pluginsDir.entryList(QDir::Files);
 
@@ -112,8 +112,8 @@ void Engine::getAllPlugin()
 void Engine::showQml(QString qml, QString iid)
 {
     QDir dir(QDir::homePath());
-    if (!dir.exists(".swift_cache")) dir.mkdir(".swift_cache");
-    dir.cd(".swift_cache");
+    if (!dir.exists(".swifty_cache")) dir.mkdir(".swifty_cache");
+    dir.cd(".swifty_cache");
 
     QString path = dir.path()+"/"+iid.replace(".", "_")+".qml";
     QString qmlUrl = "file:"+dir.path()+"/"+iid.replace(".", "_")+".qml";

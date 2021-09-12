@@ -24,9 +24,9 @@ Rectangle {
                                          "isSendUser": true,
                                          "text": model.text
                                      })
-            swift.messageSended(model.text)
+            swifty.messageSended(model.text)
             message.clear()
-            swift.newText("")
+            swifty.newText("")
         }
     }
 }

@@ -21,7 +21,7 @@ Rectangle {
         anchors.fill: parent
         onClicked: {
             anim.running = true
-            swift.execAction(model.action)
+            swifty.execAction(model.action)
         }
     }
 

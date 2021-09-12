@@ -8,7 +8,7 @@ ColumnLayout {
     spacing: 15
 
     Connections {
-        target: swift
+        target: swifty
 
         function onReponse(text, isFin, typeMessage, url, textUrl) {
             if (isFin)
@@ -239,9 +239,9 @@ ColumnLayout {
                                                      "isSendUser": true,
                                                      "text": listProp.model.count > 0 ? listProp.model.get(0).text : message.text
                                                  })
-                        swift.messageSended(listProp.model.count > 0 ? listProp.model.get(0).text : message.text)
+                        swifty.messageSended(listProp.model.count > 0 ? listProp.model.get(0).text : message.text)
                         message.clear()
-                        swift.newText("")
+                        swifty.newText("")
                     }
                 }
 
@@ -262,9 +262,9 @@ ColumnLayout {
                                                  "isSendUser": true,
                                                  "text": message.text
                                              })
-                    swift.messageSended(message.text)
+                    swifty.messageSended(message.text)
                     message.clear()
-                    swift.newText("")
+                    swifty.newText("")
                 }
             }
         }
@@ -283,7 +283,7 @@ ColumnLayout {
             running: false
             interval: 300
             onTriggered: {
-                swift.newText(message.text)
+                swifty.newText(message.text)
             }
         }
     }

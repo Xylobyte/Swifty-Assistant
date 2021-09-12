@@ -1,4 +1,4 @@
-/* Swift Assistant is a simple, user-friendly assistant based on an extension system.
+/* Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 
    Copyright (C) <2021>  <SwiftApp>
 

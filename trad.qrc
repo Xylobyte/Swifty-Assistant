@@ -1,5 +1,5 @@
 <RCC>
     <qresource lang="qm" prefix="/">
-        <file>ts/swiftassistant_en.qm</file>
+        <file>ts/swiftyassistant_en.qm</file>
     </qresource>
 </RCC>

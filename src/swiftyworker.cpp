@@ -15,7 +15,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-#include "swiftworker.h"
+#include "swiftyworker.h"
 #include "engine.h"
 
 #include <QtQml>
@@ -77,7 +77,7 @@ void SwiftWorker::removePlugin(QString iid)
 
 void SwiftWorker::declareQML()
 {
-    qmlRegisterType<SwiftWorker>("SwiftWorker", 1, 0, "Swift");
+    qmlRegisterType<SwiftWorker>("SwiftyWorker", 1, 0, "Swifty");
 }
 
 void SwiftWorker::reponseReceived(QString _reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl)

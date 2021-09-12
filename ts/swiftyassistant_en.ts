@@ -10,23 +10,33 @@
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="21"/>
+        <source>Swifty Assistant est un projet open source qui a 
+pour but de vous aider dans vos taches quotidiennes, il fonctionne 
+sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</source>
+        <translation>Swifty Assistant is an open source project which aims \nto help you in your daily tasks, it works on the basis of \nplugins. If you want to contribute to the project here are the links:</translation>
+    </message>
+    <message>
+        <location filename="../src/res/AboutDialog.qml" line="27"/>
+        <source>Le dépot du projet: https://github.com/Swiftapp-hub/Swifty-Assistant</source>
+        <translation>The project repository: https://github.com/Swiftapp-hub/Swifty-Assistant</translation>
+    </message>
+    <message>
         <source>Swift Assistant est un projet open source qui a 
 pour but de vous aider dans vos taches quotidiennes, il fonctionne 
 sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</source>
         <oldsource>Swift Assistant est un projet open source qui a 
 pour but de vous aider dans vos taches quotidiennes, il fonctionne 
 sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</oldsource>
-        <translation>Swift Assistant is an open source project which aims \nto help you in your daily tasks, it works on the basis of plugins.\n If you want to contribute to the project here are the links:</translation>
+        <translation type="vanished">Swift Assistant is an open source project which aims \nto help you in your daily tasks, it works on the basis of plugins.\n If you want to contribute to the project here are the links:</translation>
     </message>
     <message>
-        <location filename="../src/res/AboutDialog.qml" line="27"/>
         <source>Le dépot du projet: https://github.com/Swiftapp-hub/Swift-Assistant</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">The prpject repository: https://github.com/Swiftapp-hub/Swifty-Assistant</translation>
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="40"/>
         <source>Version: 1.0.1</source>
-        <translation type="unfinished">Version: 1.0.1</translation>
+        <translation>Version: 1.0.1</translation>
     </message>
     <message>
         <source>Le dépot du projet: </source>
@@ -160,14 +170,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Error</translation>
     </message>
     <message>
-        <location filename="../src/swiftworker.cpp" line="175"/>
         <source>&amp;Ouvrir</source>
-        <translation>&amp;Open</translation>
+        <translation type="vanished">&amp;Open</translation>
     </message>
     <message>
-        <location filename="../src/swiftworker.cpp" line="178"/>
         <source>&amp;Quitter</source>
-        <translation>&amp;Quit</translation>
+        <translation type="vanished">&amp;Quit</translation>
     </message>
 </context>
 <context>

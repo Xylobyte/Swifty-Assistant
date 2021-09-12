@@ -155,7 +155,7 @@ Rectangle {
                 visible: typeWeb === "web_with_action_btn" ? true : false
                 radius: 10
                 onClicked: {
-                    swift.openLinkInBrowser(webEngineView.url)
+                    swifty.openLinkInBrowser(webEngineView.url)
                 }
             }
         }

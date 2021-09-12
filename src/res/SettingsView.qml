@@ -9,7 +9,7 @@ Rectangle {
 
     Connections {
         id: connect
-        target: swift
+        target: swifty
 
         function onReponse(text, isFin, typeMessage, url, textUrl) {
             txtName.text = settings.value("settings_name", "")
@@ -24,7 +24,7 @@ Rectangle {
     Component.onCompleted: {
         txtName.text = settings.value("settings_name")
         checkProp.checked = settings.value("settings_proposition", "true") === "true" ? true : false
-        swift.getPluginList()
+        swifty.getPluginList()
     }
 
     ColumnLayout {
@@ -104,9 +104,9 @@ Rectangle {
                 borderWidth: 2
                 radius: 10
                 onClicked: {
-                    swift.actuPlugins()
+                    swifty.actuPlugins()
                     listPlugin.model.clear()
-                    swift.getAllPlugin()
+                    swifty.getAllPlugin()
                 }
             }
         }
@@ -144,7 +144,7 @@ Rectangle {
                         MouseArea {
                             anchors.fill: parent
                             onClicked: {
-                                swift.removePlugin(model.text)
+                                swifty.removePlugin(model.text)
                                 time.running = true
                             }
                         }
@@ -157,7 +157,7 @@ Rectangle {
                         repeat: false
                         onTriggered: {
                             listPlugin.model.clear()
-                            swift.getAllPlugin()
+                            swifty.getAllPlugin()
                         }
                     }
                 }

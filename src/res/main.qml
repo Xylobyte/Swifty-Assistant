@@ -4,7 +4,7 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import Qt.labs.settings 1.1
 
-import SwiftWorker 1.0
+import SwiftyWorker 1.0
 
 Window {
     id: window
@@ -13,7 +13,7 @@ Window {
     visible: false
     flags: Qt.FramelessWindowHint
     color: "transparent"
-    title: qsTr("Worker Assistant")
+    title: qsTr("Swifty Assistant")
 
     onActiveChanged: {
         if (active === false) window.visible = false
@@ -69,7 +69,7 @@ Window {
         }
 
         Connections {
-            target: swift
+            target: swifty
 
             function onReponse(text, isFin, typeMessage, url, textUrl) {
                 if (typeMessage === "web_without_action_btn" || typeMessage === "web_with_action_btn") {
@@ -99,8 +99,8 @@ Window {
             }
         }
 
-        Swift {
-            id: swift
+        Swifty {
+            id: swifty
         }
 
         StackView {

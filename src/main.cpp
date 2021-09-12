@@ -1,4 +1,4 @@
-/* Swift Assistant is a simple, user-friendly assistant based on an extension system.
+/* Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 
    Copyright (C) <2021>  <SwiftApp>
 
@@ -32,7 +32,7 @@ typedef QApplication Application;
 typedef QGuiApplication Application;
 #endif
 
-#include "swiftworker.h"
+#include "swiftyworker.h"
 #include "plugininterface.h"
 
 #ifndef QT_NO_SYSTEMTRAYICON
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QCoreApplication::setApplicationName("Swift Assistant");
+    QCoreApplication::setApplicationName("Swifty Assistant");
     QCoreApplication::setOrganizationName("swiftapp");
     QCoreApplication::setApplicationVersion(QT_VERSION_STR);
     QtWebEngine::initialize();
@@ -54,9 +54,9 @@ int main(int argc, char *argv[])
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
-    if (!translator.load(QString(":/ts/swiftassistant_") + locale != "fr" ? locale : "")) {
+    if (!translator.load(QString(":/ts/swiftyassistant_") + locale != "fr" ? locale : "")) {
         if (locale != "fr") {
-            translator.load(QString(":/ts/swiftassistant_en"));
+            translator.load(QString(":/ts/swiftyassistant_en"));
             app.installTranslator(&translator);
         }
     }

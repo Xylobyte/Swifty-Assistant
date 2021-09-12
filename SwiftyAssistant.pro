@@ -1,4 +1,4 @@
-#   Swift Assistant is a simple, user-friendly assistant based on an extension system.
+#   Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 #	
 #   Copyright (C) <2021>  <SwiftApp>
 #
@@ -19,8 +19,8 @@ requires(qtConfig(accessibility))
 
 QT += quick quickcontrols2 xml qml webengine core gui
 
-TARGET     = swift
-QMAKE_PROJECT_NAME = swiftassistant
+TARGET     = swifty
+QMAKE_PROJECT_NAME = swiftyassistant
 
 qtHaveModule(widgets) {
     QT += widgets # QApplication is required to get native styling with QtQuickControls
@@ -31,7 +31,7 @@ INSTALLS += target
 
 CONFIG += install_ok  # Do not cargo-cult this!
 
-TRANSLATIONS += ts/swiftassistant_en.ts
+TRANSLATIONS += ts/swiftyassistant_en.ts
 
 RESOURCES += \
     src/res/res.qrc \
@@ -40,9 +40,9 @@ RESOURCES += \
 HEADERS += \
     src/engine.h \
     src/plugininterface.h \
-    src/swiftworker.h
+    src/swiftyworker.h
 
 SOURCES += \
     src/engine.cpp \
     src/main.cpp \
-    src/swiftworker.cpp
+    src/swiftyworker.cpp
