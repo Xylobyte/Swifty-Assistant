@@ -1,2 +1,2 @@
  # 1.0.0 (Main Version)
-The main version of Swift Assistant !
+The main version of Swifty Assistant !

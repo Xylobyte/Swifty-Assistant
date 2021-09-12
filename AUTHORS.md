@@ -1,4 +1,4 @@
-# <img src="src/res/assistantIcon.png" alt="Icon Swift Assistant" style="zoom:0.7%;" /> Swift Assistant
+# Swifty Assistant
 
 ## Core Developers
 

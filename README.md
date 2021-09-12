@@ -11,7 +11,7 @@ I'm French so the English version of Swift isn't fully up to date, but if you wa
 
 Screenshoot:
 
-<img src="screenshot/swift.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
+<img src="screenshot/swifty.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
 
 ## Download
 
@@ -19,7 +19,7 @@ Swifty Assistant is available in appimage format!
 
 Follow the instructions below to download and install Swift Assistant:
 
-1. [Download](https://github.com/Swiftapp-hub/Swift-Assistant/releases/) Swifty Assistant
+1. [Download](https://github.com/Swiftapp-hub/Swifty-Assistant/releases/) Swifty Assistant
 2. Right click on the download file and go to the properties
 3. Go to the permissions tab and check the box "Allow file execution as a program"
 4. Now double click on the appimage file to launch Swifty Assistant
@@ -51,7 +51,7 @@ cd "FOLDER_OF_GIT_CLONE"
 ```
 
 ```bash
-lrelease SwiftAssistant.pro
+lrelease SwiftyAssistant.pro
 ```
 
 ```bash
@@ -88,4 +88,4 @@ Thank you in advance for your help.
 
 This project is licensed under the GNU General Public License version 3
 
-You will find a copy of this license in the file [LICENSE.md](https://github.com/Swiftapp-hub/Swift-Assistant/blob/master/LICENSE.md)
+You will find a copy of this license in the file [LICENSE.md](https://github.com/Swiftapp-hub/Swifty-Assistant/blob/master/LICENSE.md)
