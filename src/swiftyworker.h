@@ -48,7 +48,10 @@ public:
     Q_INVOKABLE void execAction(QString action);
 
 public slots:
-    void reponseReceived(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
+    void reponseReceived(
+            QString reponse, bool isFin, QString typeMessage, QList<QString> url = QList<QString>(),
+            QList<QString> textUrl = QList<QString>()
+            );
     void open();
     void hide();
     void addProp(QString prop);

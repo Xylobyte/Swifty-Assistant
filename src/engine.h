@@ -36,13 +36,13 @@ public:
     explicit Engine(QObject *parent = nullptr);
 
 private:
-    void format(QString text);
     void execAction(QList<QString> cmd);
+    void format(QString text);
     void analize(QList<QList<QString>> array_cmd);
-    void updateSettingsVar();
-    QString readVarInText(QString text, QList<QString> var);
     void analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> cmd);
     bool analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd);
+    void updateSettingsVar();
+    QString readVarInText(QString text, QList<QString> var);
 
     QDomDocument doc;
     QSettings settings;
@@ -79,7 +79,10 @@ public slots:
     void addBaseProp();
     void showQml(QString qml, QString iid);
     void getAllPlugin();
-    void sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
+    void sendReply(
+            QString reply, bool isFin, QString typeMessage, QList<QString> url = QList<QString>(),
+            QList<QString> textUrl = QList<QString>()
+            );
     void sendMessageToPlugin(QString message, QString pluginIid);
     void receiveMessageSendedToQml(QString message, QString pluginIid);
     void removePlugin(QString iid);
