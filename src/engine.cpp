@@ -145,24 +145,29 @@ void Engine::execAction(QList<QString> cmd)
     }
 }
 
-void Engine::format(QString _text)
+/**
+ * Format user input to avoid spelling mistakes and send result to analize function
+ *
+ * @param _text the user input
+ */
+void Engine::format(QString text)
 {
-    QList<QString> array;
+    QList<QString> listWord;
     QString word = "";
 
-    QString text = _text.toLower();
+    text = text.toLower();
 
     for (int i = 0; i < text.length(); i++) {
         if (text.at(i) == ' ' || text.at(i) == '-') {
             if (!word.isEmpty()) {
-                array.append(word);
+                listWord.append(word);
                 word.clear();
             }
         }
         else if (text.at(i) == ',' || text.at(i) == '&') {
-            array.append(word);
+            listWord.append(word);
             word.clear();
-            array.append(",");
+            listWord.append(",");
         }
         else if (text.at(i) != '!' && text.at(i) != '?') {
             QString ch = text.at(i);
@@ -177,38 +182,38 @@ void Engine::format(QString _text)
         }
 
         if (i == text.length()-1 && !word.isEmpty()) {
-            array.append(word);
+            listWord.append(word);
             word.clear();
         }
     }
 
-    QList<QList<QString>> arrayFinal;
-    QList<QString> arraySuite;
+    QList<QList<QString>> listCommands;
+    QList<QString> listWords;
     int i = 0;
 
-    foreach (QString txt , array) {
+    foreach (QString txt , listWord) {
         if ((txt == "bonjour" || txt == "salut" || txt == "hello" || txt == "coucou") && i == 0) {
-            arraySuite.append(txt);
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+            listWords.append(txt);
+            listCommands.append(listWords);
+            listWords.clear();
         }
-        else if ((txt == "&" || txt == ",") && !arraySuite.isEmpty()) {
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+        else if ((txt == "&" || txt == ",") && !listWords.isEmpty()) {
+            listCommands.append(listWords);
+            listWords.clear();
         }
         else {
-            arraySuite.append(txt);
+            listWords.append(txt);
         }
 
-        if (i == array.length()-1 && !arraySuite.isEmpty()) {
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+        if (i == listWord.length()-1 && !listWords.isEmpty()) {
+            listCommands.append(listWords);
+            listWords.clear();
         }
 
         i++;
     }
 
-    analize(arrayFinal);
+    analize(listCommands);
 }
 
 void Engine::analize(QList<QList<QString>> array_cmd)
