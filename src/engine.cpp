@@ -216,13 +216,19 @@ void Engine::format(QString text)
     analize(listCommands);
 }
 
+/**
+ * Check if a conversation is in progress and call the corresponding function
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ */
 void Engine::analize(QList<QList<QString>> array_cmd)
 {
     foreach (QList<QString> cmd , array_cmd) {
         if (nextReplyItemId != "") {
-            bool returnBool = analizePlugin(array_cmd, cmd);
+            bool reponseTrouved = analizePlugin(array_cmd, cmd);
 
-            if (!returnBool)
+            if (!reponseTrouved)
                 analizeAllPlugins(array_cmd, cmd);
         }
         else {
@@ -231,6 +237,13 @@ void Engine::analize(QList<QList<QString>> array_cmd)
     }
 }
 
+/**
+ * Read xml file of all plugins and search for reponse
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ * @param cmd the words list of the command actually in research
+ */
 void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> cmd)
 {
     nextReplyNeedId.clear();
@@ -610,6 +623,14 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
     }
 }
 
+/**
+ * Search a reponse in the plugin actually used
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ * @param cmd the words list of the command actually in research
+ * @return if an reponse has been found
+ */
 bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
 {
     bool isOk = false;
@@ -1012,6 +1033,13 @@ void Engine::updateSettingsVar()
     propEnabled = var.toBool();
 }
 
+/**
+ * Replace ?x variables in a text
+ *
+ * @param text the text for replacement
+ * @param var the list of variables to place it in the text
+ * @return the text modified with the variables
+ */
 QString Engine::readVarInText(QString text, QList<QString> var)
 {
     QString reply;
@@ -1065,11 +1093,21 @@ QString Engine::readVarInText(QString text, QList<QString> var)
 //===================== Slots =======================
 //===================================================
 
+/**
+ * Called when user sending the text of the TextInput
+ *
+ * @param message the text
+ */
 void Engine::messageReceived(QString message)
 {
     format(message);
 }
 
+/**
+ * Called when the TextInput changed and refreshing propositions
+ *
+ * @param text the new text
+ */
 void Engine::textChanged(QString text)
 {
     for (int i = showedProp.length()-1; i >= 0; i--) {
@@ -1093,6 +1131,9 @@ void Engine::textChanged(QString text)
     }
 }
 
+/**
+ * Show the main propositions
+ */
 void Engine::addBaseProp()
 {
     emit removeAllProp();
@@ -1104,6 +1145,12 @@ void Engine::addBaseProp()
     }
 }
 
+/**
+ * This function show the qml code of a plugin
+ *
+ * @param qml the qml code
+ * @param iid the plugin iid
+ */
 void Engine::showQml(QString qml, QString iid)
 {
     QDir dir(QDir::homePath());
@@ -1127,6 +1174,9 @@ void Engine::showQml(QString qml, QString iid)
     emit showQmlFile(qmlUrl);
 }
 
+/**
+ * Emit a signal with iid of a plugin when a plugin trouved
+ */
 void Engine::getAllPlugin()
 {
     foreach (PluginInterface *plugin, listPlugins) {
@@ -1134,6 +1184,15 @@ void Engine::getAllPlugin()
     }
 }
 
+/**
+ * When the engine has found an reponse this function is called
+ *
+ * @param reply the reponse
+ * @param isFin if this is the last reponse
+ * @param typeMessage the type of reponse
+ * @param url if the type is a web response it is the url
+ * @param text if it is an reponse with action buttons it is the text to display
+ */
 void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> text)
 {
     emit reponseSended(reply, isFin, typeMessage, url, text);
@@ -1144,6 +1203,12 @@ void Engine::sendMessageToPlugin(QString message, QString pluginIid)
     emit signalSendMessageToPlugin(message, pluginIid);
 }
 
+/**
+ * Send a message to the currently displayed qml interface
+ *
+ * @param message the message
+ * @param pluginIid the plugin identifiant
+ */
 void Engine::receiveMessageSendedToQml(QString message, QString pluginIid)
 {
     emit pluginToQml(message, pluginIid);
@@ -1173,6 +1238,9 @@ void Engine::removePlugin(QString iid)
     scanPlugin();
 }
 
+/**
+ * Search compatible plugin in the ~/SwiftPlugins folder
+ */
 void Engine::scanPlugin()
 {
     prop.clear();
@@ -1215,6 +1283,10 @@ void Engine::scanPlugin()
     }
 }
 
+/**
+ * Format QString to QList<QString> for the function execAction(QList<QString> cmd)
+ * @param action the QString
+ */
 void Engine::executeAction(QString action)
 {
     QList<QString> cmd;
