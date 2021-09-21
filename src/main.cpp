@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
 
     QQuickStyle::setStyle("Imagine");
 
+    //Run app
     QQmlApplicationEngine appEngine;
     SwiftWorker::declareQML();
     appEngine.load(QUrl("qrc:/main.qml"));

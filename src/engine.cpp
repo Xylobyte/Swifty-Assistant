@@ -1161,15 +1161,17 @@ void Engine::showQml(QString qml, QString iid)
     QString qmlUrl = "file:"+dir.path()+"/"+iid.replace(".", "_")+".qml";
 
     QFile file(path);
-    if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-        qDebug("Error write qml file");
-        return;
+    if (!file.exists()) {
+        if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            qDebug("Error write qml file");
+            return;
+        }
+
+        QTextStream flux(&file);
+        flux.setCodec("UTF-8");
+
+        flux << qml;
     }
-
-    QTextStream flux(&file);
-    flux.setCodec("UTF-8");
-
-    flux << qml;
 
     emit showQmlFile(qmlUrl);
 }
