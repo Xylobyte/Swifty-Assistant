@@ -51,6 +51,7 @@ int main(int argc, char *argv[])
 
     Application app(argc, argv);
 
+    //Load translation files
     QString locale = QLocale::system().name().section('_', 0, 0);
 
     QTranslator translator;
@@ -64,6 +65,7 @@ int main(int argc, char *argv[])
         app.installTranslator(&translator);
     }
 
+    //Check if the system is compatible with trayIcon
     if (!QSystemTrayIcon::isSystemTrayAvailable()) {
         QMessageBox::critical(nullptr, QObject::tr("Systray"),
                               QObject::tr("I couldn't detect any system tray "
@@ -73,6 +75,7 @@ int main(int argc, char *argv[])
 
     QQuickStyle::setStyle("Imagine");
 
+    //Run app
     QQmlApplicationEngine appEngine;
     SwiftWorker::declareQML();
     appEngine.load(QUrl("qrc:/main.qml"));

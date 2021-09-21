@@ -31,6 +31,7 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     Engine *engine = new Engine;
     engine->moveToThread(&engineThread);
     connect(&engineThread, &QThread::finished, engine, &QObject::deleteLater);
+
     connect(this, &SwiftWorker::message, engine, &Engine::messageReceived);
     connect(this, &SwiftWorker::textChanged, engine, &Engine::textChanged);
     connect(this, &SwiftWorker::addBaseProp, engine, &Engine::addBaseProp);
@@ -47,8 +48,10 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     connect(engine, &Engine::pluginTrouved, this, &SwiftWorker::pluginTrouved);
     connect(engine, &Engine::pluginToQml, this, &SwiftWorker::messageToQml);
     connect(engine, &Engine::hideWindow, this, &SwiftWorker::hide);
+
     engineThread.start();
 
+    // Displays the main proposition on the home screen main proposition on the home screen of Swifty Assistant
     emit addBaseProp();
 
     createActions();
@@ -65,76 +68,24 @@ SwiftWorker::~SwiftWorker()
     engineThread.wait();
 }
 
-void SwiftWorker::actuPlugins()
-{
-    emit signalActuPlugins();
-}
-
-void SwiftWorker::removePlugin(QString iid)
-{
-    emit signalRemovePlugin(iid);
-}
-
 void SwiftWorker::declareQML()
 {
     qmlRegisterType<SwiftWorker>("SwiftyWorker", 1, 0, "Swifty");
 }
 
-void SwiftWorker::reponseReceived(QString _reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl)
-{
-    emit reponse(_reponse, isFin, typeMessage, url, textUrl);
-}
+//===================================================
+//============== Q_INVOKABLE function ===============
+//===================================================
 
-void SwiftWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
-{
-    open();
-}
 
-void SwiftWorker::execAction(QString action)
+/**
+ * Send user input to the understanding engine
+ *
+ * @param _message the user input
+ */
+void SwiftWorker::messageSended(QString _message)
 {
-    emit executeAction(action);
-}
-
-void SwiftWorker::messageToQml(QString message, QString pluginIid)
-{
-    emit pluginSendedMessageToQml(message, pluginIid);
-}
-
-void SwiftWorker::pluginTrouved(QString name)
-{
-    emit pluginName(name);
-}
-
-void SwiftWorker::getPluginList()
-{
-    emit getAllPlugin();
-}
-
-void SwiftWorker::sendMessageToPlugin(QString message, QString pluginIid)
-{
-    emit signalSendMessageToPlugin(message, pluginIid);
-}
-
-void SwiftWorker::showQmlFile(QString qmlUrl)
-{
-    emit showQml(qmlUrl);
-}
-
-void SwiftWorker::newText(QString text)
-{
-    if (text != "") emit textChanged(text);
-    else emit addBaseProp();
-}
-
-void SwiftWorker::open()
-{
-    QPoint pos = QCursor::pos();
-    emit showWindow(pos.x(), pos.y());
-}
-
-void SwiftWorker::hide()
-{
-    emit hideWindow();
+    emit message(_message);
 }
 
 void SwiftWorker::openLinkInBrowser(QString url)
@@ -142,34 +93,84 @@ void SwiftWorker::openLinkInBrowser(QString url)
     QDesktopServices::openUrl(QUrl(url));
 }
 
-void SwiftWorker::messageSended(QString _message)
+/**
+ * When user input changed send new text to engine for completion
+ *
+ * @param text the new user input
+ */
+void SwiftWorker::newText(QString text)
 {
-    emit message(_message);
+    if (text != "") emit textChanged(text);
+    else emit addBaseProp();
 }
 
-void SwiftWorker::addProp(QString prop)
+/**
+ * Sending a message to the engine so that it resends a list of plugins
+ */
+void SwiftWorker::getPluginList()
 {
-    emit addProposition(prop);
+    emit getAllPlugin();
 }
 
-void SwiftWorker::removeAllProp()
+/**
+ * When a plugin interface is displayed it can use this function to communicate with the plugin
+ *
+ * @param message the messsage
+ * @param pluginIid the iid of plugin
+ */
+void SwiftWorker::sendMessageToPlugin(QString message, QString pluginIid)
 {
-    emit removeAllProposition();
+    emit signalSendMessageToPlugin(message, pluginIid);
 }
 
-void SwiftWorker::removeProp(int index)
+/**
+ * Delete the file of a plugin installed in the ~/SwiftyPlugins folder
+ *
+ * @param iid the plugin identifier has been deleted
+ */
+void SwiftWorker::removePlugin(QString iid)
 {
-    emit removeProposition(index);
+    emit signalRemovePlugin(iid);
 }
 
+/**
+ * Update the list of plugins in the ~/SwiftyPlugins folder
+ */
+void SwiftWorker::actuPlugins()
+{
+    emit signalActuPlugins();
+}
+
+/**
+ * Used to execute an action command in the engine
+ *
+ * @param action the command to execute
+ */
+void SwiftWorker::execAction(QString action)
+{
+    emit executeAction(action);
+}
+
+//===================================================
+//================ Private function =================
+//===================================================
+
+/**
+ * Set icon and toolTip of QTrayIcon
+ *
+ * @param path the icon to set
+ */
 void SwiftWorker::setIcon(QString path)
 {
     QIcon icon(path);
     trayIcon->setIcon(icon);
 
-    trayIcon->setToolTip("Swift Assistant is running !");
+    trayIcon->setToolTip("Swifty Assistant is running !");
 }
 
+/**
+ * Add menu with action to QTrayIcon
+ */
 void SwiftWorker::createActions()
 {
     restoreAction = new QAction(tr("&Ouvrir"), this);
@@ -187,4 +188,104 @@ void SwiftWorker::createTrayIcon()
 
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setContextMenu(trayIconMenu);
+}
+
+//===================================================
+//====================== Slots ======================
+//===================================================
+
+/**
+ * When engine send a reponse, display this on the home screen
+ *
+ * @param _reponse the reponse
+ * @param isFin is the last message for the question
+ * @param typeMessage if the reponse is a message or an action
+ * @param url if the reponse is an web action specify the url of web page
+ * @param textUrl if the reponse is an message with action button specify text for button
+ */
+void SwiftWorker::reponseReceived(
+        QString _reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl
+        )
+{
+    emit reponse(_reponse, isFin, typeMessage, url, textUrl);
+}
+
+/**
+ * Show the Swifty Assistant window
+ */
+void SwiftWorker::open()
+{
+    QPoint pos = QCursor::pos();
+    emit showWindow(pos.x(), pos.y());
+}
+
+/**
+ * Hide the Swifty Assistant window
+ */
+void SwiftWorker::hide()
+{
+    emit hideWindow();
+}
+
+/**
+ * Add proposition when engine call this slot
+ *
+ * @param prop the proposition
+ */
+void SwiftWorker::addProp(QString prop)
+{
+    emit addProposition(prop);
+}
+
+/**
+ * Remove all proposition of the home screen
+ */
+void SwiftWorker::removeAllProp()
+{
+    emit removeAllProposition();
+}
+
+/**
+ * Remove one proposition with a index
+ *
+ * @param index index of removed proposition
+ */
+void SwiftWorker::removeProp(int index)
+{
+    emit removeProposition(index);
+}
+
+/**
+ * Display a qml file on the Swifty Assistant window
+ *
+ * @param qmlUrl url of qml file
+ */
+void SwiftWorker::showQmlFile(QString qmlUrl)
+{
+    emit showQml(qmlUrl);
+}
+
+/**
+ * When engine find a plugin
+ *
+ * @param name the plugin iid
+ */
+void SwiftWorker::pluginTrouved(QString name)
+{
+    emit pluginName(name);
+}
+
+/**
+ * If the plugin whant to send a message to qml file actually showed
+ * @param message
+ * @param pluginIid
+ */
+void SwiftWorker::messageToQml(QString message, QString pluginIid)
+{
+    emit pluginSendedMessageToQml(message, pluginIid);
+}
+
+void SwiftWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
+{
+    open();
 }

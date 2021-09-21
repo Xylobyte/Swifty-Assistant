@@ -36,189 +36,9 @@ Engine::Engine(QObject *parent) : QObject(parent)
     scanPlugin();
 }
 
-void Engine::scanPlugin()
-{
-    prop.clear();
-    main_prop.clear();
-    showedProp.clear();
-    mainVolatil_prop.clear();
-    listPlugins.clear();
-
-    QDir pluginsDir(QDir::homePath());
-    if (!pluginsDir.exists("SwiftyPlugins")) pluginsDir.mkdir("SwiftyPlugins");
-    pluginsDir.cd("SwiftyPlugins");
-
-    const QStringList entries = pluginsDir.entryList(QDir::Files);
-
-    foreach (QString fileName , entries) {
-        QString ext = fileName.right(fileName.length()-1-fileName.lastIndexOf("."));
-
-        if (ext == "sw") {
-            QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
-            QObject *plugin = pluginLoader.instance();
-
-            if (plugin) {
-                PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
-                if (pluginsInterface) {
-                    connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QList<QString>,QList<QString>)));
-                    connect(pluginsInterface->getObject(), SIGNAL(showQml(QString,QString)), this, SLOT(showQml(QString,QString)));
-                    connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString,QString)), this, SLOT(receiveMessageSendedToQml(QString,QString)));
-                    connect(this, SIGNAL(signalSendMessageToPlugin(QString,QString)), pluginsInterface->getObject(), SLOT(messageReceived(QString,QString)));
-                    QList<QString> plug_prop = pluginsInterface->getCommande();
-
-                    std::uniform_real_distribution<double> dist(0, plug_prop.length());
-                    int val = dist(*QRandomGenerator::global());
-
-                    main_prop.append(plug_prop.at(val));
-                    prop.append(plug_prop);
-                    listPlugins.append(pluginsInterface);
-                }
-            }
-        }
-    }
-}
-
-void Engine::removePlugin(QString iid)
-{
-    QDir pluginsDir(QDir::homePath());
-    pluginsDir.cd("SwiftPlugins");
-
-    const QStringList entries = pluginsDir.entryList(QDir::Files);
-
-    for (const QString &fileName : entries) {
-        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
-        QObject *plugin = pluginLoader.instance();
-
-        if (plugin) {
-            PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
-            if (pluginsInterface) {
-                if (pluginsInterface->pluginIid() == iid) {
-                    QFile::remove(pluginsDir.absoluteFilePath(fileName));
-                }
-            }
-        }
-    }
-
-    scanPlugin();
-}
-
-void Engine::getAllPlugin()
-{
-    foreach (PluginInterface *plugin, listPlugins) {
-        emit pluginTrouved(plugin->pluginIid());
-    }
-}
-
-void Engine::showQml(QString qml, QString iid)
-{
-    QDir dir(QDir::homePath());
-    if (!dir.exists(".swifty_cache")) dir.mkdir(".swifty_cache");
-    dir.cd(".swifty_cache");
-
-    QString path = dir.path()+"/"+iid.replace(".", "_")+".qml";
-    QString qmlUrl = "file:"+dir.path()+"/"+iid.replace(".", "_")+".qml";
-
-    QFile file(path);
-    if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-        qDebug("Error write qml file");
-        return;
-    }
-
-    QTextStream flux(&file);
-    flux.setCodec("UTF-8");
-
-    flux << qml;
-
-    emit showQmlFile(qmlUrl);
-}
-
-void Engine::textChanged(QString text)
-{
-    for (int i = showedProp.length()-1; i >= 0; i--) {
-        QString compareText = showedProp.at(i);
-        compareText.truncate(text.length());
-
-        if (text.compare(compareText, Qt::CaseInsensitive) != 0) {
-            emit removeProp(i);
-            showedProp.removeAt(i);
-        }
-    }
-
-    foreach (QString myText, prop) {
-        QString compareText = myText;
-        compareText.truncate(text.length());
-
-        if (text.compare(compareText, Qt::CaseInsensitive) == 0 && showedProp.indexOf(myText) == -1) {
-            emit addProp(myText);
-            showedProp.append(myText);
-        }
-    }
-}
-
-void Engine::sendMessageToPlugin(QString message, QString pluginIid)
-{
-    emit signalSendMessageToPlugin(message, pluginIid);
-}
-
-void Engine::addBaseProp()
-{
-    emit removeAllProp();
-    showedProp.clear();
-
-    foreach (QString text , main_prop) {
-        emit addProp(text);
-        showedProp.append(text);
-    }
-}
-
-void Engine::messageReceived(QString message)
-{
-    format(message);
-}
-
-void Engine::receiveMessageSendedToQml(QString message, QString pluginIid)
-{
-    emit pluginToQml(message, pluginIid);
-}
-
-void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> text)
-{
-    emit reponseSended(reply, isFin, typeMessage, url, text);
-}
-
-void Engine::updateSettingsVar()
-{
-    QVariant var = settings.value(key_settings_name, "Inconnue");
-    userName = var.toString();
-    var = settings.value(key_settings_sound, true);
-    soundEnabled = var.toBool();
-    var = settings.value(key_settings_proposition, true);
-    propEnabled = var.toBool();
-}
-
-void Engine::executeAction(QString action)
-{
-    QList<QString> cmd;
-    QString word;
-    for (int i = 0; i < action.length(); i++) {
-        if (action.at(i) == ' ') {
-            if (!word.isEmpty()) {
-                cmd.append(word);
-                word.clear();
-            }
-        }
-        else {
-            word.append(action.at(i));
-        }
-
-        if (i == action.length()-1) {
-            cmd.append(word);
-            word.clear();
-        }
-    }
-
-    execAction(cmd);
-}
+//===================================================
+//================ Private function =================
+//===================================================
 
 void Engine::execAction(QList<QString> cmd)
 {
@@ -325,24 +145,29 @@ void Engine::execAction(QList<QString> cmd)
     }
 }
 
-void Engine::format(QString _text)
+/**
+ * Format user input to avoid spelling mistakes and send result to analize function
+ *
+ * @param _text the user input
+ */
+void Engine::format(QString text)
 {
-    QList<QString> array;
+    QList<QString> listWord;
     QString word = "";
 
-    QString text = _text.toLower();
+    text = text.toLower();
 
     for (int i = 0; i < text.length(); i++) {
         if (text.at(i) == ' ' || text.at(i) == '-') {
             if (!word.isEmpty()) {
-                array.append(word);
+                listWord.append(word);
                 word.clear();
             }
         }
         else if (text.at(i) == ',' || text.at(i) == '&') {
-            array.append(word);
+            listWord.append(word);
             word.clear();
-            array.append(",");
+            listWord.append(",");
         }
         else if (text.at(i) != '!' && text.at(i) != '?') {
             QString ch = text.at(i);
@@ -357,47 +182,53 @@ void Engine::format(QString _text)
         }
 
         if (i == text.length()-1 && !word.isEmpty()) {
-            array.append(word);
+            listWord.append(word);
             word.clear();
         }
     }
 
-    QList<QList<QString>> arrayFinal;
-    QList<QString> arraySuite;
+    QList<QList<QString>> listCommands;
+    QList<QString> listWords;
     int i = 0;
 
-    foreach (QString txt , array) {
+    foreach (QString txt , listWord) {
         if ((txt == "bonjour" || txt == "salut" || txt == "hello" || txt == "coucou") && i == 0) {
-            arraySuite.append(txt);
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+            listWords.append(txt);
+            listCommands.append(listWords);
+            listWords.clear();
         }
-        else if ((txt == "&" || txt == ",") && !arraySuite.isEmpty()) {
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+        else if ((txt == "&" || txt == ",") && !listWords.isEmpty()) {
+            listCommands.append(listWords);
+            listWords.clear();
         }
         else {
-            arraySuite.append(txt);
+            listWords.append(txt);
         }
 
-        if (i == array.length()-1 && !arraySuite.isEmpty()) {
-            arrayFinal.append(arraySuite);
-            arraySuite.clear();
+        if (i == listWord.length()-1 && !listWords.isEmpty()) {
+            listCommands.append(listWords);
+            listWords.clear();
         }
 
         i++;
     }
 
-    analize(arrayFinal);
+    analize(listCommands);
 }
 
+/**
+ * Check if a conversation is in progress and call the corresponding function
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ */
 void Engine::analize(QList<QList<QString>> array_cmd)
 {
     foreach (QList<QString> cmd , array_cmd) {
         if (nextReplyItemId != "") {
-            bool returnBool = analizePlugin(array_cmd, cmd);
+            bool reponseTrouved = analizePlugin(array_cmd, cmd);
 
-            if (!returnBool)
+            if (!reponseTrouved)
                 analizeAllPlugins(array_cmd, cmd);
         }
         else {
@@ -406,6 +237,13 @@ void Engine::analize(QList<QList<QString>> array_cmd)
     }
 }
 
+/**
+ * Read xml file of all plugins and search for reponse
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ * @param cmd the words list of the command actually in research
+ */
 void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> cmd)
 {
     nextReplyNeedId.clear();
@@ -785,6 +623,14 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
     }
 }
 
+/**
+ * Search a reponse in the plugin actually used
+ *
+ * @param array_cmd first dimension of the table => commands
+ *                  second dimension of the table => words of commands
+ * @param cmd the words list of the command actually in research
+ * @return if an reponse has been found
+ */
 bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
 {
     bool isOk = false;
@@ -1177,6 +1023,23 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
     return true;
 }
 
+void Engine::updateSettingsVar()
+{
+    QVariant var = settings.value(key_settings_name, "Inconnue");
+    userName = var.toString();
+    var = settings.value(key_settings_sound, true);
+    soundEnabled = var.toBool();
+    var = settings.value(key_settings_proposition, true);
+    propEnabled = var.toBool();
+}
+
+/**
+ * Replace ?x variables in a text
+ *
+ * @param text the text for replacement
+ * @param var the list of variables to place it in the text
+ * @return the text modified with the variables
+ */
 QString Engine::readVarInText(QString text, QList<QString> var)
 {
     QString reply;
@@ -1224,4 +1087,228 @@ QString Engine::readVarInText(QString text, QList<QString> var)
     }
 
     return reply;
+}
+
+//===================================================
+//===================== Slots =======================
+//===================================================
+
+/**
+ * Called when user sending the text of the TextInput
+ *
+ * @param message the text
+ */
+void Engine::messageReceived(QString message)
+{
+    format(message);
+}
+
+/**
+ * Called when the TextInput changed and refreshing propositions
+ *
+ * @param text the new text
+ */
+void Engine::textChanged(QString text)
+{
+    for (int i = showedProp.length()-1; i >= 0; i--) {
+        QString compareText = showedProp.at(i);
+        compareText.truncate(text.length());
+
+        if (text.compare(compareText, Qt::CaseInsensitive) != 0) {
+            emit removeProp(i);
+            showedProp.removeAt(i);
+        }
+    }
+
+    foreach (QString myText, prop) {
+        QString compareText = myText;
+        compareText.truncate(text.length());
+
+        if (text.compare(compareText, Qt::CaseInsensitive) == 0 && showedProp.indexOf(myText) == -1) {
+            emit addProp(myText);
+            showedProp.append(myText);
+        }
+    }
+}
+
+/**
+ * Show the main propositions
+ */
+void Engine::addBaseProp()
+{
+    emit removeAllProp();
+    showedProp.clear();
+
+    foreach (QString text , main_prop) {
+        emit addProp(text);
+        showedProp.append(text);
+    }
+}
+
+/**
+ * This function show the qml code of a plugin
+ *
+ * @param qml the qml code
+ * @param iid the plugin iid
+ */
+void Engine::showQml(QString qml, QString iid)
+{
+    QDir dir(QDir::homePath());
+    if (!dir.exists(".swifty_cache")) dir.mkdir(".swifty_cache");
+    dir.cd(".swifty_cache");
+
+    QString path = dir.path()+"/"+iid.replace(".", "_")+".qml";
+    QString qmlUrl = "file:"+dir.path()+"/"+iid.replace(".", "_")+".qml";
+
+    QFile file(path);
+    if (!file.exists()) {
+        if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            qDebug("Error write qml file");
+            return;
+        }
+
+        QTextStream flux(&file);
+        flux.setCodec("UTF-8");
+
+        flux << qml;
+    }
+
+    emit showQmlFile(qmlUrl);
+}
+
+/**
+ * Emit a signal with iid of a plugin when a plugin trouved
+ */
+void Engine::getAllPlugin()
+{
+    foreach (PluginInterface *plugin, listPlugins) {
+        emit pluginTrouved(plugin->pluginIid());
+    }
+}
+
+/**
+ * When the engine has found an reponse this function is called
+ *
+ * @param reply the reponse
+ * @param isFin if this is the last reponse
+ * @param typeMessage the type of reponse
+ * @param url if the type is a web response it is the url
+ * @param text if it is an reponse with action buttons it is the text to display
+ */
+void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> text)
+{
+    emit reponseSended(reply, isFin, typeMessage, url, text);
+}
+
+void Engine::sendMessageToPlugin(QString message, QString pluginIid)
+{
+    emit signalSendMessageToPlugin(message, pluginIid);
+}
+
+/**
+ * Send a message to the currently displayed qml interface
+ *
+ * @param message the message
+ * @param pluginIid the plugin identifiant
+ */
+void Engine::receiveMessageSendedToQml(QString message, QString pluginIid)
+{
+    emit pluginToQml(message, pluginIid);
+}
+
+void Engine::removePlugin(QString iid)
+{
+    QDir pluginsDir(QDir::homePath());
+    pluginsDir.cd("SwiftPlugins");
+
+    const QStringList entries = pluginsDir.entryList(QDir::Files);
+
+    for (const QString &fileName : entries) {
+        QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
+        QObject *plugin = pluginLoader.instance();
+
+        if (plugin) {
+            PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
+            if (pluginsInterface) {
+                if (pluginsInterface->pluginIid() == iid) {
+                    QFile::remove(pluginsDir.absoluteFilePath(fileName));
+                }
+            }
+        }
+    }
+
+    scanPlugin();
+}
+
+/**
+ * Search compatible plugin in the ~/SwiftPlugins folder
+ */
+void Engine::scanPlugin()
+{
+    prop.clear();
+    main_prop.clear();
+    showedProp.clear();
+    mainVolatil_prop.clear();
+    listPlugins.clear();
+
+    QDir pluginsDir(QDir::homePath());
+    if (!pluginsDir.exists("SwiftyPlugins")) pluginsDir.mkdir("SwiftyPlugins");
+    pluginsDir.cd("SwiftyPlugins");
+
+    const QStringList entries = pluginsDir.entryList(QDir::Files);
+
+    foreach (QString fileName , entries) {
+        QString ext = fileName.right(fileName.length()-1-fileName.lastIndexOf("."));
+
+        if (ext == "sw") {
+            QPluginLoader pluginLoader(pluginsDir.absoluteFilePath(fileName));
+            QObject *plugin = pluginLoader.instance();
+
+            if (plugin) {
+                PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
+                if (pluginsInterface) {
+                    connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QList<QString>,QList<QString>)));
+                    connect(pluginsInterface->getObject(), SIGNAL(showQml(QString,QString)), this, SLOT(showQml(QString,QString)));
+                    connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString,QString)), this, SLOT(receiveMessageSendedToQml(QString,QString)));
+                    connect(this, SIGNAL(signalSendMessageToPlugin(QString,QString)), pluginsInterface->getObject(), SLOT(messageReceived(QString,QString)));
+                    QList<QString> plug_prop = pluginsInterface->getCommande();
+
+                    std::uniform_real_distribution<double> dist(0, plug_prop.length());
+                    int val = dist(*QRandomGenerator::global());
+
+                    main_prop.append(plug_prop.at(val));
+                    prop.append(plug_prop);
+                    listPlugins.append(pluginsInterface);
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Format QString to QList<QString> for the function execAction(QList<QString> cmd)
+ * @param action the QString
+ */
+void Engine::executeAction(QString action)
+{
+    QList<QString> cmd;
+    QString word;
+    for (int i = 0; i < action.length(); i++) {
+        if (action.at(i) == ' ') {
+            if (!word.isEmpty()) {
+                cmd.append(word);
+                word.clear();
+            }
+        }
+        else {
+            word.append(action.at(i));
+        }
+
+        if (i == action.length()-1) {
+            cmd.append(word);
+            word.clear();
+        }
+    }
+
+    execAction(cmd);
 }
