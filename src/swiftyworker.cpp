@@ -48,6 +48,8 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     connect(engine, &Engine::pluginTrouved, this, &SwiftWorker::pluginTrouved);
     connect(engine, &Engine::pluginToQml, this, &SwiftWorker::messageToQml);
     connect(engine, &Engine::hideWindow, this, &SwiftWorker::hide);
+    connect(engine, &Engine::showHomeScreen, this, &SwiftWorker::showHomeScreen);
+    connect(engine, &Engine::previousPage, this, &SwiftWorker::previousPage);
 
     engineThread.start();
 
@@ -116,21 +118,20 @@ void SwiftWorker::getPluginList()
  * When a plugin interface is displayed it can use this function to communicate with the plugin
  *
  * @param message the messsage
- * @param pluginIid the iid of plugin
  */
-void SwiftWorker::sendMessageToPlugin(QString message, QString pluginIid)
+void SwiftWorker::sendMessageToPlugin(QString message)
 {
-    emit signalSendMessageToPlugin(message, pluginIid);
+    emit signalSendMessageToPlugin(message);
 }
 
 /**
  * Delete the file of a plugin installed in the ~/SwiftyPlugins folder
  *
- * @param iid the plugin identifier has been deleted
+ * @param id the plugin identifier has been deleted
  */
-void SwiftWorker::removePlugin(QString iid)
+void SwiftWorker::removePlugin(QString id)
 {
-    emit signalRemovePlugin(iid);
+    emit signalRemovePlugin(id);
 }
 
 /**
@@ -268,7 +269,7 @@ void SwiftWorker::showQmlFile(QString qmlUrl)
 /**
  * When engine find a plugin
  *
- * @param name the plugin iid
+ * @param name the plugin id
  */
 void SwiftWorker::pluginTrouved(QString name)
 {
@@ -277,15 +278,24 @@ void SwiftWorker::pluginTrouved(QString name)
 
 /**
  * If the plugin whant to send a message to qml file actually showed
+ *
  * @param message
- * @param pluginIid
+ * @param pluginId
  */
-void SwiftWorker::messageToQml(QString message, QString pluginIid)
+void SwiftWorker::messageToQml(QString message, QString pluginId)
 {
-    emit pluginSendedMessageToQml(message, pluginIid);
+    emit pluginSendedMessageToQml(message, pluginId);
 }
 
 void SwiftWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
 {
     open();
+}
+
+void SwiftWorker::showHomeScreen() {
+    emit homeScreen();
+}
+
+void SwiftWorker::previousPage() {
+    emit showPreviousPage();
 }

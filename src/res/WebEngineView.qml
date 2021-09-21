@@ -115,7 +115,7 @@ Rectangle {
                 radius: 10
                 onClicked: {
                     webEngineView.stop()
-                    stack.pop()
+                    swifty.execAction("application home")
                 }
             }
 

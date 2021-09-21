@@ -42,8 +42,8 @@ public:
     Q_INVOKABLE void openLinkInBrowser(QString url);
     Q_INVOKABLE void newText(QString text);
     Q_INVOKABLE void getPluginList();
-    Q_INVOKABLE void sendMessageToPlugin(QString message, QString pluginIid);
-    Q_INVOKABLE void removePlugin(QString iid);
+    Q_INVOKABLE void sendMessageToPlugin(QString message);
+    Q_INVOKABLE void removePlugin(QString id);
     Q_INVOKABLE void actuPlugins();
     Q_INVOKABLE void execAction(QString action);
 
@@ -59,8 +59,10 @@ public slots:
     void removeProp(int index);
     void showQmlFile(QString qmlUrl);
     void pluginTrouved(QString name);
-    void messageToQml(QString message, QString pluginIid);
+    void messageToQml(QString message, QString pluginId);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
+    void showHomeScreen();
+    void previousPage();
 
 signals:
     void reponse(QString text, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
@@ -75,11 +77,13 @@ signals:
     void showQml(QString qmlUrl);
     void getAllPlugin();
     void pluginName(QString name);
-    void signalSendMessageToPlugin(QString message, QString pluginIid);
-    void pluginSendedMessageToQml(QString message, QString pluginIid);
-    void signalRemovePlugin(QString iid);
+    void signalSendMessageToPlugin(QString message);
+    void pluginSendedMessageToQml(QString message, QString pluginId);
+    void signalRemovePlugin(QString id);
     void signalActuPlugins();
     void executeAction(QString action);
+    void homeScreen();
+    void showPreviousPage();
 
 private:
     void setIcon(QString path);

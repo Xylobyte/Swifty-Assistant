@@ -3,6 +3,13 @@ import QtQuick.Layouts 1.15
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.15
 import Qt.labs.settings 1.1
+import QtQuick.Dialogs 1.3
+import QtQuick.Particles 2.15
+import QtQuick.XmlListModel 2.15
+import QtQuick3D 1.15
+import QtQuick.Extras 1.4
+import QtQuick.Timeline 1.0
+import QtQml 2.15
 
 import SwiftyWorker 1.0
 
@@ -96,6 +103,18 @@ Window {
 
             function onShowQml(fileUrl) {
                 stack.push(customView, {"qmlUrl": fileUrl})
+            }
+
+            function onHomeScreen() {
+                for (var i = stack.depth; i > 1; i--) {
+                    stack.pop()
+                }
+            }
+
+            function onShowPreviousPage() {
+                if (stack.depth > 1) {
+                    stack.pop();
+                }
             }
         }
 

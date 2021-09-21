@@ -26,24 +26,25 @@ class PluginInterface
 public:
     virtual ~PluginInterface() = default;
     virtual QString getDataXml() = 0;
-    virtual QString pluginIid() = 0;
+    virtual QString pluginId() = 0;
     virtual void execAction(QList<QString> cmd) = 0;
     virtual QList<QString> getCommande() = 0;
     virtual QObject* getObject() = 0;
 
 signals:
     void sendMessage(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
-    void sendMessageToQml(QString message, QString pluginIid);
-    void showQml(QString qml, QString iid);
+    void sendMessageToQml(QString message);
+    void showQml(QString qml, QString id);
+    void execAction(QString action);
 
 public slots:
-    virtual void messageReceived(QString message, QString pluginIid) = 0;
+    virtual void messageReceived(QString message, QString pluginId) = 0;
 };
 
 
 QT_BEGIN_NAMESPACE
 
-#define PluginInterface_iid "fr.swiftapp.linux.plugin"
+#define PluginInterface_iid "fr.swiftapp.swiftyassistant.plugin"
 
 Q_DECLARE_INTERFACE(PluginInterface, PluginInterface_iid)
 

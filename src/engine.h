@@ -62,6 +62,8 @@ private:
     QString nextReplyNeedId = "";
     QString nextReplyItemId = "";
 
+    QString idOfPluginShowingQml = "";
+
 signals:
     void reponseSended(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void addProp(QString prop);
@@ -69,23 +71,25 @@ signals:
     void removeProp(int index);
     void showQmlFile(QString qmlUrl);
     void pluginTrouved(QString name);
-    void signalSendMessageToPlugin(QString message, QString pluginIid);
-    void pluginToQml(QString message, QString pluginIid);
+    void signalSendMessageToPlugin(QString message, QString pluginId);
+    void pluginToQml(QString message, QString pluginId);
     void hideWindow();
+    void showHomeScreen();
+    void previousPage();
 
 public slots:
     void messageReceived(QString message);
     void textChanged(QString text);
     void addBaseProp();
-    void showQml(QString qml, QString iid);
+    void showQml(QString qml, QString id);
     void getAllPlugin();
     void sendReply(
             QString reply, bool isFin, QString typeMessage, QList<QString> url = QList<QString>(),
             QList<QString> textUrl = QList<QString>()
             );
-    void sendMessageToPlugin(QString message, QString pluginIid);
-    void receiveMessageSendedToQml(QString message, QString pluginIid);
-    void removePlugin(QString iid);
+    void sendMessageToPlugin(QString message);
+    void receiveMessageSendedToQml(QString message);
+    void removePlugin(QString id);
     void scanPlugin();
     void executeAction(QString action);
 };

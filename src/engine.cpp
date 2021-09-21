@@ -70,6 +70,15 @@ void Engine::execAction(QList<QString> cmd)
         else if (cmd[1] == "hideWindow") {
             emit hideWindow();
         }
+
+        else if (cmd[1] == "home") {
+            idOfPluginShowingQml.clear();
+            emit showHomeScreen();
+        }
+
+        else if (cmd[1] == "previousPage") {
+            emit previousPage();
+        }
     }
 
     else if (cmd[0] == "web_message") {
@@ -376,7 +385,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                             isRep = true;
                             if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                nextReplyPluginName = plug->pluginIid();
+                                nextReplyPluginName = plug->pluginId();
                                 nextReplyNeedId = item.attribute("needId");
                                 nextReplyItemId = item.attribute("id");
                             }
@@ -425,7 +434,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                 isRep = true;
                                 if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                    nextReplyPluginName = plug->pluginIid();
+                                    nextReplyPluginName = plug->pluginId();
                                     nextReplyNeedId = item.attribute("needId");
                                     nextReplyItemId = item.attribute("id");
                                 }
@@ -446,7 +455,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                             isRep = true;
                             if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                nextReplyPluginName = plug->pluginIid();
+                                nextReplyPluginName = plug->pluginId();
                                 nextReplyNeedId = item.attribute("needId");
                                 nextReplyItemId = item.attribute("id");
                             }
@@ -637,7 +646,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
     bool isRep = false;
 
     foreach (PluginInterface *plug , listPlugins) {
-        if (plug->pluginIid() == nextReplyPluginName) {
+        if (plug->pluginId() == nextReplyPluginName) {
             QString xml = plug->getDataXml();
             QDomDocument m_doc;
             m_doc.setContent(xml, false);
@@ -1149,16 +1158,16 @@ void Engine::addBaseProp()
  * This function show the qml code of a plugin
  *
  * @param qml the qml code
- * @param iid the plugin iid
+ * @param id the plugin id
  */
-void Engine::showQml(QString qml, QString iid)
+void Engine::showQml(QString qml, QString id)
 {
     QDir dir(QDir::homePath());
     if (!dir.exists(".swifty_cache")) dir.mkdir(".swifty_cache");
     dir.cd(".swifty_cache");
 
-    QString path = dir.path()+"/"+iid.replace(".", "_")+".qml";
-    QString qmlUrl = "file:"+dir.path()+"/"+iid.replace(".", "_")+".qml";
+    QString path = dir.path()+"/"+id.replace(".", "_")+".qml";
+    QString qmlUrl = "file:"+dir.path()+"/"+id.replace(".", "_")+".qml";
 
     QFile file(path);
     if (!file.exists()) {
@@ -1174,15 +1183,16 @@ void Engine::showQml(QString qml, QString iid)
     }
 
     emit showQmlFile(qmlUrl);
+    idOfPluginShowingQml = id;
 }
 
 /**
- * Emit a signal with iid of a plugin when a plugin trouved
+ * Emit a signal with id of a plugin when a plugin trouved
  */
 void Engine::getAllPlugin()
 {
     foreach (PluginInterface *plugin, listPlugins) {
-        emit pluginTrouved(plugin->pluginIid());
+        emit pluginTrouved(plugin->pluginId());
     }
 }
 
@@ -1200,23 +1210,22 @@ void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QList<QSt
     emit reponseSended(reply, isFin, typeMessage, url, text);
 }
 
-void Engine::sendMessageToPlugin(QString message, QString pluginIid)
+void Engine::sendMessageToPlugin(QString message)
 {
-    emit signalSendMessageToPlugin(message, pluginIid);
+    emit signalSendMessageToPlugin(message, idOfPluginShowingQml);
 }
 
 /**
  * Send a message to the currently displayed qml interface
  *
  * @param message the message
- * @param pluginIid the plugin identifiant
  */
-void Engine::receiveMessageSendedToQml(QString message, QString pluginIid)
+void Engine::receiveMessageSendedToQml(QString message)
 {
-    emit pluginToQml(message, pluginIid);
+    emit pluginToQml(message, idOfPluginShowingQml);
 }
 
-void Engine::removePlugin(QString iid)
+void Engine::removePlugin(QString id)
 {
     QDir pluginsDir(QDir::homePath());
     pluginsDir.cd("SwiftPlugins");
@@ -1230,7 +1239,7 @@ void Engine::removePlugin(QString iid)
         if (plugin) {
             PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
             if (pluginsInterface) {
-                if (pluginsInterface->pluginIid() == iid) {
+                if (pluginsInterface->pluginId() == id) {
                     QFile::remove(pluginsDir.absoluteFilePath(fileName));
                 }
             }
@@ -1270,6 +1279,7 @@ void Engine::scanPlugin()
                     connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QList<QString>,QList<QString>)));
                     connect(pluginsInterface->getObject(), SIGNAL(showQml(QString,QString)), this, SLOT(showQml(QString,QString)));
                     connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString,QString)), this, SLOT(receiveMessageSendedToQml(QString,QString)));
+                    connect(pluginsInterface->getObject(), SIGNAL(execAction(QString)), this, SLOT(executeAction(QString)));
                     connect(this, SIGNAL(signalSendMessageToPlugin(QString,QString)), pluginsInterface->getObject(), SLOT(messageReceived(QString,QString)));
                     QList<QString> plug_prop = pluginsInterface->getCommande();
 

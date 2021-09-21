@@ -189,7 +189,7 @@ Rectangle {
                 radius: 10
                 onClicked: {
                     settings.setValue("settings_name", txtName.text)
-                    stack.pop()
+                    swifty.execAction("application home")
                 }
             }
 
