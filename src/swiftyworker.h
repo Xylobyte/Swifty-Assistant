@@ -28,13 +28,13 @@
 
 #include "plugininterface.h"
 
-class SwiftWorker : public QObject
+class SwiftyWorker : public QObject
 {
     Q_OBJECT
 
 public:
-    SwiftWorker(QObject *parent = nullptr);
-    ~SwiftWorker();
+    SwiftyWorker(QObject *parent = nullptr);
+    ~SwiftyWorker();
 
     static void declareQML();
 

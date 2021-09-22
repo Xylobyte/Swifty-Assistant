@@ -26,30 +26,30 @@
 #include <QMessageBox>
 #include <QDesktopServices>
 
-SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
+SwiftyWorker::SwiftyWorker(QObject *parent) : QObject(parent)
 {
     Engine *engine = new Engine;
     engine->moveToThread(&engineThread);
     connect(&engineThread, &QThread::finished, engine, &QObject::deleteLater);
 
-    connect(this, &SwiftWorker::message, engine, &Engine::messageReceived);
-    connect(this, &SwiftWorker::textChanged, engine, &Engine::textChanged);
-    connect(this, &SwiftWorker::addBaseProp, engine, &Engine::addBaseProp);
-    connect(this, &SwiftWorker::getAllPlugin, engine, &Engine::getAllPlugin);
-    connect(this, &SwiftWorker::signalSendMessageToPlugin, engine, &Engine::sendMessageToPlugin);
-    connect(this, &SwiftWorker::signalRemovePlugin, engine, &Engine::removePlugin);
-    connect(this, &SwiftWorker::signalActuPlugins, engine, &Engine::scanPlugin);
-    connect(this, &SwiftWorker::executeAction, engine, &Engine::executeAction);
-    connect(engine, &Engine::reponseSended, this, &SwiftWorker::reponseReceived);
-    connect(engine, &Engine::addProp, this, &SwiftWorker::addProp);
-    connect(engine, &Engine::removeProp, this, &SwiftWorker::removeProp);
-    connect(engine, &Engine::removeAllProp, this, &SwiftWorker::removeAllProp);
-    connect(engine, &Engine::showQmlFile, this, &SwiftWorker::showQmlFile);
-    connect(engine, &Engine::pluginTrouved, this, &SwiftWorker::pluginTrouved);
-    connect(engine, &Engine::pluginToQml, this, &SwiftWorker::messageToQml);
-    connect(engine, &Engine::hideWindow, this, &SwiftWorker::hide);
-    connect(engine, &Engine::showHomeScreen, this, &SwiftWorker::showHomeScreen);
-    connect(engine, &Engine::previousPage, this, &SwiftWorker::previousPage);
+    connect(this, &SwiftyWorker::message, engine, &Engine::messageReceived);
+    connect(this, &SwiftyWorker::textChanged, engine, &Engine::textChanged);
+    connect(this, &SwiftyWorker::addBaseProp, engine, &Engine::addBaseProp);
+    connect(this, &SwiftyWorker::getAllPlugin, engine, &Engine::getAllPlugin);
+    connect(this, &SwiftyWorker::signalSendMessageToPlugin, engine, &Engine::sendMessageToPlugin);
+    connect(this, &SwiftyWorker::signalRemovePlugin, engine, &Engine::removePlugin);
+    connect(this, &SwiftyWorker::signalActuPlugins, engine, &Engine::scanPlugin);
+    connect(this, &SwiftyWorker::executeAction, engine, &Engine::executeAction);
+    connect(engine, &Engine::reponseSended, this, &SwiftyWorker::reponseReceived);
+    connect(engine, &Engine::addProp, this, &SwiftyWorker::addProp);
+    connect(engine, &Engine::removeProp, this, &SwiftyWorker::removeProp);
+    connect(engine, &Engine::removeAllProp, this, &SwiftyWorker::removeAllProp);
+    connect(engine, &Engine::showQmlFile, this, &SwiftyWorker::showQmlFile);
+    connect(engine, &Engine::pluginTrouved, this, &SwiftyWorker::pluginTrouved);
+    connect(engine, &Engine::pluginToQml, this, &SwiftyWorker::messageToQml);
+    connect(engine, &Engine::hideWindow, this, &SwiftyWorker::hide);
+    connect(engine, &Engine::showHomeScreen, this, &SwiftyWorker::showHomeScreen);
+    connect(engine, &Engine::previousPage, this, &SwiftyWorker::previousPage);
 
     engineThread.start();
 
@@ -61,18 +61,18 @@ SwiftWorker::SwiftWorker(QObject *parent) : QObject(parent)
     setIcon(":/Icon/assistantIcon.png");
     trayIcon->show();
 
-    connect(trayIcon, &QSystemTrayIcon::activated, this, &SwiftWorker::trayIconActivated);
+    connect(trayIcon, &QSystemTrayIcon::activated, this, &SwiftyWorker::trayIconActivated);
 }
 
-SwiftWorker::~SwiftWorker()
+SwiftyWorker::~SwiftyWorker()
 {
     engineThread.quit();
     engineThread.wait();
 }
 
-void SwiftWorker::declareQML()
+void SwiftyWorker::declareQML()
 {
-    qmlRegisterType<SwiftWorker>("SwiftyWorker", 1, 0, "Swifty");
+    qmlRegisterType<SwiftyWorker>("SwiftyWorker", 1, 0, "Swifty");
 }
 
 //===================================================
@@ -85,12 +85,12 @@ void SwiftWorker::declareQML()
  *
  * @param _message the user input
  */
-void SwiftWorker::messageSended(QString _message)
+void SwiftyWorker::messageSended(QString _message)
 {
     emit message(_message);
 }
 
-void SwiftWorker::openLinkInBrowser(QString url)
+void SwiftyWorker::openLinkInBrowser(QString url)
 {
     QDesktopServices::openUrl(QUrl(url));
 }
@@ -100,7 +100,7 @@ void SwiftWorker::openLinkInBrowser(QString url)
  *
  * @param text the new user input
  */
-void SwiftWorker::newText(QString text)
+void SwiftyWorker::newText(QString text)
 {
     if (text != "") emit textChanged(text);
     else emit addBaseProp();
@@ -109,7 +109,7 @@ void SwiftWorker::newText(QString text)
 /**
  * Sending a message to the engine so that it resends a list of plugins
  */
-void SwiftWorker::getPluginList()
+void SwiftyWorker::getPluginList()
 {
     emit getAllPlugin();
 }
@@ -119,7 +119,7 @@ void SwiftWorker::getPluginList()
  *
  * @param message the messsage
  */
-void SwiftWorker::sendMessageToPlugin(QString message)
+void SwiftyWorker::sendMessageToPlugin(QString message)
 {
     emit signalSendMessageToPlugin(message);
 }
@@ -129,7 +129,7 @@ void SwiftWorker::sendMessageToPlugin(QString message)
  *
  * @param id the plugin identifier has been deleted
  */
-void SwiftWorker::removePlugin(QString id)
+void SwiftyWorker::removePlugin(QString id)
 {
     emit signalRemovePlugin(id);
 }
@@ -137,7 +137,7 @@ void SwiftWorker::removePlugin(QString id)
 /**
  * Update the list of plugins in the ~/SwiftyPlugins folder
  */
-void SwiftWorker::actuPlugins()
+void SwiftyWorker::actuPlugins()
 {
     emit signalActuPlugins();
 }
@@ -147,7 +147,7 @@ void SwiftWorker::actuPlugins()
  *
  * @param action the command to execute
  */
-void SwiftWorker::execAction(QString action)
+void SwiftyWorker::execAction(QString action)
 {
     emit executeAction(action);
 }
@@ -161,7 +161,7 @@ void SwiftWorker::execAction(QString action)
  *
  * @param path the icon to set
  */
-void SwiftWorker::setIcon(QString path)
+void SwiftyWorker::setIcon(QString path)
 {
     QIcon icon(path);
     trayIcon->setIcon(icon);
@@ -172,16 +172,16 @@ void SwiftWorker::setIcon(QString path)
 /**
  * Add menu with action to QTrayIcon
  */
-void SwiftWorker::createActions()
+void SwiftyWorker::createActions()
 {
     restoreAction = new QAction(tr("&Ouvrir"), this);
-    connect(restoreAction, &QAction::triggered, this, &SwiftWorker::open);
+    connect(restoreAction, &QAction::triggered, this, &SwiftyWorker::open);
 
     quitAction = new QAction(tr("&Quitter"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 }
 
-void SwiftWorker::createTrayIcon()
+void SwiftyWorker::createTrayIcon()
 {
     trayIconMenu = new QMenu();
     trayIconMenu->addAction(restoreAction);
@@ -204,7 +204,7 @@ void SwiftWorker::createTrayIcon()
  * @param url if the reponse is an web action specify the url of web page
  * @param textUrl if the reponse is an message with action button specify text for button
  */
-void SwiftWorker::reponseReceived(
+void SwiftyWorker::reponseReceived(
         QString _reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl
         )
 {
@@ -214,7 +214,7 @@ void SwiftWorker::reponseReceived(
 /**
  * Show the Swifty Assistant window
  */
-void SwiftWorker::open()
+void SwiftyWorker::open()
 {
     QPoint pos = QCursor::pos();
     emit showWindow(pos.x(), pos.y());
@@ -223,7 +223,7 @@ void SwiftWorker::open()
 /**
  * Hide the Swifty Assistant window
  */
-void SwiftWorker::hide()
+void SwiftyWorker::hide()
 {
     emit hideWindow();
 }
@@ -233,7 +233,7 @@ void SwiftWorker::hide()
  *
  * @param prop the proposition
  */
-void SwiftWorker::addProp(QString prop)
+void SwiftyWorker::addProp(QString prop)
 {
     emit addProposition(prop);
 }
@@ -241,7 +241,7 @@ void SwiftWorker::addProp(QString prop)
 /**
  * Remove all proposition of the home screen
  */
-void SwiftWorker::removeAllProp()
+void SwiftyWorker::removeAllProp()
 {
     emit removeAllProposition();
 }
@@ -251,7 +251,7 @@ void SwiftWorker::removeAllProp()
  *
  * @param index index of removed proposition
  */
-void SwiftWorker::removeProp(int index)
+void SwiftyWorker::removeProp(int index)
 {
     emit removeProposition(index);
 }
@@ -261,7 +261,7 @@ void SwiftWorker::removeProp(int index)
  *
  * @param qmlUrl url of qml file
  */
-void SwiftWorker::showQmlFile(QString qmlUrl)
+void SwiftyWorker::showQmlFile(QString qmlUrl)
 {
     emit showQml(qmlUrl);
 }
@@ -271,7 +271,7 @@ void SwiftWorker::showQmlFile(QString qmlUrl)
  *
  * @param name the plugin id
  */
-void SwiftWorker::pluginTrouved(QString name)
+void SwiftyWorker::pluginTrouved(QString name)
 {
     emit pluginName(name);
 }
@@ -282,20 +282,20 @@ void SwiftWorker::pluginTrouved(QString name)
  * @param message
  * @param pluginId
  */
-void SwiftWorker::messageToQml(QString message, QString pluginId)
+void SwiftyWorker::messageToQml(QString message, QString pluginId)
 {
     emit pluginSendedMessageToQml(message, pluginId);
 }
 
-void SwiftWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
+void SwiftyWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
 {
     open();
 }
 
-void SwiftWorker::showHomeScreen() {
+void SwiftyWorker::showHomeScreen() {
     emit homeScreen();
 }
 
-void SwiftWorker::previousPage() {
+void SwiftyWorker::previousPage() {
     emit showPreviousPage();
 }

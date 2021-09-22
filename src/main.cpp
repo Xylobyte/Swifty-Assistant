@@ -23,6 +23,7 @@
 #include <QtQml/QQmlContext>
 #include <QTranslator>
 #include <QDir>
+#include <QCommandLineParser>
 
 #ifndef QT_NO_WIDGETS
 #include <QtWidgets/QApplication>
@@ -46,10 +47,18 @@ int main(int argc, char *argv[])
 #endif
     QCoreApplication::setApplicationName("Swifty Assistant");
     QCoreApplication::setOrganizationName("swiftapp");
-    QCoreApplication::setApplicationVersion(QT_VERSION_STR);
+    QCoreApplication::setApplicationVersion("v1.0.1-alpha1");
     QtWebEngine::initialize();
 
     Application app(argc, argv);
+
+    //Command line tools
+    QCommandLineParser parser;
+
+    parser.setApplicationDescription("Swifty Assistant is a simple, user-friendly, personal assistant based on an extension system.");
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.process(app);
 
     //Load translation files
     QString locale = QLocale::system().name().section('_', 0, 0);
@@ -77,7 +86,7 @@ int main(int argc, char *argv[])
 
     //Run app
     QQmlApplicationEngine appEngine;
-    SwiftWorker::declareQML();
+    SwiftyWorker::declareQML();
     appEngine.load(QUrl("qrc:/main.qml"));
 
     return app.exec();
