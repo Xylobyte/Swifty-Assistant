@@ -1278,7 +1278,7 @@ void Engine::scanPlugin()
                 if (pluginsInterface) {
                     connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QList<QString>,QList<QString>)));
                     connect(pluginsInterface->getObject(), SIGNAL(showQml(QString,QString)), this, SLOT(showQml(QString,QString)));
-                    connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString,QString)), this, SLOT(receiveMessageSendedToQml(QString,QString)));
+                    connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString)), this, SLOT(receiveMessageSendedToQml(QString)));
                     connect(pluginsInterface->getObject(), SIGNAL(execAction(QString)), this, SLOT(executeAction(QString)));
                     connect(this, SIGNAL(signalSendMessageToPlugin(QString,QString)), pluginsInterface->getObject(), SLOT(messageReceived(QString,QString)));
                     QList<QString> plug_prop = pluginsInterface->getCommande();
