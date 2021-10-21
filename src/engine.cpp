@@ -107,7 +107,7 @@ void Engine::execAction(QList<QString> cmd)
                         int nextIndexB = 2 == cmd[2].length() ? i : i+2;
                         int nextIndexC = 3 == cmd[2].length() ? i : i+3;
 
-                        if (cmd[2].at(0) == "h" && cmd[2].at(nextIndex) == "t" && cmd[2].at(nextIndexB) == "t" && cmd[2].at(nextIndexC) == "p")
+                        if (cmd[2].at(0) == 'h' && cmd[2].at(nextIndex) == 't' && cmd[2].at(nextIndexB) == 't' && cmd[2].at(nextIndexC) == 'p')
                             isUserEntry = false;
                     }
 
@@ -142,7 +142,7 @@ void Engine::execAction(QList<QString> cmd)
                         int nextIndexB = 2 == cmd[2].length() ? i : i+2;
                         int nextIndexC = 3 == cmd[2].length() ? i : i+3;
 
-                        if (cmd[2].at(0) == "h" && cmd[2].at(nextIndex) == "t" && cmd[2].at(nextIndexB) == "t" && cmd[2].at(nextIndexC) == "p")
+                        if (cmd[2].at(0) == 'h' && cmd[2].at(nextIndex) == 't' && cmd[2].at(nextIndexB) == 't' && cmd[2].at(nextIndexC) == 'p')
                             isUserEntry = false;
                     }
 
@@ -397,8 +397,8 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             bool isConditionA = true;
 
                             for (int i = 0; i < condi_or_rep.attribute("if").length(); i++) {
-                                if (condi_or_rep.attribute("if").at(i) == "!") { m_operator = "!"; isConditionA = false; }
-                                else if (condi_or_rep.attribute("if").at(i) == "=") { m_operator = "="; isConditionA = false; }
+                                if (condi_or_rep.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
+                                else if (condi_or_rep.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
                                 else {
                                     if (isConditionA) conditionA.append(condi_or_rep.attribute("if").at(i));
                                     else conditionB.append(condi_or_rep.attribute("if").at(i));
@@ -509,8 +509,8 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             bool isConditionA = true;
 
                             for (int i = 0; i < action.attribute("if").length(); i++) {
-                                if (action.attribute("if").at(i) == "!") { m_operator = "!"; isConditionA = false; }
-                                else if (action.attribute("if").at(i) == "=") { m_operator = "="; isConditionA = false; }
+                                if (action.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
+                                else if (action.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
                                 else {
                                     if (isConditionA) conditionA.append(action.attribute("if").at(i));
                                     else conditionB.append(action.attribute("if").at(i));
@@ -773,8 +773,8 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             bool isConditionA = true;
 
                                             for (int i = 0; i < condi_or_rep.attribute("if").length(); i++) {
-                                                if (condi_or_rep.attribute("if").at(i) == "!") { m_operator = "!"; isConditionA = false; }
-                                                else if (condi_or_rep.attribute("if").at(i) == "=") { m_operator = "="; isConditionA = false; }
+                                                if (condi_or_rep.attribute("if").at(i) == '!') { m_operator = "!"; isConditionA = false; }
+                                                else if (condi_or_rep.attribute("if").at(i) == '=') { m_operator = "="; isConditionA = false; }
                                                 else {
                                                     if (isConditionA) conditionA.append(condi_or_rep.attribute("if").at(i));
                                                     else conditionB.append(condi_or_rep.attribute("if").at(i));
@@ -909,8 +909,8 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             bool isConditionA = true;
 
                                             for (int i = 0; i < action.attribute("if").length(); i++) {
-                                                if (action.attribute("if").at(i) == "!") { m_operator = "!"; isConditionA = false; }
-                                                else if (action.attribute("if").at(i) == "=") { m_operator = "="; isConditionA = false; }
+                                                if (action.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
+                                                else if (action.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
                                                 else {
                                                     if (isConditionA) conditionA.append(action.attribute("if").at(i));
                                                     else conditionB.append(action.attribute("if").at(i));
@@ -1060,32 +1060,32 @@ QString Engine::readVarInText(QString text, QList<QString> var)
         int nextIndexC = i+3 == text.length() ? i : i+3;
         int nextIndexD = i+4 == text.length() ? i : i+4;
 
-        if (ch == "?" && (text.at(nextIndex) == "0" || text.at(nextIndex) == "1" || text.at(nextIndex) == "2")) {
+        if (ch == "?" && (text.at(nextIndex) == '0' || text.at(nextIndex) == '1' || text.at(nextIndex) == '2')) {
             QString volatil = text.at(nextIndex);
             if (volatil.toInt() < var.length()) reply.append(var[volatil.toInt()]);
             i++;
         }
-        else if (ch == "?" && text.at(nextIndex) == "n" && text.at(nextIndexB) == "a" && text.at(nextIndexC) == "m" && text.at(nextIndexD) == "e") {
+        else if (ch == "?" && text.at(nextIndex) == 'n' && text.at(nextIndexB) == 'a' && text.at(nextIndexC) == 'm' && text.at(nextIndexD) == 'e') {
             updateSettingsVar();
             reply.append(userName);
             i += 4;
         }
-        else if (ch == "?" && text.at(nextIndex) == "p" && text.at(nextIndexB) == "r" && text.at(nextIndexC) == "o" && text.at(nextIndexD) == "p") {
+        else if (ch == "?" && text.at(nextIndex) == 'p' && text.at(nextIndexB) == 'r' && text.at(nextIndexC) == 'o' && text.at(nextIndexD) == 'p') {
             updateSettingsVar();
             reply.append(propEnabled ? "activé" : "desactivé");
             i += 4;
         }
-        else if (ch == "?" && text.at(nextIndex) == "d" && text.at(nextIndexB) == "a" && text.at(nextIndexC) == "t" && text.at(nextIndexD) == "e") {
+        else if (ch == "?" && text.at(nextIndex) == 'd' && text.at(nextIndexB) == 'a' && text.at(nextIndexC) == 't' && text.at(nextIndexD) == 'e') {
             QString date = QDateTime::currentDateTime().toString("dddd dd MMMM yyyy");
             reply.append(date);
             i += 4;
         }
-        else if (ch == "?" && text.at(nextIndex) == "h" && text.at(nextIndexB) == "o" && text.at(nextIndexC) == "u" && text.at(nextIndexD) == "r") {
+        else if (ch == "?" && text.at(nextIndex) == 'h' && text.at(nextIndexB) == 'o' && text.at(nextIndexC) == 'u' && text.at(nextIndexD) == 'r') {
             QString hour = QDateTime::currentDateTime().toString("hh:mm:ss");
             reply.append(hour);
             i += 4;
         }
-        else if (ch == "?" && text.at(nextIndex) == "d" && text.at(nextIndexB) == "t") {
+        else if (ch == "?" && text.at(nextIndex) == 'd' && text.at(nextIndexB) == 't') {
             QString dt = QDateTime::currentDateTime().toString("dddd dd MMMM yyyy hh:mm");
             reply.append(dt);
             i += 2;
