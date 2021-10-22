@@ -21,6 +21,15 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</so
         <translation>The project repository: https://github.com/Swiftapp-hub/Swifty-Assistant</translation>
     </message>
     <message>
+        <location filename="../src/res/AboutDialog.qml" line="40"/>
+        <source>Version: 1.0.0-alpha2</source>
+        <translation>Version: 1.0.0-alpha2</translation>
+    </message>
+    <message>
+        <source>Version: 1.0.0-alpha1</source>
+        <translation type="vanished">Version: 1.0.0-alpha1</translation>
+    </message>
+    <message>
         <source>Swift Assistant est un projet open source qui a 
 pour but de vous aider dans vos taches quotidiennes, il fonctionne 
 sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</source>
@@ -34,9 +43,8 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">The prpject repository: https://github.com/Swiftapp-hub/Swifty-Assistant</translation>
     </message>
     <message>
-        <location filename="../src/res/AboutDialog.qml" line="40"/>
         <source>Version: 1.0.1</source>
-        <translation>Version: 1.0.1</translation>
+        <translation type="vanished">Version: 1.0.1</translation>
     </message>
     <message>
         <source>Le dépot du projet: </source>
@@ -64,12 +72,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>Engine</name>
     <message>
-        <location filename="../src/engine.cpp" line="784"/>
+        <location filename="../src/engine.cpp" line="631"/>
         <source>Désolé, je ne comprends pas ! :(</source>
         <translation>Sorry I do not understand ! :(</translation>
     </message>
     <message>
-        <location filename="../src/engine.cpp" line="784"/>
+        <location filename="../src/engine.cpp" line="631"/>
         <source>Chercher sur le web</source>
         <translation>Search on web</translation>
     </message>
@@ -97,12 +105,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="68"/>
+        <location filename="../src/main.cpp" line="79"/>
         <source>Systray</source>
         <translation>Systray</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="69"/>
+        <location filename="../src/main.cpp" line="80"/>
         <source>I couldn&apos;t detect any system tray on this system.</source>
         <translation>I couldn&apos;t detect any system tray on this system.</translation>
     </message>
@@ -179,6 +187,19 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
     </message>
 </context>
 <context>
+    <name>SwiftyWorker</name>
+    <message>
+        <location filename="../src/swiftyworker.cpp" line="177"/>
+        <source>&amp;Ouvrir</source>
+        <translation>&amp;Open</translation>
+    </message>
+    <message>
+        <location filename="../src/swiftyworker.cpp" line="180"/>
+        <source>&amp;Quitter</source>
+        <translation>&amp;Quit</translation>
+    </message>
+</context>
+<context>
     <name>WebEngineView</name>
     <message>
         <location filename="../src/res/WebEngineView.qml" line="123"/>
@@ -199,9 +220,13 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/res/main.qml" line="16"/>
         <source>Worker Assistant</source>
-        <translation>Worker Assistant</translation>
+        <translation type="vanished">Worker Assistant</translation>
+    </message>
+    <message>
+        <location filename="../src/res/main.qml" line="23"/>
+        <source>Swifty Assistant</source>
+        <translation>Swifty Assistant</translation>
     </message>
 </context>
 </TS>
