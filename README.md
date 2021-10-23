@@ -13,16 +13,27 @@ Screenshoot:
 
 <img src="screenshot/swifty.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
 
-## Download
+## Get Swifty Assistant
 
-Swifty Assistant is available in appimage format!
+#### Install
+
+Swifty Assistant can be installed with the online installer.
 
 Follow the instructions below to download and install Swift Assistant:
 
-1. [Download](https://github.com/Swiftapp-hub/Swifty-Assistant/releases/) Swifty Assistant
+1. [Download](https://github.com/Swiftapp-hub/Swifty-Assistant/releases/) Swifty Assistant online installer
 2. Right click on the download file and go to the properties
 3. Go to the permissions tab and check the box "Allow file execution as a program"
-4. Now double click on the appimage file to launch Swifty Assistant
+4. Now double click on the .run file to launch Swifty Assistant online installer
+
+#### Update or remove
+
+To update or delete Swifty Assistant use the maintenance tool.
+
+To open it here are two methods:
+
+*   Run this command `exec $HOME/SwiftyAssistant/maintenancetool`
+*   Open your application launcher and search for "Swifty Assistant update or remove"
 
 ## Manual installation
 
@@ -38,7 +49,7 @@ Qt >= 5.15.2 with at least the following modules:
 * [qtwebengine](https://code.qt.io/cgit/qt/qtwebengine.git)
 * [qtquickcontrols2](https://code.qt.io/cgit/qt/qtquickcontrols2.git)
 
-and you must have the build-essential package installed.
+and you must have the **build-essential** package installed.
 
 I recommend you to install Qt with the official installer from the Qt site
 
