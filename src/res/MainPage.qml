@@ -49,7 +49,7 @@ ColumnLayout {
         var hello = qsTr("Bonjour ")
         listMessage.model.insert(0, {
                                      "isSendUser": false,
-                                     "text": hello + settings.value("settings_name", "") + "!"
+                                     "text": hello + settings.value("settings_name", "") + " !"
                                  })
     }
 

@@ -31,7 +31,7 @@ Row {
             textFormat: Text.StyledText
             text: model.text
             color: model.isSendUser ? "black" : "white"
-            font.pointSize: 9
+            font.pointSize: model.text.length === 2 ? 18 : 9
             anchors.fill: parent
             anchors.margins: 12
             wrapMode: Label.Wrap
