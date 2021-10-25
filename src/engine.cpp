@@ -62,7 +62,7 @@ void Engine::execAction(QList<QString> cmd)
         }
     }
 
-    else if (cmd[0] == "application") {
+    else if (cmd[0] == "app") {
         if (cmd[1] == "quit") {
             QApplication::quit();
         }
@@ -78,6 +78,17 @@ void Engine::execAction(QList<QString> cmd)
 
         else if (cmd[1] == "previousPage") {
             emit previousPage();
+        }
+
+        else if (cmd[1] == "notify") {
+            QString notifyText;
+            QString notifyAction;
+
+            for (int i = 2; i < cmd.length(); i++) {
+                if (cmd[i] == "-t") {
+
+                }
+            }
         }
     }
 
