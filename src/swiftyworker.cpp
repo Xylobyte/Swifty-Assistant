@@ -50,6 +50,7 @@ SwiftyWorker::SwiftyWorker(QObject *parent) : QObject(parent)
     connect(engine, &Engine::hideWindow, this, &SwiftyWorker::hide);
     connect(engine, &Engine::showHomeScreen, this, &SwiftyWorker::showHomeScreen);
     connect(engine, &Engine::previousPage, this, &SwiftyWorker::previousPage);
+    connect(engine, &Engine::sendNotify, this, &SwiftyWorker::sendNotify);
 
     engineThread.start();
 
@@ -62,6 +63,7 @@ SwiftyWorker::SwiftyWorker(QObject *parent) : QObject(parent)
     trayIcon->show();
 
     connect(trayIcon, &QSystemTrayIcon::activated, this, &SwiftyWorker::trayIconActivated);
+    connect(trayIcon, &QSystemTrayIcon::messageClicked, this, &SwiftyWorker::notifyClicked);
 }
 
 SwiftyWorker::~SwiftyWorker()
@@ -298,4 +300,17 @@ void SwiftyWorker::showHomeScreen() {
 
 void SwiftyWorker::previousPage() {
     emit showPreviousPage();
+}
+
+void SwiftyWorker::sendNotify(QString title, QString text, QString action)
+{
+    QSystemTrayIcon::MessageIcon messageIcon = QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information);
+    trayIcon->showMessage(title, text, messageIcon, 8000);
+    actionNotify = action;
+}
+
+void SwiftyWorker::notifyClicked()
+{
+    emit executeAction(actionNotify);
+    actionNotify.clear();
 }

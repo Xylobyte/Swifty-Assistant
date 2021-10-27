@@ -81,14 +81,41 @@ void Engine::execAction(QList<QString> cmd)
         }
 
         else if (cmd[1] == "notify") {
+            QString notifyTitle;
             QString notifyText;
             QString notifyAction;
+            bool t = false;
+            bool c = false;
+            bool a = false;
 
             for (int i = 2; i < cmd.length(); i++) {
                 if (cmd[i] == "-t") {
-
+                    t = true;
+                    a = false;
+                    c = false;
+                }
+                else if (cmd[i] == "-c") {
+                    c = true;
+                    a = false;
+                    t = false;
+                }
+                else if (cmd[i] == "-a") {
+                    a = true;
+                    t = false;
+                    c = false;
+                }
+                else if (c) {
+                    notifyText.append(cmd[i]+" ");
+                }
+                else if (a) {
+                    notifyAction.append(cmd[i]+" ");
+                }
+                else if (t) {
+                    notifyTitle.append(cmd[i]+" ");
                 }
             }
+
+            emit sendNotify(notifyTitle, notifyText, notifyAction);
         }
     }
 
@@ -502,7 +529,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 }
                             }
 
-                            if (cmd[0] == "settings" || cmd[0] == "application" || cmd[0] == "web_message") {
+                            if (cmd[0] == "settings" || cmd[0] == "app" || cmd[0] == "web_message") {
                                 execAction(cmd);
                             }
                             else {

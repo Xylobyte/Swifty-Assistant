@@ -76,6 +76,7 @@ signals:
     void hideWindow();
     void showHomeScreen();
     void previousPage();
+    void sendNotify(QString title, QString text, QString action);
 
 public slots:
     void messageReceived(QString message);

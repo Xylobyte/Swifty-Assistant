@@ -63,6 +63,8 @@ public slots:
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void showHomeScreen();
     void previousPage();
+    void sendNotify(QString title, QString text, QString action);
+    void notifyClicked();
 
 signals:
     void reponse(QString text, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
@@ -97,6 +99,8 @@ private:
 
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
+
+    QString actionNotify;
 };
 
 #endif
