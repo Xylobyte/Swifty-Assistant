@@ -1136,6 +1136,17 @@ QString Engine::readVarInText(QString text, QList<QString> var)
     return reply;
 }
 
+/**
+ * Convert a QString to a list of QString
+ *
+ * @param action the string for conversion
+ * @return a list of action
+ */
+QList<QString> Engine::formatAction(QString action)
+{
+
+}
+
 //===================================================
 //===================== Slots =======================
 //===================================================

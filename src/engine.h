@@ -43,6 +43,7 @@ private:
     bool analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd);
     void updateSettingsVar();
     QString readVarInText(QString text, QList<QString> var);
+    QList<QString> formatAction(QString action);
 
     QDomDocument doc;
     QSettings settings;
