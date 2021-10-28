@@ -40,7 +40,7 @@ Engine::Engine(QObject *parent) : QObject(parent)
 //================ Private function =================
 //===================================================
 
-void Engine::execAction(QList<QString> cmd)
+bool Engine::execAction(QList<QString> cmd)
 {
     if (cmd[0] == "settings") {
         if (cmd[1] == "name") {
@@ -190,6 +190,12 @@ void Engine::execAction(QList<QString> cmd)
             }
         }
     }
+
+    else {
+        return false;
+    }
+
+    return true;
 }
 
 /**
@@ -509,30 +515,10 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
 
                     while (!action.isNull()) {
                         if (action.tagName() == "action") {
-                            QList<QString> cmd;
-                            QString word = "";
+                            QList<QString> cmd = formatAction(action.text());
 
-                            for (int i = 0; i < action.text().length(); i++) {
-                                if (action.text().at(i) == ' ') {
-                                    if (!word.isEmpty()) {
-                                        cmd.append(word);
-                                        word.clear();
-                                    }
-                                }
-                                else {
-                                    word.append(action.text().at(i));
-                                }
-
-                                if (i == action.text().length()-1) {
-                                    cmd.append(word);
-                                    word.clear();
-                                }
-                            }
-
-                            if (cmd[0] == "settings" || cmd[0] == "app" || cmd[0] == "web_message") {
-                                execAction(cmd);
-                            }
-                            else {
+                            bool isDefaultAction = execAction(cmd);
+                            if (!isDefaultAction) {
                                 for (int i = 0; i < cmd.length(); i++) {
                                     cmd[i] = readVarInText(cmd.at(i), var);
                                 }
@@ -573,30 +559,11 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 QDomElement m_action = action.firstChildElement();
 
                                 while (!m_action.isNull()) {
-                                    QList<QString> cmd;
-                                    QString word = "";
+                                    QList<QString> cmd = formatAction(m_action.text());
 
-                                    for (int i = 0; i < m_action.text().length(); i++) {
-                                        if (m_action.text().at(i) == ' ') {
-                                            if (!word.isEmpty()) {
-                                                cmd.append(word);
-                                                word.clear();
-                                            }
-                                        }
-                                        else {
-                                            word.append(m_action.text().at(i));
-                                        }
+                                    bool isDefaultAction = execAction(cmd);
 
-                                        if (i == m_action.text().length()-1) {
-                                            cmd.append(word);
-                                            word.clear();
-                                        }
-                                    }
-
-                                    if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                        execAction(cmd);
-                                    }
-                                    else {
+                                    if (!isDefaultAction) {
                                         for (int i = 0; i < cmd.length(); i++) {
                                             cmd[i] = readVarInText(cmd.at(i), var);
                                         }
@@ -612,30 +579,11 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             QDomElement m_action = action.firstChildElement();
 
                             while (!m_action.isNull()) {
-                                QList<QString> cmd;
-                                QString word = "";
+                                QList<QString> cmd = formatAction(m_action.text());
 
-                                for (int i = 0; i < m_action.text().length(); i++) {
-                                    if (m_action.text().at(i) == ' ') {
-                                        if (!word.isEmpty()) {
-                                            cmd.append(word);
-                                            word.clear();
-                                        }
-                                    }
-                                    else {
-                                        word.append(m_action.text().at(i));
-                                    }
+                                bool isDefaultAction = execAction(cmd);
 
-                                    if (i == m_action.text().length()-1) {
-                                        cmd.append(word);
-                                        word.clear();
-                                    }
-                                }
-
-                                if (cmd[0] == "settings" || cmd[0] == "web_message") {
-                                    execAction(cmd);
-                                }
-                                else {
+                                if (!isDefaultAction) {
                                     for (int i = 0; i < cmd.length(); i++) {
                                         cmd[i] = readVarInText(cmd.at(i), var);
                                     }
@@ -1144,7 +1092,26 @@ QString Engine::readVarInText(QString text, QList<QString> var)
  */
 QList<QString> Engine::formatAction(QString action)
 {
+    QList<QString> cmd;
+    QString word;
+    for (int i = 0; i < action.length(); i++) {
+        if (action.at(i) == ' ') {
+            if (!word.isEmpty()) {
+                cmd.append(word);
+                word.clear();
+            }
+        }
+        else {
+            word.append(action.at(i));
+        }
 
+        if (i == action.length()-1) {
+            cmd.append(word);
+            word.clear();
+        }
+    }
+
+    return cmd;
 }
 
 //===================================================
@@ -1350,24 +1317,5 @@ void Engine::scanPlugin()
  */
 void Engine::executeAction(QString action)
 {
-    QList<QString> cmd;
-    QString word;
-    for (int i = 0; i < action.length(); i++) {
-        if (action.at(i) == ' ') {
-            if (!word.isEmpty()) {
-                cmd.append(word);
-                word.clear();
-            }
-        }
-        else {
-            word.append(action.at(i));
-        }
-
-        if (i == action.length()-1) {
-            cmd.append(word);
-            word.clear();
-        }
-    }
-
-    execAction(cmd);
+    execAction(formatAction(action));
 }

@@ -36,7 +36,7 @@ public:
     explicit Engine(QObject *parent = nullptr);
 
 private:
-    void execAction(QList<QString> cmd);
+    bool execAction(QList<QString> cmd);
     void format(QString text);
     void analize(QList<QList<QString>> array_cmd);
     void analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> cmd);
