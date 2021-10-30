@@ -26,7 +26,7 @@ ColumnLayout {
             radius: 10
             onClicked: {
                 loader.source = ""
-                swifty.execAction("application home")
+                swifty.execAction("app home")
             }
         }
 

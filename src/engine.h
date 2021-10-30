@@ -36,13 +36,14 @@ public:
     explicit Engine(QObject *parent = nullptr);
 
 private:
-    void execAction(QList<QString> cmd);
+    bool execAction(QList<QString> cmd);
     void format(QString text);
     void analize(QList<QList<QString>> array_cmd);
     void analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> cmd);
     bool analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd);
     void updateSettingsVar();
     QString readVarInText(QString text, QList<QString> var);
+    QList<QString> formatAction(QString action);
 
     QDomDocument doc;
     QSettings settings;
@@ -76,6 +77,7 @@ signals:
     void hideWindow();
     void showHomeScreen();
     void previousPage();
+    void sendNotify(QString title, QString text, QString action);
 
 public slots:
     void messageReceived(QString message);
