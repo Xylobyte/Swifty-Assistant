@@ -22,8 +22,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</so
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="40"/>
+        <source>Version: 1.0.0-alpha3</source>
+        <translation>Version: 1.0.0-alpha3</translation>
+    </message>
+    <message>
         <source>Version: 1.0.0-alpha2</source>
-        <translation>Version: 1.0.0-alpha2</translation>
+        <translation type="vanished">Version: 1.0.0-alpha2</translation>
     </message>
     <message>
         <source>Version: 1.0.0-alpha1</source>
@@ -72,12 +76,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>Engine</name>
     <message>
-        <location filename="../src/engine.cpp" line="631"/>
+        <location filename="../src/engine.cpp" line="617"/>
         <source>Désolé, je ne comprends pas ! :(</source>
         <translation>Sorry I do not understand ! :(</translation>
     </message>
     <message>
-        <location filename="../src/engine.cpp" line="631"/>
+        <location filename="../src/engine.cpp" line="617"/>
         <source>Chercher sur le web</source>
         <translation>Search on web</translation>
     </message>
@@ -189,12 +193,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>SwiftyWorker</name>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="177"/>
+        <location filename="../src/swiftyworker.cpp" line="179"/>
         <source>&amp;Ouvrir</source>
         <translation>&amp;Open</translation>
     </message>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="180"/>
+        <location filename="../src/swiftyworker.cpp" line="182"/>
         <source>&amp;Quitter</source>
         <translation>&amp;Quit</translation>
     </message>

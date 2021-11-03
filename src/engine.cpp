@@ -71,6 +71,10 @@ bool Engine::execAction(QList<QString> cmd)
             emit hideWindow();
         }
 
+        else if (cmd[1] == "showWindow") {
+            emit showWindow();
+        }
+
         else if (cmd[1] == "home") {
             idOfPluginShowingQml.clear();
             emit showHomeScreen();

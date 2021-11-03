@@ -75,6 +75,7 @@ signals:
     void signalSendMessageToPlugin(QString message, QString pluginId);
     void pluginToQml(QString message, QString pluginId);
     void hideWindow();
+    void showWindow();
     void showHomeScreen();
     void previousPage();
     void sendNotify(QString title, QString text, QString action);

@@ -48,6 +48,7 @@ SwiftyWorker::SwiftyWorker(QObject *parent) : QObject(parent)
     connect(engine, &Engine::pluginTrouved, this, &SwiftyWorker::pluginTrouved);
     connect(engine, &Engine::pluginToQml, this, &SwiftyWorker::messageToQml);
     connect(engine, &Engine::hideWindow, this, &SwiftyWorker::hide);
+    connect(engine, &Engine::showWindow, this, &SwiftyWorker::open);
     connect(engine, &Engine::showHomeScreen, this, &SwiftyWorker::showHomeScreen);
     connect(engine, &Engine::previousPage, this, &SwiftyWorker::previousPage);
     connect(engine, &Engine::sendNotify, this, &SwiftyWorker::sendNotify);
