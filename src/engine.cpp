@@ -423,19 +423,21 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             QList<QString> repList;
 
                             while (!condi_or_rep.isNull()) {
-                                repList.append(condi_or_rep.text());
+                                if (condi_or_rep.text() != "") repList.append(condi_or_rep.text());
                                 condi_or_rep = condi_or_rep.nextSiblingElement();
                             }
 
-                            std::uniform_real_distribution<double> dist(0, repList.length());
-                            int val = dist(*QRandomGenerator::global());
+                            if (!repList.isEmpty()) {
+                                std::uniform_real_distribution<double> dist(0, repList.length());
+                                int val = dist(*QRandomGenerator::global());
 
-                            sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
-                            isRep = true;
-                            if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                nextReplyPluginName = plug->pluginId();
-                                nextReplyNeedId = item.attribute("needId");
-                                nextReplyItemId = item.attribute("id");
+                                sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                isRep = true;
+                                if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
+                                    nextReplyPluginName = plug->pluginId();
+                                    nextReplyNeedId = item.attribute("needId");
+                                    nextReplyItemId = item.attribute("id");
+                                }
                             }
                         }
                         else if (condi_or_rep.tagName() == "condition" && condi_or_rep.attribute("if") != "") {
@@ -472,10 +474,34 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 QList<QString> repList;
 
                                 while (!m_rep.isNull()) {
-                                    repList.append(m_rep.text());
+                                    if (condi_or_rep.text() != "") repList.append(m_rep.text());
                                     m_rep = m_rep.nextSiblingElement();
                                 }
 
+                                if (!repList.isEmpty()) {
+                                    std::uniform_real_distribution<double> dist(0, repList.length());
+                                    int val = dist(*QRandomGenerator::global());
+
+                                    sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                    isRep = true;
+                                    if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
+                                        nextReplyPluginName = plug->pluginId();
+                                        nextReplyNeedId = item.attribute("needId");
+                                        nextReplyItemId = item.attribute("id");
+                                    }
+                                }
+                            }
+                        }
+                        else if (condi_or_rep.tagName() == "else" && !result) {
+                            QDomElement m_rep = condi_or_rep.firstChildElement();
+                            QList<QString> repList;
+
+                            while (!m_rep.isNull()) {
+                                if (condi_or_rep.text() != "") repList.append(m_rep.text());
+                                m_rep = m_rep.nextSiblingElement();
+                            }
+
+                            if (!repList.isEmpty()) {
                                 std::uniform_real_distribution<double> dist(0, repList.length());
                                 int val = dist(*QRandomGenerator::global());
 
@@ -486,26 +512,6 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     nextReplyNeedId = item.attribute("needId");
                                     nextReplyItemId = item.attribute("id");
                                 }
-                            }
-                        }
-                        else if (condi_or_rep.tagName() == "else" && !result) {
-                            QDomElement m_rep = condi_or_rep.firstChildElement();
-                            QList<QString> repList;
-
-                            while (!m_rep.isNull()) {
-                                repList.append(m_rep.text());
-                                m_rep = m_rep.nextSiblingElement();
-                            }
-
-                            std::uniform_real_distribution<double> dist(0, repList.length());
-                            int val = dist(*QRandomGenerator::global());
-
-                            sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
-                            isRep = true;
-                            if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                nextReplyPluginName = plug->pluginId();
-                                nextReplyNeedId = item.attribute("needId");
-                                nextReplyItemId = item.attribute("id");
                             }
                         }
 
@@ -618,7 +624,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
             if (i != cmd.length()-1) search.append(" ");
         }
 
-        sendReply(tr("Désolé, je ne comprends pas ! :("), true, "message", QList<QString>() << "web_message with_action_btn search "+search, QList<QString>() << tr("Chercher sur le web"));
+        sendReply(tr("Désolé, je ne comprends pas ! 😕"), true, "message", QList<QString>() << "web_message with_action_btn search "+search, QList<QString>() << tr("Chercher sur le web"));
     }
 }
 
