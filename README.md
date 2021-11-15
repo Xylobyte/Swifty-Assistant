@@ -9,7 +9,7 @@ It works offline and does not collect any personal data!
 If you like Swifty Assistant and you find it useful, please feel free to contribute to the project, thank you.
 I'm French so the English version of Swifty isn't fully up to date, but if you want to improve it don't hesitate!
 
-## Screenshoot
+### Screenshoot
 
 <img src="screenshot/swifty.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
 
