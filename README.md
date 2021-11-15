@@ -15,7 +15,7 @@ I'm French so the English version of Swifty isn't fully up to date, but if you w
 
 ## Get Swifty Assistant
 
-#### Install
+### Install
 
 Swifty Assistant can be installed with the online installer.
 
@@ -26,7 +26,7 @@ Follow the instructions below to download and install Swift Assistant:
 3. Go to the permissions tab and check the box "Allow file execution as a program"
 4. Now double click on the .run file to launch Swifty Assistant online installer
 
-#### Update or remove
+### Update or remove
 
 To update or delete Swifty Assistant use the maintenance tool.
 
