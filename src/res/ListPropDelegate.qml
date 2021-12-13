@@ -1,7 +1,7 @@
 import QtQuick 2.15
 
 Rectangle {
-    color: "steelblue"
+    color: "#ffc9b3"
     radius: 20
     height: 25
     width: text.implicitWidth+20

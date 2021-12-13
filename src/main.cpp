@@ -15,7 +15,6 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <https://www.gnu.org/licenses/>. */
 
-#include <QQuickStyle>
 #include <QSystemTrayIcon>
 #include <QMessageBox>
 #include <QtWebEngine/qtwebengineglobal.h>
@@ -81,8 +80,6 @@ int main(int argc, char *argv[])
                                           "on this system."));
         return 1;
     }
-
-    QQuickStyle::setStyle("Imagine");
 
     //Run app
     QQmlApplicationEngine appEngine;

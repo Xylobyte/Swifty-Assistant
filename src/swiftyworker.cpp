@@ -155,6 +155,21 @@ void SwiftyWorker::execAction(QString action)
     emit executeAction(action);
 }
 
+/**
+ * Return os name (ex: For Windows this function return "windows")
+ *
+ * @return os name
+ */
+QString SwiftyWorker::getOs()
+{
+    return QSysInfo::productType();
+}
+
+void SwiftyWorker::setWindowVisibility(bool visible)
+{
+    isWindowShow = visible;
+}
+
 //===================================================
 //================ Private function =================
 //===================================================
@@ -292,7 +307,8 @@ void SwiftyWorker::messageToQml(QString message, QString pluginId)
 
 void SwiftyWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
 {
-    open();
+    if (!isWindowShow) open();
+    else hide();
 }
 
 void SwiftyWorker::showHomeScreen() {

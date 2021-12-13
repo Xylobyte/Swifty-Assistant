@@ -57,7 +57,7 @@ ColumnLayout {
         Layout.fillWidth: true
         Layout.fillHeight: true
         color: "#171717"
-        border.color: "#595959"
+        border.color: "#aa89a0"
         border.width: 3
         radius: 15
 
@@ -225,8 +225,6 @@ ColumnLayout {
                 anchors.margins: 6
                 placeholderText: qsTr("Entrez votre demande")
                 background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 40
                     color: "transparent"
                 }
                 color: "white"
@@ -254,6 +252,13 @@ ColumnLayout {
         Button {
             id: send
             icon.source: "qrc:/Icon/CommonIcon/send.svg"
+            background: Rectangle {
+                implicitWidth: 40
+                implicitHeight: 40
+                opacity: enabled ? 1 : 0.3
+                color: send.down ? "gray" : "#554a8e"
+                radius: 30
+            }
             onClicked: {
                 if (message.text !== "") {
                     loading.running = true
@@ -272,6 +277,13 @@ ColumnLayout {
         Button {
             id: btnSettings
             icon.source: "qrc:/Icon/CommonIcon/settings.svg"
+            background: Rectangle {
+                implicitWidth: 40
+                implicitHeight: 40
+                opacity: enabled ? 1 : 0.3
+                color: send.down ? "gray" : "#554a8e"
+                radius: 30
+            }
             onClicked: {
                 stack.push(settingsView)
             }

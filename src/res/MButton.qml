@@ -7,8 +7,8 @@ Button {
     property int radius: 2
     property int borderWidth: 3
 
-    property string primaryColor: "white"
-    property string primaryColorlicked: "#C3BCBC"
+    property string primaryColor: "#ffc9b3"
+    property string primaryColorlicked: "#95799c"
 
     contentItem: Text {
         text: button.text

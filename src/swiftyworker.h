@@ -46,6 +46,8 @@ public:
     Q_INVOKABLE void removePlugin(QString id);
     Q_INVOKABLE void actuPlugins();
     Q_INVOKABLE void execAction(QString action);
+    Q_INVOKABLE QString getOs();
+    Q_INVOKABLE void setWindowVisibility(bool visible);
 
 public slots:
     void reponseReceived(
@@ -100,6 +102,7 @@ private:
     QSystemTrayIcon *trayIcon;
     QMenu *trayIconMenu;
 
+    bool isWindowShow = false;
     QString actionNotify;
 };
 

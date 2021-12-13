@@ -5,7 +5,7 @@ import QtQuick 2.15
 Rectangle {
     anchors.fill: parent
     color: "#171717"
-    radius: 10
+    radius: 15
 
     Connections {
         id: connect
@@ -112,7 +112,7 @@ Rectangle {
         }
 
         Rectangle {
-            border.color: "gray"
+            border.color: "#aa89a0"
             border.width: 2
             radius: 5
             color: "#171717"

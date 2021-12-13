@@ -21,7 +21,7 @@ Row {
                    messageText.implicitWidth + 24,
                    listMessage.width - avatar.width - messageRow.spacing - (window.width / 6))
         height: messageText.implicitHeight + 24
-        color: model.isSendUser ? "lightgrey" : "steelblue"
+        color: model.isSendUser ? "#554a8e" : "#bf99a5"
         radius: 20
 
         TextEdit {
@@ -30,7 +30,7 @@ Row {
             selectByMouse: true
             textFormat: Text.StyledText
             text: model.text
-            color: model.isSendUser ? "black" : "white"
+            color: model.isSendUser ? "white" : "black"
             font.pointSize: model.text.length === 2 ? 18 : 9
             anchors.fill: parent
             anchors.margins: 12

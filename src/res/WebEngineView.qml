@@ -7,7 +7,7 @@ import QtQml 2.2
 Rectangle {
     anchors.fill: parent
     color: "#171717"
-    radius: 10
+    radius: 15
 
     property string typeWeb: "web_with_action_btn"
     property string webUrl

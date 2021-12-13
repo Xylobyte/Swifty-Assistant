@@ -1,6 +1,6 @@
 import QtQuick 2.15
 import QtQuick.Layouts 1.15
-import QtQuick.Window 2.2
+import QtQuick.Window 2.12
 import QtQuick.Controls 2.15
 import Qt.labs.settings 1.1
 import QtQuick.Dialogs 1.3
@@ -18,12 +18,12 @@ Window {
     width: 510  
     height: 700
     visible: false
-    flags: Qt.FramelessWindowHint
     color: "transparent"
     title: qsTr("Swifty Assistant")
 
     onActiveChanged: {
         if (active === false) window.visible = false
+        swifty.setWindowVisibility(false)
     }
 
     property QtObject webView: WebEngineView {}
@@ -34,12 +34,12 @@ Window {
     property string site
 
     Rectangle {
-        x: 10
-        y: 10
+        x: swifty.getOs() !== "windows" ? 10 : 0
+        y: swifty.getOs() !== "windows" ? 10 : 0
         color: "#171717"
-        width: parent.width-20
-        height: parent.height-20
-        radius: 15
+        width: swifty.getOs() !== "windows" ? parent.width-20 : parent.width
+        height: swifty.getOs() !== "windows" ? parent.height-20 : parent.height
+        radius: swifty.getOs() !== "windows" ? 15 : 0
 
         Settings {
             id: settings
@@ -65,16 +65,6 @@ Window {
             }
         }
 
-        Timer {
-            id: timerHide
-            interval: 1000
-            repeat: false
-            running: false
-            onTriggered: {
-                window.visible = false
-            }
-        }
-
         Connections {
             target: swifty
 
@@ -92,13 +82,26 @@ Window {
             }
 
             function onShowWindow(x, y) {
-                window.visible = true
-                window.x = x-(window.width/2)
-                window.y = y-(window.height/2)
+                if (swifty.getOs() !== "windows") {
+                    window.flags = Qt.FramelessWindowHint
+                    window.visible = true
+                    window.x = x-(window.width/2)
+                    window.y = y-(window.height/2)
+                }
+                else {
+                    window.flags = Qt.Dialog
+                    window.visible = true
+                    window.y = Screen.desktopAvailableHeight - height - 10
+                    window.x = Screen.desktopAvailableWidth - width - 10
+                }
+
+                swifty.setWindowVisibility(true)
             }
 
             function onHideWindow() {
-                timerHide.running = true
+                window.visible = false
+
+                swifty.setWindowVisibility(false)
             }
 
             function onShowQml(fileUrl) {
