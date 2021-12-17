@@ -39,7 +39,7 @@ Window {
         color: "#171717"
         width: swifty.getOs() !== "windows" ? parent.width-20 : parent.width
         height: swifty.getOs() !== "windows" ? parent.height-20 : parent.height
-        radius: 15
+        radius: swifty.getOs() !== "windows" ? 15 : 0
 
         Settings {
             id: settings
@@ -89,7 +89,7 @@ Window {
                     window.y = y-(window.height/2)
                 }
                 else {
-                    window.flags = Qt.WindowStaysOnTopHint | Qt.Popup
+                    window.flags = Qt.WindowStaysOnTopHint
                     window.visible = true
                     window.y = Screen.desktopAvailableHeight - height - 10
                     window.x = Screen.desktopAvailableWidth - width - 10

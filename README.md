@@ -1,4 +1,4 @@
-# Swifty Assistant
+# <img src="src/res/assistantIcon.png" alt="Capture Swifty Assistant" style="zoom:2.5%;" /> Swifty Assistant
 
 [![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html) [![GitHub issues](https://img.shields.io/github/issues/Swiftapp-hub/Swifty-Assistant.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/issues) [![Maintained](https://img.shields.io/maintenance/yes/2021.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/commits/develop)
 
@@ -11,7 +11,7 @@ I'm French so the English version of Swifty isn't fully up to date, but if you w
 
 ### Screenshoot
 
-<img src="screenshot/swifty.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
+<img src="screenshot/swifty.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> <img src="screenshot/swifty1.png" alt="Capture Swifty Assistant" style="zoom:70%;" /> 
 
 ## Get Swifty Assistant
 
