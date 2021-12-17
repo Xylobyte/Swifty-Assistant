@@ -195,6 +195,9 @@ void SwiftyWorker::createActions()
     restoreAction = new QAction(tr("&Ouvrir"), this);
     connect(restoreAction, &QAction::triggered, this, &SwiftyWorker::open);
 
+    openPluginFolder = new QAction(tr("Ouvrir le dossier des &plugins"), this);
+    connect(openPluginFolder, &QAction::triggered, this, &SwiftyWorker::openPluginsFolder);
+
     quitAction = new QAction(tr("&Quitter"), this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 }
@@ -203,6 +206,7 @@ void SwiftyWorker::createTrayIcon()
 {
     trayIconMenu = new QMenu();
     trayIconMenu->addAction(restoreAction);
+    trayIconMenu->addAction(openPluginFolder);
     trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
@@ -305,10 +309,12 @@ void SwiftyWorker::messageToQml(QString message, QString pluginId)
     emit pluginSendedMessageToQml(message, pluginId);
 }
 
-void SwiftyWorker::trayIconActivated(QSystemTrayIcon::ActivationReason)
+void SwiftyWorker::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    if (!isWindowShow) open();
-    else hide();
+    if (reason != QSystemTrayIcon::Context) {
+        if (!isWindowShow) open();
+        else hide();
+    }
 }
 
 void SwiftyWorker::showHomeScreen() {
@@ -330,4 +336,11 @@ void SwiftyWorker::notifyClicked()
 {
     emit executeAction(actionNotify);
     actionNotify.clear();
+}
+
+void SwiftyWorker::openPluginsFolder()
+{
+    QDir pluginsDir(QDir::homePath());
+    pluginsDir.cd("SwiftyPlugins");
+    QDesktopServices::openUrl(QUrl("file:///"+pluginsDir.path()));
 }

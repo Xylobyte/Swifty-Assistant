@@ -22,8 +22,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens:</so
     </message>
     <message>
         <location filename="../src/res/AboutDialog.qml" line="40"/>
+        <source>Version: 1.0.0-alpha4</source>
+        <translation>Version: 1.0.0-alpha4 {1.0.0-?}</translation>
+    </message>
+    <message>
         <source>Version: 1.0.0-alpha3</source>
-        <translation>Version: 1.0.0-alpha3</translation>
+        <translation type="vanished">Version: 1.0.0-alpha3</translation>
     </message>
     <message>
         <source>Version: 1.0.0-alpha2</source>
@@ -76,14 +80,18 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>Engine</name>
     <message>
-        <location filename="../src/engine.cpp" line="617"/>
         <source>Désolé, je ne comprends pas ! :(</source>
-        <translation>Sorry I do not understand ! :(</translation>
+        <translation type="vanished">Sorry I do not understand ! :(</translation>
     </message>
     <message>
-        <location filename="../src/engine.cpp" line="617"/>
+        <location filename="../src/engine.cpp" line="627"/>
         <source>Chercher sur le web</source>
         <translation>Search on web</translation>
+    </message>
+    <message>
+        <location filename="../src/engine.cpp" line="627"/>
+        <source>Désolé, je ne comprends pas ! 😕</source>
+        <translation>Sorry I don&apos;t understand 😕</translation>
     </message>
 </context>
 <context>
@@ -109,12 +117,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/main.cpp" line="79"/>
+        <location filename="../src/main.cpp" line="78"/>
         <source>Systray</source>
         <translation>Systray</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="80"/>
+        <location filename="../src/main.cpp" line="79"/>
         <source>I couldn&apos;t detect any system tray on this system.</source>
         <translation>I couldn&apos;t detect any system tray on this system.</translation>
     </message>
@@ -193,12 +201,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>SwiftyWorker</name>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="179"/>
+        <location filename="../src/swiftyworker.cpp" line="195"/>
         <source>&amp;Ouvrir</source>
         <translation>&amp;Open</translation>
     </message>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="182"/>
+        <location filename="../src/swiftyworker.cpp" line="198"/>
         <source>&amp;Quitter</source>
         <translation>&amp;Quit</translation>
     </message>
@@ -228,7 +236,7 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Worker Assistant</translation>
     </message>
     <message>
-        <location filename="../src/res/main.qml" line="23"/>
+        <location filename="../src/res/main.qml" line="22"/>
         <source>Swifty Assistant</source>
         <translation>Swifty Assistant</translation>
     </message>

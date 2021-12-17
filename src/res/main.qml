@@ -39,7 +39,7 @@ Window {
         color: "#171717"
         width: swifty.getOs() !== "windows" ? parent.width-20 : parent.width
         height: swifty.getOs() !== "windows" ? parent.height-20 : parent.height
-        radius: swifty.getOs() !== "windows" ? 15 : 0
+        radius: 15
 
         Settings {
             id: settings
@@ -83,13 +83,13 @@ Window {
 
             function onShowWindow(x, y) {
                 if (swifty.getOs() !== "windows") {
-                    window.flags = Qt.FramelessWindowHint
+                    window.flags = Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
                     window.visible = true
                     window.x = x-(window.width/2)
                     window.y = y-(window.height/2)
                 }
                 else {
-                    window.flags = Qt.Dialog
+                    window.flags = Qt.WindowStaysOnTopHint | Qt.Popup
                     window.visible = true
                     window.y = Screen.desktopAvailableHeight - height - 10
                     window.x = Screen.desktopAvailableWidth - width - 10

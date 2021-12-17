@@ -37,7 +37,7 @@ Dialog {
             id: txt4
             wrapMode: Text.WordWrap
             font.bold: true
-            text: qsTr("Version: 1.0.0-alpha3")
+            text: qsTr("Version: 1.0.0-alpha4")
         }
     }
 }

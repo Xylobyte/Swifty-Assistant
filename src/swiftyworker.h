@@ -67,6 +67,7 @@ public slots:
     void previousPage();
     void sendNotify(QString title, QString text, QString action);
     void notifyClicked();
+    void openPluginsFolder();
 
 signals:
     void reponse(QString text, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
@@ -97,6 +98,7 @@ private:
     QThread engineThread;
 
     QAction *restoreAction;
+    QAction *openPluginFolder;
     QAction *quitAction;
 
     QSystemTrayIcon *trayIcon;

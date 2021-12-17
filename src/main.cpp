@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 #endif
     QCoreApplication::setApplicationName("Swifty Assistant");
     QCoreApplication::setOrganizationName("swiftapp");
-    QCoreApplication::setApplicationVersion("v1.0.0-alpha3");
+    QCoreApplication::setApplicationVersion("v1.0.0-alpha4");
     QtWebEngine::initialize();
 
     Application app(argc, argv);

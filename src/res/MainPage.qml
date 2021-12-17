@@ -212,8 +212,8 @@ ColumnLayout {
             Layout.leftMargin: 40
             implicitHeight: 40
             color: "transparent"
-            border.color: "#8eb1fe"
-            radius: 4
+            border.color: "#554a8e"
+            radius: 8
 
             TextField {
                 id: message
@@ -281,7 +281,7 @@ ColumnLayout {
                 implicitWidth: 40
                 implicitHeight: 40
                 opacity: enabled ? 1 : 0.3
-                color: send.down ? "gray" : "#554a8e"
+                color: btnSettings.down ? "gray" : "#d8acb8"
                 radius: 30
             }
             onClicked: {

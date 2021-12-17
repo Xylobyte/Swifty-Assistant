@@ -52,16 +52,30 @@ Rectangle {
                 color: "white"
             }
 
-            TextField {
-                id: txtName
-                focus: true
+            Rectangle {
                 Layout.fillWidth: true
-                placeholderText: qsTr("ex: Bernard")
-                font.pointSize: 10
-                selectByMouse: true
-                maximumLength: 50
+                Layout.leftMargin: 40
+                implicitHeight: 40
+                color: "transparent"
+                border.color: "#ffc9b3"
+                radius: 8
 
-                onAccepted: settings.setValue("settings_name", text)
+                TextField {
+                    id: txtName
+                    focus: true
+                    font.pointSize: 10
+                    selectByMouse: true
+                    maximumLength: 50
+                    anchors.fill: parent
+                    anchors.margins: 6
+                    placeholderText: qsTr("Entrez votre nom")
+                    background: Rectangle {
+                        color: "transparent"
+                    }
+                    color: "white"
+
+                    onAccepted: settings.setValue("settings_name", text)
+                }
             }
         }
 
@@ -78,7 +92,40 @@ Rectangle {
 
             CheckBox {
                 id: checkProp
-                onClicked: settings.setValue("settings_proposition", checked)
+                indicator: Rectangle {
+                    implicitWidth: 26
+                    implicitHeight: 26
+                    x: checkProp.leftPadding
+                    y: parent.height / 2 - height / 2
+                    radius: 4
+                    color: "transparent"
+                    border.color: checkProp.down ? "#95799c" : "#ffc9b3"
+                    border.width: 2
+
+                    Rectangle {
+                        width: 14
+                        height: 14
+                        x: 6
+                        y: 6
+                        radius: 3
+                        color: checkProp.down ? "#95799c" : "#ffc9b3"
+                        visible: checkProp.checked
+                    }
+                }
+
+                onClicked: {
+                    settings.setValue("settings_proposition", checked)
+                    anim.running = true
+                }
+
+                NumberAnimation {
+                    id: anim
+                    target: checkProp
+                    duration: 500
+                    from: 0.2
+                    to: checkProp.opacity
+                    property: "opacity"
+                }
             }
         }
 
@@ -153,7 +200,7 @@ Rectangle {
                     Timer {
                         id: time
                         running: false
-                        interval: 1000
+                        interval: 500
                         repeat: false
                         onTriggered: {
                             listPlugin.model.clear()
