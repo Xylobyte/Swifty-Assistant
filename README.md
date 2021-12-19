@@ -98,7 +98,7 @@ Here's what you can do to contribute to the project:
 
 * If you want to improve this project, clone this repository
 * If you want to create new plugins for Swifty or improve an existing plugin read the documentation
-* If you want to improve the english traduction edit this file with Qt Linguist and compile it with `lrelease SwiftyAssistant.pro`
+* If you want to improve the english traduction edit [this file](https://github.com/Swiftapp-hub/Swifty-Assistant/blob/master/ts/swiftyassistant_en.ts) with Qt Linguist and compile it with `lrelease SwiftyAssistant.pro`
 * If you find a bug or if you have ideas for improvements do not hesitate to open an Issue
 
 Thanks in advance for your help and if you like this project don't forget to put a star!
