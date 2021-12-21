@@ -22,6 +22,8 @@
 #include <QDomDocument>
 #include <QSettings>
 #include <QString>
+#include <QtNetwork>
+#include <QtCore>
 
 #include "plugininterface.h"
 
@@ -65,6 +67,9 @@ private:
 
     QString idOfPluginShowingQml = "";
 
+    QNetworkAccessManager googleSuggestNetworkManager;
+    bool isGoogleSuggest = false;
+
 signals:
     void reponseSended(QString reponse, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
     void addProp(QString prop);
@@ -95,6 +100,8 @@ public slots:
     void removePlugin(QString id);
     void scanPlugin();
     void executeAction(QString action);
+    void handleNetworkData(QNetworkReply *networkReply);
+
 };
 
 #endif // ENGINE_H

@@ -34,6 +34,8 @@
 Engine::Engine(QObject *parent) : QObject(parent)
 {
     scanPlugin();
+
+    connect(&googleSuggestNetworkManager, &QNetworkAccessManager::finished, this, &Engine::handleNetworkData);
 }
 
 //===================================================
@@ -85,6 +87,7 @@ bool Engine::execAction(QList<QString> cmd)
         }
 
         else if (cmd[1] == "notify") {
+            qDebug("Ok notify");
             QString notifyTitle;
             QString notifyText;
             QString notifyAction;
@@ -134,7 +137,7 @@ bool Engine::execAction(QList<QString> cmd)
                     }
                     readVarInText(search, var).replace(" ", "+");
 
-                    QString url = "https://www.google.com/search?channel=fs&client=linux&q="+search;
+                    QString url = "https://www.google.com/search?q="+search;
 
                     emit reponseSended("", true, "web_without_action_btn", QList<QString>() << url, QList<QString>());
                 }
@@ -169,7 +172,7 @@ bool Engine::execAction(QList<QString> cmd)
                     }
                     readVarInText(search, var).replace(" ", "+");
 
-                    QString url = "https://www.google.com/search?channel=fs&client=linux&q="+search;
+                    QString url = "https://www.google.com/search?q="+search;
 
                     emit reponseSended("", true, "web_with_action_btn", QList<QString>() << url, QList<QString>());
                 }
@@ -423,7 +426,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             QList<QString> repList;
 
                             while (!condi_or_rep.isNull()) {
-                                if (condi_or_rep.text() != "") repList.append(condi_or_rep.text());
+                                repList.append(condi_or_rep.text());
                                 condi_or_rep = condi_or_rep.nextSiblingElement();
                             }
 
@@ -431,7 +434,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 std::uniform_real_distribution<double> dist(0, repList.length());
                                 int val = dist(*QRandomGenerator::global());
 
-                                sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                 isRep = true;
                                 if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                     nextReplyPluginName = plug->pluginId();
@@ -474,7 +477,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 QList<QString> repList;
 
                                 while (!m_rep.isNull()) {
-                                    if (condi_or_rep.text() != "") repList.append(m_rep.text());
+                                    repList.append(m_rep.text());
                                     m_rep = m_rep.nextSiblingElement();
                                 }
 
@@ -482,7 +485,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     std::uniform_real_distribution<double> dist(0, repList.length());
                                     int val = dist(*QRandomGenerator::global());
 
-                                    sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                     isRep = true;
                                     if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                         nextReplyPluginName = plug->pluginId();
@@ -497,7 +500,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             QList<QString> repList;
 
                             while (!m_rep.isNull()) {
-                                if (condi_or_rep.text() != "") repList.append(m_rep.text());
+                                repList.append(m_rep.text());
                                 m_rep = m_rep.nextSiblingElement();
                             }
 
@@ -505,7 +508,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                 std::uniform_real_distribution<double> dist(0, repList.length());
                                 int val = dist(*QRandomGenerator::global());
 
-                                sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                 isRep = true;
                                 if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                     nextReplyPluginName = plug->pluginId();
@@ -742,7 +745,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             std::uniform_real_distribution<double> dist(0, repList.length());
                                             int val = dist(*QRandomGenerator::global());
 
-                                            sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                             isRep = true;
                                             if (secondItem.attribute("needId", "") != "")
                                                 nextReplyNeedId = secondItem.attribute("needId");
@@ -803,7 +806,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                                 std::uniform_real_distribution<double> dist(0, repList.length());
                                                 int val = dist(*QRandomGenerator::global());
 
-                                                sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                                 isRep = true;
                                                 if (secondItem.attribute("needId", "") != "")
                                                     nextReplyNeedId = secondItem.attribute("needId");
@@ -836,7 +839,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             std::uniform_real_distribution<double> dist(0, repList.length());
                                             int val = dist(*QRandomGenerator::global());
 
-                                            sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
                                             isRep = true;
                                             if (secondItem.attribute("needId", "") != "")
                                                 nextReplyNeedId = secondItem.attribute("needId");
@@ -1156,6 +1159,9 @@ void Engine::textChanged(QString text)
     }
 
     foreach (QString myText, prop) {
+        if (isGoogleSuggest) emit removeAllProp();
+        isGoogleSuggest = false;
+
         QString compareText = myText;
         compareText.truncate(text.length());
 
@@ -1163,6 +1169,14 @@ void Engine::textChanged(QString text)
             emit addProp(myText);
             showedProp.append(myText);
         }
+    }
+
+    if (showedProp.length() == 0 || isGoogleSuggest) {
+        isGoogleSuggest = true;
+        emit removeAllProp();
+
+        QString url = "http://google.com/complete/search?output=toolbar&q="+text;
+        googleSuggestNetworkManager.get(QNetworkRequest(url));
     }
 }
 
@@ -1328,4 +1342,22 @@ void Engine::scanPlugin()
 void Engine::executeAction(QString action)
 {
     execAction(formatAction(action));
+}
+
+void Engine::handleNetworkData(QNetworkReply *networkReply)
+{
+    if (networkReply->error() == QNetworkReply::NoError) {
+        QByteArray response(networkReply->readAll());
+        QXmlStreamReader xml(response);
+        while (!xml.atEnd()) {
+            xml.readNext();
+            if (xml.tokenType() == QXmlStreamReader::StartElement)
+                if (xml.name() == "suggestion") {
+                    QStringRef str = xml.attributes().value("data");
+                    emit addProp(str.toString());
+                }
+        }
+    }
+
+    networkReply->deleteLater();
 }
