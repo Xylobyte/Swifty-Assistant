@@ -18,15 +18,17 @@ Rectangle {
         anchors.fill: parent
 
         onClicked: {
-            loading.running = true
-            send.visible = false
-            listMessage.model.insert(0, {
-                                         "isSendUser": true,
-                                         "text": model.text
-                                     })
-            swifty.messageSended(model.text)
-            message.clear()
-            swifty.newText("")
+            if (loading.running === false) {
+                loading.running = true
+                send.visible = false
+                listMessage.model.insert(0, {
+                                             "isSendUser": true,
+                                             "text": model.text
+                                         })
+                swifty.messageSended(model.text)
+                message.clear()
+                swifty.newText("")
+            }
         }
     }
 }

@@ -183,31 +183,8 @@ Rectangle {
                         font.pointSize: 14
                         Layout.fillWidth: true
                     }
-
-                    Image {
-                        source: "qrc:/Icon/CommonIcon/trash.svg"
-                        Layout.rightMargin: 10
-
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
-                                swifty.removePlugin(model.text)
-                                time.running = true
-                            }
-                        }
-                    }
-
-                    Timer {
-                        id: time
-                        running: false
-                        interval: 500
-                        repeat: false
-                        onTriggered: {
-                            listPlugin.model.clear()
-                            swifty.getAllPlugin()
-                        }
-                    }
                 }
+
                 ScrollBar.vertical: ScrollBar {
                     id: scrollBar
 

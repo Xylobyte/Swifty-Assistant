@@ -84,12 +84,22 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Sorry I do not understand ! :(</translation>
     </message>
     <message>
-        <location filename="../src/engine.cpp" line="627"/>
+        <location filename="../src/engine.cpp" line="639"/>
         <source>Chercher sur le web</source>
         <translation>Search on web</translation>
     </message>
     <message>
-        <location filename="../src/engine.cpp" line="627"/>
+        <location filename="../src/engine.cpp" line="639"/>
+        <source>Télécharger le plugin</source>
+        <translation>Download plugin</translation>
+    </message>
+    <message>
+        <location filename="../src/engine.cpp" line="640"/>
+        <source>Pour obtenir plus de résultats, installez le plugin WebSearch</source>
+        <translation>To get more results, install the WebSearch plugin</translation>
+    </message>
+    <message>
+        <location filename="../src/engine.cpp" line="637"/>
         <source>Désolé, je ne comprends pas ! 😕</source>
         <translation>Sorry I don&apos;t understand 😕</translation>
     </message>
@@ -140,27 +150,31 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation>Your name:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="59"/>
         <source>ex: Bernard</source>
-        <translation>ex: Bernard</translation>
+        <translation type="vanished">ex: Bernard</translation>
     </message>
     <message>
         <source>Son:</source>
         <translation type="vanished">Sound:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="74"/>
+        <location filename="../src/res/SettingsView.qml" line="71"/>
+        <source>Entrez votre nom</source>
+        <translation>Enter your name</translation>
+    </message>
+    <message>
+        <location filename="../src/res/SettingsView.qml" line="88"/>
         <source>Suggestion:</source>
         <oldsource>Proposition:</oldsource>
         <translation>Suggestion:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="91"/>
+        <location filename="../src/res/SettingsView.qml" line="138"/>
         <source>Plugins:</source>
         <translation>Plugins:</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="101"/>
+        <location filename="../src/res/SettingsView.qml" line="148"/>
         <source>Actualiser</source>
         <translation>Refresh</translation>
     </message>
@@ -169,12 +183,12 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
         <translation type="vanished">Add</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="185"/>
+        <location filename="../src/res/SettingsView.qml" line="232"/>
         <source>Accueil</source>
         <translation>Home</translation>
     </message>
     <message>
-        <location filename="../src/res/SettingsView.qml" line="201"/>
+        <location filename="../src/res/SettingsView.qml" line="248"/>
         <source>A propos</source>
         <translation>About</translation>
     </message>
@@ -201,12 +215,17 @@ sur la base de plugins. Si vous voulez contribuer au projet voici les liens :</o
 <context>
     <name>SwiftyWorker</name>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="195"/>
+        <location filename="../src/swiftyworker.cpp" line="190"/>
         <source>&amp;Ouvrir</source>
         <translation>&amp;Open</translation>
     </message>
     <message>
-        <location filename="../src/swiftyworker.cpp" line="198"/>
+        <location filename="../src/swiftyworker.cpp" line="193"/>
+        <source>Ouvrir le dossier des &amp;plugins</source>
+        <translation>Open the &amp;plugins folder</translation>
+    </message>
+    <message>
+        <location filename="../src/swiftyworker.cpp" line="196"/>
         <source>&amp;Quitter</source>
         <translation>&amp;Quit</translation>
     </message>

@@ -93,11 +93,6 @@ void SwiftyWorker::messageSended(QString _message)
     emit message(_message);
 }
 
-void SwiftyWorker::openLinkInBrowser(QString url)
-{
-    QDesktopServices::openUrl(QUrl(url));
-}
-
 /**
  * When user input changed send new text to engine for completion
  *

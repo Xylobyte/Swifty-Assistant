@@ -39,7 +39,6 @@ public:
     static void declareQML();
 
     Q_INVOKABLE void messageSended(QString message);
-    Q_INVOKABLE void openLinkInBrowser(QString url);
     Q_INVOKABLE void newText(QString text);
     Q_INVOKABLE void getPluginList();
     Q_INVOKABLE void sendMessageToPlugin(QString message);

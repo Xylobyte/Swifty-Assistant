@@ -30,6 +30,7 @@
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QDesktopServices>
 
 Engine::Engine(QObject *parent) : QObject(parent)
 {
@@ -123,6 +124,10 @@ bool Engine::execAction(QList<QString> cmd)
             }
 
             emit sendNotify(notifyTitle, notifyText, notifyAction);
+        }
+
+        else if (cmd[1] == "openLinkInDefaultBrowser") {
+            QDesktopServices::openUrl(QUrl(cmd[2]));
         }
     }
 
@@ -324,155 +329,179 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
     bool isRep = false;
 
     foreach (PluginInterface *plug , listPlugins) {
-        QString xml = plug->getDataXml();
-        QDomDocument m_doc;
-        m_doc.setContent(xml, false);
+        if (plug->pluginId() != "fr.swifty.websearch") {
+            QString xml = plug->getDataXml();
+            QDomDocument m_doc;
+            m_doc.setContent(xml, false);
 
-        QDomElement root = m_doc.documentElement();
-        QDomElement item = root.firstChildElement();
+            QDomElement root = m_doc.documentElement();
+            QDomElement item = root.firstChildElement();
 
-        while (!item.isNull() && !isOk) {
-            QDomElement props = item.firstChildElement();
-            var.clear();
-            QString cmdString;
-            for (int i = 0; i < cmd.length(); i++) {
-                if (i == cmd.length()-1) cmdString.append(cmd.at(i));
-                else cmdString.append(cmd.at(i)+" ");
-            }
-            var.append(cmdString);
-
-            while (!props.isNull()) {
-                if (props.tagName() == "Prop" && nextReplyItemId != "") {
-                    QDomElement mProp = props.firstChildElement();
-                    QList<QString> listSecondProp;
-
-                    while (!mProp.isNull()) {
-                        listSecondProp.append(mProp.text());
-                        mProp = mProp.nextSiblingElement();
-                    }
-
-                    mainVolatil_prop = main_prop;
-                    main_prop = listSecondProp;
-                    prop.append(listSecondProp);
-                    removePropNuber = listSecondProp.length();
-                    addBaseProp();
+            while (!item.isNull() && !isOk) {
+                QDomElement props = item.firstChildElement();
+                var.clear();
+                QString cmdString;
+                for (int i = 0; i < cmd.length(); i++) {
+                    if (i == cmd.length()-1) cmdString.append(cmd.at(i));
+                    else cmdString.append(cmd.at(i)+" ");
                 }
+                var.append(cmdString);
 
-                if (props.tagName() == "Keywords" && cmd.length() >= props.attribute("minWord").toInt() && cmd.length() <= props.attribute("maxWord").toInt()) {
-                    QDomElement words = props.firstChildElement();
-                    isOk = true;
+                while (!props.isNull()) {
+                    if (props.tagName() == "Prop" && nextReplyItemId != "") {
+                        QDomElement mProp = props.firstChildElement();
+                        QList<QString> listSecondProp;
 
-                    while (!words.isNull() && isOk) {
-                        if (words.tagName() == "Words") {
-                            QDomElement word = words.firstChildElement();
-                            bool isContains = false;
-
-                            while (!word.isNull() && !isContains) {
-                                isContains = cmd.contains(word.text());
-                                word = word.nextSiblingElement();
-                            }
-
-                            if (!isContains) isOk = false;
+                        while (!mProp.isNull()) {
+                            listSecondProp.append(mProp.text());
+                            mProp = mProp.nextSiblingElement();
                         }
 
-                        if (words.tagName() == "NoWords") {
-                            QDomElement word = words.firstChildElement();
-                            bool isContains = false;
+                        mainVolatil_prop = main_prop;
+                        main_prop = listSecondProp;
+                        prop.append(listSecondProp);
+                        removePropNuber = listSecondProp.length();
+                        addBaseProp();
+                    }
 
-                            while (!word.isNull() && !isContains) {
-                                isContains = cmd.contains(word.text());
-                                word = word.nextSiblingElement();
+                    if (props.tagName() == "Keywords" && cmd.length() >= props.attribute("minWord").toInt() && cmd.length() <= props.attribute("maxWord").toInt()) {
+                        QDomElement words = props.firstChildElement();
+                        isOk = true;
+
+                        while (!words.isNull() && isOk) {
+                            if (words.tagName() == "Words") {
+                                QDomElement word = words.firstChildElement();
+                                bool isContains = false;
+
+                                while (!word.isNull() && !isContains) {
+                                    isContains = cmd.contains(word.text());
+                                    word = word.nextSiblingElement();
+                                }
+
+                                if (!isContains) isOk = false;
                             }
 
-                            if (isContains) isOk = false;
-                        }
+                            if (words.tagName() == "NoWords") {
+                                QDomElement word = words.firstChildElement();
+                                bool isContains = false;
 
-                        words = words.nextSiblingElement();
-                    }
-                }
+                                while (!word.isNull() && !isContains) {
+                                    isContains = cmd.contains(word.text());
+                                    word = word.nextSiblingElement();
+                                }
 
-                if (props.tagName() == "Var" && isOk) {
-                    int index = -1;
-                    QList<QString> keywords;
-                    QString text;
-                    QDomElement word = props.firstChildElement();
+                                if (isContains) isOk = false;
+                            }
 
-                    while (!word.isNull()) {
-                        keywords.append(word.text());
-                        word = word.nextSiblingElement();
-                    }
-
-                    foreach (QString _word , keywords) {
-                        int i = cmd.lastIndexOf(_word);
-                        if (i >= index) index = i;
-                    }
-
-                    if (index != -1) {
-                        for (int i = index+1; i < cmd.length(); i++) {
-                            text.isEmpty() ? text.append(cmd[i]) : text.append(" "+cmd[i]);
-                            if (i == index+props.attribute("max").toInt()) break;
+                            words = words.nextSiblingElement();
                         }
                     }
 
-                    if (text != "") var.append(text);
-                }
+                    if (props.tagName() == "Var" && isOk) {
+                        int index = -1;
+                        QList<QString> keywords;
+                        QString text;
+                        QDomElement word = props.firstChildElement();
 
-                if (props.tagName() == "Reply" && isOk) {
-                    QDomElement condi_or_rep = props.firstChildElement();
-                    bool result = false;
+                        while (!word.isNull()) {
+                            keywords.append(word.text());
+                            word = word.nextSiblingElement();
+                        }
 
-                    while (!condi_or_rep.isNull()) {
-                        if (condi_or_rep.tagName() == "rep") {
-                            QList<QString> repList;
+                        foreach (QString _word , keywords) {
+                            int i = cmd.lastIndexOf(_word);
+                            if (i >= index) index = i;
+                        }
 
-                            while (!condi_or_rep.isNull()) {
-                                repList.append(condi_or_rep.text());
-                                condi_or_rep = condi_or_rep.nextSiblingElement();
+                        if (index != -1) {
+                            for (int i = index+1; i < cmd.length(); i++) {
+                                text.isEmpty() ? text.append(cmd[i]) : text.append(" "+cmd[i]);
+                                if (i == index+props.attribute("max").toInt()) break;
                             }
+                        }
 
-                            if (!repList.isEmpty()) {
-                                std::uniform_real_distribution<double> dist(0, repList.length());
-                                int val = dist(*QRandomGenerator::global());
+                        if (text != "") var.append(text);
+                    }
 
-                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
-                                isRep = true;
-                                if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                    nextReplyPluginName = plug->pluginId();
-                                    nextReplyNeedId = item.attribute("needId");
-                                    nextReplyItemId = item.attribute("id");
+                    if (props.tagName() == "Reply" && isOk) {
+                        QDomElement condi_or_rep = props.firstChildElement();
+                        bool result = false;
+
+                        while (!condi_or_rep.isNull()) {
+                            if (condi_or_rep.tagName() == "rep") {
+                                QList<QString> repList;
+
+                                while (!condi_or_rep.isNull()) {
+                                    repList.append(condi_or_rep.text());
+                                    condi_or_rep = condi_or_rep.nextSiblingElement();
+                                }
+
+                                if (!repList.isEmpty()) {
+                                    std::uniform_real_distribution<double> dist(0, repList.length());
+                                    int val = dist(*QRandomGenerator::global());
+
+                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                    isRep = true;
+                                    if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
+                                        nextReplyPluginName = plug->pluginId();
+                                        nextReplyNeedId = item.attribute("needId");
+                                        nextReplyItemId = item.attribute("id");
+                                    }
                                 }
                             }
-                        }
-                        else if (condi_or_rep.tagName() == "condition" && condi_or_rep.attribute("if") != "") {
-                            QString conditionA;
-                            QString conditionB;
-                            QString m_operator;
-                            bool isConditionA = true;
+                            else if (condi_or_rep.tagName() == "condition" && condi_or_rep.attribute("if") != "") {
+                                QString conditionA;
+                                QString conditionB;
+                                QString m_operator;
+                                bool isConditionA = true;
 
-                            for (int i = 0; i < condi_or_rep.attribute("if").length(); i++) {
-                                if (condi_or_rep.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
-                                else if (condi_or_rep.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
-                                else {
-                                    if (isConditionA) conditionA.append(condi_or_rep.attribute("if").at(i));
-                                    else conditionB.append(condi_or_rep.attribute("if").at(i));
+                                for (int i = 0; i < condi_or_rep.attribute("if").length(); i++) {
+                                    if (condi_or_rep.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
+                                    else if (condi_or_rep.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
+                                    else {
+                                        if (isConditionA) conditionA.append(condi_or_rep.attribute("if").at(i));
+                                        else conditionB.append(condi_or_rep.attribute("if").at(i));
+                                    }
+                                }
+
+                                conditionA = readVarInText(conditionA, var);
+                                conditionB = readVarInText(conditionB, var);
+
+                                result = false;
+
+                                if (m_operator == "!") {
+                                    if (conditionA != conditionB) result = true;
+                                    else result = false;
+                                }
+                                if (m_operator == "=") {
+                                    if (conditionA == conditionB) result = true;
+                                    else result = false;
+                                }
+
+                                if (result) {
+                                    QDomElement m_rep = condi_or_rep.firstChildElement();
+                                    QList<QString> repList;
+
+                                    while (!m_rep.isNull()) {
+                                        repList.append(m_rep.text());
+                                        m_rep = m_rep.nextSiblingElement();
+                                    }
+
+                                    if (!repList.isEmpty()) {
+                                        std::uniform_real_distribution<double> dist(0, repList.length());
+                                        int val = dist(*QRandomGenerator::global());
+
+                                        if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                        isRep = true;
+                                        if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
+                                            nextReplyPluginName = plug->pluginId();
+                                            nextReplyNeedId = item.attribute("needId");
+                                            nextReplyItemId = item.attribute("id");
+                                        }
+                                    }
                                 }
                             }
-
-                            conditionA = readVarInText(conditionA, var);
-                            conditionB = readVarInText(conditionB, var);
-
-                            result = false;
-
-                            if (m_operator == "!") {
-                                if (conditionA != conditionB) result = true;
-                                else result = false;
-                            }
-                            if (m_operator == "=") {
-                                if (conditionA == conditionB) result = true;
-                                else result = false;
-                            }
-
-                            if (result) {
+                            else if (condi_or_rep.tagName() == "else" && !result) {
                                 QDomElement m_rep = condi_or_rep.firstChildElement();
                                 QList<QString> repList;
 
@@ -494,81 +523,78 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     }
                                 }
                             }
+
+                            condi_or_rep = condi_or_rep.nextSiblingElement();
                         }
-                        else if (condi_or_rep.tagName() == "else" && !result) {
-                            QDomElement m_rep = condi_or_rep.firstChildElement();
-                            QList<QString> repList;
-
-                            while (!m_rep.isNull()) {
-                                repList.append(m_rep.text());
-                                m_rep = m_rep.nextSiblingElement();
-                            }
-
-                            if (!repList.isEmpty()) {
-                                std::uniform_real_distribution<double> dist(0, repList.length());
-                                int val = dist(*QRandomGenerator::global());
-
-                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
-                                isRep = true;
-                                if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
-                                    nextReplyPluginName = plug->pluginId();
-                                    nextReplyNeedId = item.attribute("needId");
-                                    nextReplyItemId = item.attribute("id");
-                                }
-                            }
-                        }
-
-                        condi_or_rep = condi_or_rep.nextSiblingElement();
                     }
-                }
 
-                if (props.tagName() == "Actions" && isOk) {
-                    QDomElement action = props.firstChildElement();
-                    bool result = false;
+                    if (props.tagName() == "Actions" && isOk) {
+                        QDomElement action = props.firstChildElement();
+                        bool result = false;
 
-                    while (!action.isNull()) {
-                        if (action.tagName() == "action") {
-                            QList<QString> cmd = formatAction(action.text());
+                        while (!action.isNull()) {
+                            if (action.tagName() == "action") {
+                                QList<QString> cmd = formatAction(action.text());
 
-                            bool isDefaultAction = execAction(cmd);
-                            if (!isDefaultAction) {
-                                for (int i = 0; i < cmd.length(); i++) {
-                                    cmd[i] = readVarInText(cmd.at(i), var);
-                                }
+                                bool isDefaultAction = execAction(cmd);
+                                if (!isDefaultAction) {
+                                    for (int i = 0; i < cmd.length(); i++) {
+                                        cmd[i] = readVarInText(cmd.at(i), var);
+                                    }
 
-                                plug->execAction(cmd);
-                            }
-                        }
-                        else if (action.tagName() == "condition" && action.attribute("if") != "") {
-                            QString conditionA;
-                            QString conditionB;
-                            QString m_operator;
-                            bool isConditionA = true;
-
-                            for (int i = 0; i < action.attribute("if").length(); i++) {
-                                if (action.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
-                                else if (action.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
-                                else {
-                                    if (isConditionA) conditionA.append(action.attribute("if").at(i));
-                                    else conditionB.append(action.attribute("if").at(i));
+                                    plug->execAction(cmd);
                                 }
                             }
+                            else if (action.tagName() == "condition" && action.attribute("if") != "") {
+                                QString conditionA;
+                                QString conditionB;
+                                QString m_operator;
+                                bool isConditionA = true;
 
-                            conditionA = readVarInText(conditionA, var);
-                            conditionB = readVarInText(conditionB, var);
+                                for (int i = 0; i < action.attribute("if").length(); i++) {
+                                    if (action.attribute("if").at(i) == '!') { m_operator = '!'; isConditionA = false; }
+                                    else if (action.attribute("if").at(i) == '=') { m_operator = '='; isConditionA = false; }
+                                    else {
+                                        if (isConditionA) conditionA.append(action.attribute("if").at(i));
+                                        else conditionB.append(action.attribute("if").at(i));
+                                    }
+                                }
 
-                            result = false;
+                                conditionA = readVarInText(conditionA, var);
+                                conditionB = readVarInText(conditionB, var);
 
-                            if (m_operator == "!") {
-                                if (conditionA != conditionB) result = true;
-                                else result = false;
+                                result = false;
+
+                                if (m_operator == "!") {
+                                    if (conditionA != conditionB) result = true;
+                                    else result = false;
+                                }
+                                if (m_operator == "=") {
+                                    if (conditionA == conditionB) result = true;
+                                    else result = false;
+                                }
+
+                                if (result) {
+                                    QDomElement m_action = action.firstChildElement();
+
+                                    while (!m_action.isNull()) {
+                                        QList<QString> cmd = formatAction(m_action.text());
+
+                                        bool isDefaultAction = execAction(cmd);
+
+                                        if (!isDefaultAction) {
+                                            for (int i = 0; i < cmd.length(); i++) {
+                                                cmd[i] = readVarInText(cmd.at(i), var);
+                                            }
+
+                                            plug->execAction(cmd);
+                                        }
+
+                                        m_action = m_action.nextSiblingElement();
+                                    }
+                                }
                             }
-                            if (m_operator == "=") {
-                                if (conditionA == conditionB) result = true;
-                                else result = false;
-                            }
-
-                            if (result) {
+                            else if (action.tagName() == "else" && !result) {
                                 QDomElement m_action = action.firstChildElement();
 
                                 while (!m_action.isNull()) {
@@ -587,36 +613,17 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     m_action = m_action.nextSiblingElement();
                                 }
                             }
+
+                            action = action.nextSiblingElement();
                         }
-                        else if (action.tagName() == "else" && !result) {
-                            QDomElement m_action = action.firstChildElement();
-
-                            while (!m_action.isNull()) {
-                                QList<QString> cmd = formatAction(m_action.text());
-
-                                bool isDefaultAction = execAction(cmd);
-
-                                if (!isDefaultAction) {
-                                    for (int i = 0; i < cmd.length(); i++) {
-                                        cmd[i] = readVarInText(cmd.at(i), var);
-                                    }
-
-                                    plug->execAction(cmd);
-                                }
-
-                                m_action = m_action.nextSiblingElement();
-                            }
-                        }
-
-                        action = action.nextSiblingElement();
                     }
+
+                    props = props.nextSiblingElement();
                 }
 
-                props = props.nextSiblingElement();
+                var.clear();
+                item = item.nextSiblingElement();
             }
-
-            var.clear();
-            item = item.nextSiblingElement();
         }
     }
 
@@ -627,7 +634,20 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
             if (i != cmd.length()-1) search.append(" ");
         }
 
-        sendReply(tr("Désolé, je ne comprends pas ! 😕"), true, "message", QList<QString>() << "web_message with_action_btn search "+search, QList<QString>() << tr("Chercher sur le web"));
+        bool isPluginInstalled = false;
+        foreach (PluginInterface *plug , listPlugins) {
+            if (plug->pluginId() == "fr.swifty.websearch") {
+                isPluginInstalled = true;
+                plug->execAction(QList<QString>() << "websearch" << search);
+            }
+        }
+
+        if (!isPluginInstalled) {
+            sendReply(tr("Désolé, je ne comprends pas ! 😕"), false, "message");
+            sendReply(tr("Pour obtenir plus de résultats, installez le plugin WebSearch"), true, "message",
+                      QList<QString>() << "web_message with_action_btn search "+search << "app openLinkInDefaultBrowser https://github.com/Swiftapp-hub/WebSearch-Plugin-Swifty-Assistant",
+                      QList<QString>() << tr("Chercher sur le web") << tr("Télécharger le plugin"));
+        }
     }
 }
 
@@ -1321,13 +1341,16 @@ void Engine::scanPlugin()
                     connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString)), this, SLOT(receiveMessageSendedToQml(QString)));
                     connect(pluginsInterface->getObject(), SIGNAL(execAction(QString)), this, SLOT(executeAction(QString)));
                     connect(this, SIGNAL(signalSendMessageToPlugin(QString,QString)), pluginsInterface->getObject(), SLOT(messageReceived(QString,QString)));
+
                     QList<QString> plug_prop = pluginsInterface->getCommande();
+                    if (!plug_prop.empty()) {
+                        std::uniform_real_distribution<double> dist(0, plug_prop.length());
+                        int val = dist(*QRandomGenerator::global());
 
-                    std::uniform_real_distribution<double> dist(0, plug_prop.length());
-                    int val = dist(*QRandomGenerator::global());
+                        main_prop.append(plug_prop.at(val));
+                        prop.append(plug_prop);
+                    }
 
-                    main_prop.append(plug_prop.at(val));
-                    prop.append(plug_prop);
                     listPlugins.append(pluginsInterface);
                 }
             }
