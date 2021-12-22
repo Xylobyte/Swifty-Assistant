@@ -1344,6 +1344,11 @@ void Engine::executeAction(QString action)
     execAction(formatAction(action));
 }
 
+/**
+ * This slot is called when the NetworkManager loading are finished
+ *
+ * @param networkReply the response
+ */
 void Engine::handleNetworkData(QNetworkReply *networkReply)
 {
     if (networkReply->error() == QNetworkReply::NoError) {
