@@ -202,7 +202,7 @@ ColumnLayout {
         BusyIndicator {
             id: loading
             running: false
-            implicitWidth: 25
+            implicitWidth: 40
             implicitHeight: implicitWidth
             Layout.leftMargin: 10
         }

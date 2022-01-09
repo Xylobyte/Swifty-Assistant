@@ -79,7 +79,6 @@ bool Engine::execAction(QList<QString> cmd)
         }
 
         else if (cmd[1] == "home") {
-            idOfPluginShowingQml.clear();
             emit showHomeScreen();
         }
 
@@ -142,7 +141,7 @@ bool Engine::execAction(QList<QString> cmd)
                     }
                     readVarInText(search, var).replace(" ", "+");
 
-                    QString url = "https://www.google.com/search?q="+search;
+                    QString url = "https://www.duckduckgo.com/"+search;
 
                     emit reponseSended("", true, "web_without_action_btn", QList<QString>() << url, QList<QString>());
                 }
@@ -161,8 +160,8 @@ bool Engine::execAction(QList<QString> cmd)
                             isUserEntry = false;
                     }
 
-                    if (isUserEntry) emit reponseSended("", true, "web_without_action_btn", QList<QString>() << QUrl::fromUserInput(readVarInText(cmd[2], var)).toString(), QList<QString>());
-                    else emit reponseSended("", true, "web_without_action_btn", QList<QString>() << QUrl(readVarInText(cmd[2], var)).toString(), QList<QString>());
+                    if (isUserEntry) emit reponseSended("", true, "web_without_action_btn", QList<QString>() << QUrl::fromUserInput(readVarInText(cmd[3], var)).toString(), QList<QString>());
+                    else emit reponseSended("", true, "web_without_action_btn", QList<QString>() << QUrl(readVarInText(cmd[3], var)).toString(), QList<QString>());
                 }
             }
         }
@@ -177,7 +176,7 @@ bool Engine::execAction(QList<QString> cmd)
                     }
                     readVarInText(search, var).replace(" ", "+");
 
-                    QString url = "https://www.google.com/search?q="+search;
+                    QString url = "https://www.duckduckgo.com/"+search.replace(" ", "%20");
 
                     emit reponseSended("", true, "web_with_action_btn", QList<QString>() << url, QList<QString>());
                 }
@@ -196,8 +195,8 @@ bool Engine::execAction(QList<QString> cmd)
                             isUserEntry = false;
                     }
 
-                    if (isUserEntry) emit reponseSended("", true, "web_with_action_btn", QList<QString>() << QUrl::fromUserInput(readVarInText(cmd[2], var)).toString(), QList<QString>());
-                    else emit reponseSended("", true, "web_with_action_btn", QList<QString>() << QUrl(readVarInText(cmd[2], var)).toString(), QList<QString>());
+                    if (isUserEntry) emit reponseSended("", true, "web_with_action_btn", QList<QString>() << QUrl::fromUserInput(readVarInText(cmd[3], var)).toString(), QList<QString>());
+                    else emit reponseSended("", true, "web_with_action_btn", QList<QString>() << QUrl(readVarInText(cmd[3], var)).toString(), QList<QString>());
                 }
             }
         }
@@ -395,6 +394,8 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
 
                             words = words.nextSiblingElement();
                         }
+
+                        if (isOk) idOfActualPlugin = plug->pluginId();
                     }
 
                     if (props.tagName() == "Var" && isOk) {
@@ -440,7 +441,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     std::uniform_real_distribution<double> dist(0, repList.length());
                                     int val = dist(*QRandomGenerator::global());
 
-                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId(), QList<QString>(), QList<QString>());
                                     isRep = true;
                                     if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                         nextReplyPluginName = plug->pluginId();
@@ -491,7 +492,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                         std::uniform_real_distribution<double> dist(0, repList.length());
                                         int val = dist(*QRandomGenerator::global());
 
-                                        if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                        if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId(), QList<QString>(), QList<QString>());
                                         isRep = true;
                                         if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                             nextReplyPluginName = plug->pluginId();
@@ -514,7 +515,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                                     std::uniform_real_distribution<double> dist(0, repList.length());
                                     int val = dist(*QRandomGenerator::global());
 
-                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                    if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId());
                                     isRep = true;
                                     if (item.attribute("id", "") != "" && item.attribute("needId", "") != "") {
                                         nextReplyPluginName = plug->pluginId();
@@ -536,8 +537,7 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
                             if (action.tagName() == "action") {
                                 QList<QString> cmd = formatAction(action.text());
 
-                                bool isDefaultAction = execAction(cmd);
-                                if (!isDefaultAction) {
+                                if (!execAction(cmd)) {
                                     for (int i = 0; i < cmd.length(); i++) {
                                         cmd[i] = readVarInText(cmd.at(i), var);
                                     }
@@ -643,8 +643,8 @@ void Engine::analizeAllPlugins(QList<QList<QString>> array_cmd, QList<QString> c
         }
 
         if (!isPluginInstalled) {
-            sendReply(tr("Désolé, je ne comprends pas ! 😕"), false, "message");
-            sendReply(tr("Pour obtenir plus de résultats, installez le plugin WebSearch"), true, "message",
+            sendReply(tr("Désolé, je ne comprends pas ! 😕"), false, "message", "null");
+            sendReply(tr("Pour obtenir plus de résultats, installez le plugin WebSearch"), true, "message", "null",
                       QList<QString>() << "web_message with_action_btn search "+search << "app openLinkInDefaultBrowser https://github.com/Swiftapp-hub/WebSearch-Plugin-Swifty-Assistant",
                       QList<QString>() << tr("Chercher sur le web") << tr("Télécharger le plugin"));
         }
@@ -721,6 +721,8 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
 
                                         words = words.nextSiblingElement();
                                     }
+
+                                    if (isOk) idOfActualPlugin = plug->pluginId();
                                 }
 
                                 if (props.tagName() == "Var" && isOk) {
@@ -765,7 +767,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             std::uniform_real_distribution<double> dist(0, repList.length());
                                             int val = dist(*QRandomGenerator::global());
 
-                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId(), QList<QString>(), QList<QString>());
                                             isRep = true;
                                             if (secondItem.attribute("needId", "") != "")
                                                 nextReplyNeedId = secondItem.attribute("needId");
@@ -826,7 +828,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                                 std::uniform_real_distribution<double> dist(0, repList.length());
                                                 int val = dist(*QRandomGenerator::global());
 
-                                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                                if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId(), QList<QString>(), QList<QString>());
                                                 isRep = true;
                                                 if (secondItem.attribute("needId", "") != "")
                                                     nextReplyNeedId = secondItem.attribute("needId");
@@ -859,7 +861,7 @@ bool Engine::analizePlugin(QList<QList<QString>> array_cmd, QList<QString> cmd)
                                             std::uniform_real_distribution<double> dist(0, repList.length());
                                             int val = dist(*QRandomGenerator::global());
 
-                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", QList<QString>(), QList<QString>());
+                                            if (repList[val] != "null") sendReply(readVarInText(repList[val], var), array_cmd[array_cmd.length()-1] == cmd ? true : false, "message", plug->pluginId(), QList<QString>(), QList<QString>());
                                             isRep = true;
                                             if (secondItem.attribute("needId", "") != "")
                                                 nextReplyNeedId = secondItem.attribute("needId");
@@ -1227,23 +1229,22 @@ void Engine::showQml(QString qml, QString id)
     dir.cd(".swifty_cache");
 
     QString path = dir.path()+"/"+id.replace(".", "_")+".qml";
-    QString qmlUrl = "file:"+dir.path()+"/"+id.replace(".", "_")+".qml";
+    QString qmlUrl = "file:///"+dir.path()+"/"+id.replace(".", "_")+".qml";
 
     QFile file(path);
-    if (!file.exists()) {
-        if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
-            qDebug("Error write qml file");
-            return;
-        }
-
-        QTextStream flux(&file);
-        flux.setCodec("UTF-8");
-
-        flux << qml;
+    if (file.exists()) file.remove();
+    if(!file.open(QIODevice::ReadWrite | QIODevice::Text)) {
+        qDebug("Error write qml file");
+        return;
     }
 
+    QTextStream flux(&file);
+    flux.setCodec("UTF-8");
+
+    flux << qml;
+
     emit showQmlFile(qmlUrl);
-    idOfPluginShowingQml = id;
+    idOfActualPlugin = id.replace("_", ".");
 }
 
 /**
@@ -1265,14 +1266,15 @@ void Engine::getAllPlugin()
  * @param url if the type is a web response it is the url
  * @param text if it is an reponse with action buttons it is the text to display
  */
-void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> text)
+void Engine::sendReply(QString reply, bool isFin, QString typeMessage, QString id, QList<QString> url, QList<QString> text)
 {
     emit reponseSended(reply, isFin, typeMessage, url, text);
+    idOfActualPlugin = id;
 }
 
 void Engine::sendMessageToPlugin(QString message)
 {
-    emit signalSendMessageToPlugin(message, idOfPluginShowingQml);
+    emit signalSendMessageToPlugin(message, idOfActualPlugin);
 }
 
 /**
@@ -1282,7 +1284,7 @@ void Engine::sendMessageToPlugin(QString message)
  */
 void Engine::receiveMessageSendedToQml(QString message)
 {
-    emit pluginToQml(message, idOfPluginShowingQml);
+    emit pluginToQml(message, idOfActualPlugin);
 }
 
 void Engine::removePlugin(QString id)
@@ -1336,7 +1338,7 @@ void Engine::scanPlugin()
             if (plugin) {
                 PluginInterface *pluginsInterface = qobject_cast<PluginInterface *>(plugin);
                 if (pluginsInterface) {
-                    connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QList<QString>,QList<QString>)));
+                    connect(pluginsInterface->getObject(), SIGNAL(sendMessage(QString,bool,QString,QString,QList<QString>,QList<QString>)), this, SLOT(sendReply(QString,bool,QString,QString,QList<QString>,QList<QString>)));
                     connect(pluginsInterface->getObject(), SIGNAL(showQml(QString,QString)), this, SLOT(showQml(QString,QString)));
                     connect(pluginsInterface->getObject(), SIGNAL(sendMessageToQml(QString)), this, SLOT(receiveMessageSendedToQml(QString)));
                     connect(pluginsInterface->getObject(), SIGNAL(execAction(QString)), this, SLOT(executeAction(QString)));
@@ -1364,7 +1366,13 @@ void Engine::scanPlugin()
  */
 void Engine::executeAction(QString action)
 {
-    execAction(formatAction(action));
+    if (!execAction(formatAction(action))) {
+        foreach (PluginInterface *plug , listPlugins) {
+            if (plug->pluginId() == idOfActualPlugin) {
+                plug->execAction(formatAction(action));
+            }
+        }
+    }
 }
 
 /**

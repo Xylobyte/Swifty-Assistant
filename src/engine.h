@@ -65,7 +65,7 @@ private:
     QString nextReplyNeedId = "";
     QString nextReplyItemId = "";
 
-    QString idOfPluginShowingQml = "";
+    QString idOfActualPlugin = "";
 
     QNetworkAccessManager googleSuggestNetworkManager;
     bool isGoogleSuggest = false;
@@ -92,7 +92,7 @@ public slots:
     void showQml(QString qml, QString id);
     void getAllPlugin();
     void sendReply(
-            QString reply, bool isFin, QString typeMessage, QList<QString> url = QList<QString>(),
+            QString reply, bool isFin, QString typeMessage, QString id, QList<QString> url = QList<QString>(),
             QList<QString> textUrl = QList<QString>()
             );
     void sendMessageToPlugin(QString message);

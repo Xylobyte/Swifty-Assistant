@@ -25,7 +25,7 @@ ColumnLayout {
             borderWidth: 2
             radius: 10
             onClicked: {
-                loader.source = ""
+                qmlUrl = ""
                 swifty.execAction("app home")
             }
         }

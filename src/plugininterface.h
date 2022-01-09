@@ -32,7 +32,7 @@ public:
     virtual QObject* getObject() = 0;
 
 signals:
-    void sendMessage(QString reply, bool isFin, QString typeMessage, QList<QString> url, QList<QString> textUrl);
+    void sendMessage(QString reply, bool isFin, QString typeMessage, QString id, QList<QString> url = QList<QString>(), QList<QString> textUrl = QList<QString>());
     void sendMessageToQml(QString message);
     void showQml(QString qml, QString id);
     void execAction(QString action);

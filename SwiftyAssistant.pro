@@ -17,7 +17,7 @@
 
 requires(qtConfig(accessibility))
 
-QT += quick quickcontrols2 xml qml webengine core gui network
+QT += quick quickcontrols2 xml qml webengine webenginewidgets core gui network
 
 TARGET     = swifty
 QMAKE_PROJECT_NAME = swiftyassistant

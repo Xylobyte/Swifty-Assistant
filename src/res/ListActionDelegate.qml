@@ -19,7 +19,7 @@ Rectangle {
 
     MouseArea {
         anchors.fill: parent
-        onClicked: {
+        onPressed: {
             anim.running = true
             swifty.execAction(model.action)
         }
