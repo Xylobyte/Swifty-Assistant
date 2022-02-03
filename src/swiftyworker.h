@@ -1,6 +1,6 @@
 /* Swift Assistant is a simple, user-friendly assistant based on an extension system.
 
-   Copyright (C) <2021>  <SwiftApp>
+   Copyright (C) <2022>  <SwiftApp>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -43,7 +43,6 @@ public:
     Q_INVOKABLE void getPluginList();
     Q_INVOKABLE void sendMessageToPlugin(QString message);
     Q_INVOKABLE void removePlugin(QString id);
-    Q_INVOKABLE void actuPlugins();
     Q_INVOKABLE void execAction(QString action);
     Q_INVOKABLE QString getOs();
     Q_INVOKABLE void setWindowVisibility(bool visible);
@@ -84,7 +83,6 @@ signals:
     void signalSendMessageToPlugin(QString message);
     void pluginSendedMessageToQml(QString message, QString pluginId);
     void signalRemovePlugin(QString id);
-    void signalActuPlugins();
     void executeAction(QString action);
     void homeScreen();
     void showPreviousPage();

@@ -143,19 +143,6 @@ Rectangle {
             Item {
                 Layout.fillWidth: true
             }
-
-            MButton {
-                text: qsTr("Actualiser")
-                font.pointSize: 8
-                implicitHeight: 21
-                borderWidth: 2
-                radius: 10
-                onClicked: {
-                    swifty.actuPlugins()
-                    listPlugin.model.clear()
-                    swifty.getAllPlugin()
-                }
-            }
         }
 
         Rectangle {

@@ -1,6 +1,6 @@
 /* Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 
-   Copyright (C) <2021>  <SwiftApp>
+   Copyright (C) <2022>  <SwiftApp>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by

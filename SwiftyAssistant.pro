@@ -1,6 +1,6 @@
 #   Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 #	
-#   Copyright (C) <2021>  <SwiftApp>
+#   Copyright (C) <2022>  <SwiftApp>
 #
 #   This program is free software: you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -21,10 +21,6 @@ QT += quick quickcontrols2 xml qml webengine webenginewidgets core gui network
 
 TARGET     = swifty
 QMAKE_PROJECT_NAME = swiftyassistant
-
-qtHaveModule(widgets) {
-    QT += widgets # QApplication is required to get native styling with QtQuickControls
-}
 
 # install
 INSTALLS += target

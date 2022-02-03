@@ -1,6 +1,6 @@
 /* Swift Assistant is a simple, user-friendly assistant based on an extension system.
 
-   Copyright (C) <2021>  <SwiftApp>
+   Copyright (C) <2022>  <SwiftApp>
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,7 +38,6 @@ SwiftyWorker::SwiftyWorker(QObject *parent) : QObject(parent)
     connect(this, &SwiftyWorker::getAllPlugin, engine, &Engine::getAllPlugin);
     connect(this, &SwiftyWorker::signalSendMessageToPlugin, engine, &Engine::sendMessageToPlugin);
     connect(this, &SwiftyWorker::signalRemovePlugin, engine, &Engine::removePlugin);
-    connect(this, &SwiftyWorker::signalActuPlugins, engine, &Engine::scanPlugin);
     connect(this, &SwiftyWorker::executeAction, engine, &Engine::executeAction);
     connect(engine, &Engine::reponseSended, this, &SwiftyWorker::reponseReceived);
     connect(engine, &Engine::addProp, this, &SwiftyWorker::addProp);
@@ -130,14 +129,6 @@ void SwiftyWorker::sendMessageToPlugin(QString message)
 void SwiftyWorker::removePlugin(QString id)
 {
     emit signalRemovePlugin(id);
-}
-
-/**
- * Update the list of plugins in the ~/SwiftyPlugins folder
- */
-void SwiftyWorker::actuPlugins()
-{
-    emit signalActuPlugins();
 }
 
 /**
