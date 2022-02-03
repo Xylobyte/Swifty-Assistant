@@ -4,7 +4,7 @@
 
 # Swifty Assistant
 
-[![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html) [![GitHub issues](https://img.shields.io/github/issues/Swiftapp-hub/Swifty-Assistant.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/issues) [![Maintained](https://img.shields.io/maintenance/yes/2021.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/commits/master)
+[![License](https://img.shields.io/badge/license-GPLv3.0-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.html) [![GitHub issues](https://img.shields.io/github/issues/Swiftapp-hub/Swifty-Assistant.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/issues) [![Maintained](https://img.shields.io/maintenance/yes/2022.svg)](https://github.com/Swiftapp-hub/Swifty-Assistant/commits/master)
 
 Swifty Assistant is a simple, user-friendly assistant based on an extension system.
 
