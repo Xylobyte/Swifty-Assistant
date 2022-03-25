@@ -189,6 +189,16 @@ Rectangle {
             }
         }
 
+        MButton {
+            text: qsTr("Effacer le cache et relancer Swifty")
+            font.pointSize: 8
+            implicitHeight: 21
+            Layout.alignment: Qt.AlignCenter
+            borderWidth: 2
+            radius: 10
+            onClicked: {}
+        }
+
         RowLayout {
             Layout.fillWidth: true
 
