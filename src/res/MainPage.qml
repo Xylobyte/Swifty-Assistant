@@ -1,6 +1,6 @@
-﻿import QtQuick 2.15
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.15
+﻿import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
 ColumnLayout {
     anchors.fill: parent
@@ -191,7 +191,7 @@ ColumnLayout {
         Text {
             id: txtNoEntries
             text: qsTr("Aucune suggestion !")
-            color: "white"
+            color: "#808080"
             anchors.centerIn: parent
         }
     }
@@ -228,6 +228,7 @@ ColumnLayout {
                     color: "transparent"
                 }
                 color: "white"
+                placeholderTextColor: "#808080"
 
                 onAccepted: {
                     if (text !== "" && loading.running === false) {

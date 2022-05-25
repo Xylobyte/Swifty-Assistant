@@ -17,7 +17,7 @@
 
 #include <QSystemTrayIcon>
 #include <QMessageBox>
-#include <QtWebEngine/qtwebengineglobal.h>
+#include <QtWebEngineCore>
 #include <QtQml/QQmlApplicationEngine>
 #include <QtQml/QQmlContext>
 #include <QTranslator>
@@ -47,7 +47,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("Swifty Assistant");
     QCoreApplication::setOrganizationName("swiftapp");
     QCoreApplication::setApplicationVersion("v1.0.0-alpha4");
-    QtWebEngine::initialize();
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+
+    QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGLRhi);
 
     Application app(argc, argv);
 

@@ -1,8 +1,8 @@
-import QtQuick 2.15
-import QtWebEngine 1.10
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import QtQml 2.2
+import QtQuick
+import QtWebEngine
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQml
 
 Rectangle {
     anchors.fill: parent
@@ -16,7 +16,6 @@ Rectangle {
         storageName: "Profile"
         httpUserAgent: "Mozilla/5.0 (Linux; Android 9; SM-A102U) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.136 Mobile Safari/537.36"
         offTheRecord: false
-        useForGlobalCertificateVerification: true
     }
 
     ColumnLayout {
@@ -45,7 +44,7 @@ Rectangle {
                 error.defer();
             }
 
-            onNewViewRequested: function(request) {
+            onNewWindowRequested: function(request) {
                 if (!request.userInitiated)
                     print("Warning: Blocked a popup window.");
                 else {
@@ -155,7 +154,7 @@ Rectangle {
                 visible: typeWeb === "web_with_action_btn" ? true : false
                 radius: 10
                 onClicked: {
-                    swifty.execAction("app openLinkInDefaultBrowser "+webUrl)
+                    swifty.execAction("app openLinkInDefaultBrowser "+webEngineView.url)
                 }
             }
         }

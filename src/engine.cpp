@@ -1239,7 +1239,6 @@ void Engine::showQml(QString qml, QString id)
     }
 
     QTextStream flux(&file);
-    flux.setCodec("UTF-8");
 
     flux << qml;
 
@@ -1388,9 +1387,9 @@ void Engine::handleNetworkData(QNetworkReply *networkReply)
         while (!xml.atEnd()) {
             xml.readNext();
             if (xml.tokenType() == QXmlStreamReader::StartElement)
-                if (xml.name() == "suggestion") {
-                    QStringRef str = xml.attributes().value("data");
-                    emit addProp(str.toString());
+                if (xml.name().toString() == "suggestion") {
+                    QString str = xml.attributes().value("data").toString();
+                    emit addProp(str);
                 }
         }
     }

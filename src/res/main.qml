@@ -1,15 +1,12 @@
-import QtQuick 2.15
-import QtQuick.Layouts 1.15
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.15
-import Qt.labs.settings 1.1
-import QtQuick.Dialogs 1.3
-import QtQuick.Particles 2.15
-import QtQuick.XmlListModel 2.15
-import QtQuick3D 1.15
-import QtQuick.Extras 1.4
-import QtQuick.Timeline 1.0
-import QtQml 2.15
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Window
+import QtQuick.Controls
+import Qt.labs.settings
+import QtQuick.Particles
+import QtQuick3D
+import QtQuick.Timeline
+import QtQml
 
 import SwiftyWorker 1.0
 

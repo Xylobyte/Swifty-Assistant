@@ -1,6 +1,6 @@
-import QtQuick.Layouts 1.15
-import QtQuick.Controls 2.15
-import QtQuick 2.15
+import QtQuick.Layouts
+import QtQuick.Controls
+import QtQuick
 
 Rectangle {
     anchors.fill: parent
@@ -193,6 +193,7 @@ Rectangle {
             text: qsTr("Effacer le cache et relancer Swifty")
             font.pointSize: 8
             implicitHeight: 21
+            implicitWidth: 200
             Layout.alignment: Qt.AlignCenter
             borderWidth: 2
             radius: 10
