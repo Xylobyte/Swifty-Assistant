@@ -85,10 +85,7 @@ make
 
 ## Plugins
 
-List of available plugins for Swifty Assistant:
-
-* [HelloWord](https://github.com/Swiftapp-hub/HelloWorld-Plugin-Swifty-Assistant)
-* [ControlSettings](https://github.com/Swiftapp-hub/ControlSettings-Plugin-Swifty-Assistant)
+View a list of available plugins at: [swiftapp-hub.github.io/#/swifty-assistant?d=2](https://swiftapp-hub.github.io/#/swifty-assistant?d=2)
 
 If you have created a plugin, consider adding it to this list!
 
