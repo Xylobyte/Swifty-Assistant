@@ -2,10 +2,10 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Window
 import QtQuick.Controls
-import Qt.labs.settings
 import QtQuick.Particles
 import QtQuick3D
 import QtQuick.Timeline
+import QtCore
 import QtQml
 
 import SwiftyWorker 1.0
@@ -82,8 +82,8 @@ Window {
                 if (swifty.getOs() !== "windows") {
                     window.flags = Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
                     window.visible = true
-                    window.x = x-(window.width/2)
-                    window.y = y-(window.height/2)
+                    window.x = Screen.desktopAvailableWidth - width - 10
+                    window.y = Screen.desktopAvailableHeight - height - 10
                 }
                 else {
                     window.flags = Qt.WindowStaysOnTopHint
