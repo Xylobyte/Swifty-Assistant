@@ -83,12 +83,6 @@ qmake ../
 make
 ```
 
-## Plugins
-
-View a list of available plugins at: [swiftapp-hub.github.io/#/swifty-assistant?d=2](https://swiftapp-hub.github.io/#/swifty-assistant?d=2)
-
-If you have created a plugin, consider adding it to this list!
-
 ## Contribution
 
 Here's what you can do to contribute to the project:
